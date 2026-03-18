@@ -10,8 +10,6 @@ function App() {
   const { scrollY } = useScroll();
   // Sky translates down by 10vh, pushing it back in parallax depth
   const skyY = useTransform(scrollY, [0, 1000], ['0vh', '10vh']);
-  // Forest dragged down (starts at 30vh) to reveal more sky, translates up to 0vh on scroll
-  const forestY = useTransform(scrollY, [0, 1000], ['30vh', '0vh']);
 
   // --- Mouse Parallax for Hero Text ---
   const mouseX = useMotionValue(0);
@@ -48,32 +46,20 @@ function App() {
               position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, 
               overflow: 'hidden', zIndex: 0, pointerEvents: 'none',
               // Fades out only the very bottom edge of the parallax section (85% to 100%) so the particles overlay right at the end!
-              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)',
-              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)'
+              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%)',
+              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%)'
             }}
           >
-          {/* Layer 1: Distant Sky (Slow) */}
+          {/* Layer 1: New Landscape (Slow, Primary Background) */}
           <motion.div
             style={{
               position: 'absolute',
               top: '-15vh', left: '-5vw', right: '-5vw', bottom: '-15vh',
-              backgroundImage: `url('/sky.png')`,
+              backgroundImage: `url('/landscape.jpg')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
+              zIndex: 0,
               y: skyY
-            }}
-          />
-          {/* Layer 2: Foreground Forest (Faster, Growing) */}
-          <motion.div
-            style={{
-              position: 'absolute',
-              top: '-10vh', left: '-5vw', right: '-5vw', bottom: '-20vh',
-              backgroundImage: `url('/forest.png')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'bottom center',
-              backgroundRepeat: 'no-repeat',
-              mixBlendMode: 'multiply', // Removes the white background so the sky is visible
-              y: forestY
             }}
           />
           </div>
