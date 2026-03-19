@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, X, ChevronRight } from 'lucide-react';
+import { Github, ExternalLink, X } from 'lucide-react';
 import './Projects.css';
 
 // ─── Project Data ────────────────────────────────────────────────
@@ -10,11 +10,23 @@ const PROJECTS = [
     id: 1,
     title: 'Janisa',
     subtitle: 'Holographic AI Interface',
-    tech: ['JavaScript', 'React', 'Three.js'],
+    tech: ['JavaScript', 'Python', 'CSS', 'HTML'],
     accent: '#00dcc8',
     github: 'https://github.com/suprit-4618/janisa-hologram',
     live: 'https://janisa-hologram.vercel.app',
-    description: 'Details coming soon.',
+    brief: 'An interactive holographic visualization system that enables users to explore 3D models through gesture-based interaction. It allows real-time manipulation such as rotation and zoom, making complex structures easier to understand. Designed for education, it enhances learning through immersive and interactive visualization.',
+    howItWorks: 'The system runs on a web interface where users load 3D models. A camera captures hand gestures, which are processed using computer vision to control actions like rotate, zoom, and interact with the model in real time.',
+    why: 'The goal was to improve educational understanding by allowing users to interact with models instead of relying only on imagination. Viewing objects from multiple angles makes learning more intuitive and engaging.',
+    problemSolves: [
+      'Eliminates difficulty in understanding complex 3D structures',
+      'Makes abstract concepts visually clear and interactive',
+      'Enhances learning through hands-on exploration',
+    ],
+    limitations: [
+      'Real-time 2D-to-3D reconstruction was explored but not implemented due to accuracy and computational limitations',
+      'Gesture recognition performance depends on lighting conditions and camera quality',
+      'High-quality 3D rendering may require better hardware for smooth interaction',
+    ],
   },
   {
     id: 2,
@@ -24,7 +36,11 @@ const PROJECTS = [
     accent: '#7c6af7',
     github: 'https://github.com/suprit-4618/crypto-airflow-dbt-pipeline',
     live: null,
-    description: 'Details coming soon.',
+    brief: 'Details coming soon.',
+    howItWorks: null,
+    why: null,
+    problemSolves: [],
+    limitations: [],
   },
   {
     id: 3,
@@ -34,7 +50,11 @@ const PROJECTS = [
     accent: '#f7a26a',
     github: null,
     live: null,
-    description: 'Details coming soon.',
+    brief: 'Details coming soon.',
+    howItWorks: null,
+    why: null,
+    problemSolves: [],
+    limitations: [],
   },
   {
     id: 4,
@@ -44,7 +64,11 @@ const PROJECTS = [
     accent: '#6af78a',
     github: null,
     live: null,
-    description: 'Details coming soon.',
+    brief: 'Details coming soon.',
+    howItWorks: null,
+    why: null,
+    problemSolves: [],
+    limitations: [],
   },
   {
     id: 5,
@@ -54,7 +78,11 @@ const PROJECTS = [
     accent: '#f76ab4',
     github: 'https://github.com/suprit-4618/ai-semantic-search-endee',
     live: null,
-    description: 'Details coming soon.',
+    brief: 'Details coming soon.',
+    howItWorks: null,
+    why: null,
+    problemSolves: [],
+    limitations: [],
   },
 ];
 
@@ -104,8 +132,8 @@ const Projects = () => {
                 className="project-card"
                 style={{ '--accent': project.accent, zIndex: index + 1 }}
                 animate={{ rotate, x: translateX, y: translateY }}
-                transition={{ type: 'spring', stiffness: 420, damping: 28, mass: 0.6 }}
-                whileHover={{ scale: 1.08, zIndex: 20 }}
+                transition={{ type: 'spring', stiffness: 140, damping: 20, mass: 1.4, restDelta: 0.001 }}
+                whileHover={{ scale: 1.07, zIndex: 20, transition: { type: 'spring', stiffness: 200, damping: 22 } }}
                 onClick={() => setSelected(project)}
               >
                 {/* Glossy sheen */}
@@ -114,25 +142,10 @@ const Projects = () => {
                 {/* Glow border accent */}
                 <div className="card-glow" style={{ borderColor: project.accent }} />
 
-                {/* Card top row */}
-                <div className="card-top">
-                  <span className="card-index">0{index + 1}</span>
-                  <span className="card-arrow"><ChevronRight size={16} /></span>
-                </div>
-
                 {/* Card content */}
                 <div className="card-body">
                   <h3 className="card-title">{project.title}</h3>
                   <p className="card-subtitle">{project.subtitle}</p>
-                </div>
-
-                {/* Tech tags */}
-                <div className="card-footer">
-                  {project.tech.map((t) => (
-                    <span key={t} className="card-tech-tag" style={{ borderColor: project.accent }}>
-                      {t}
-                    </span>
-                  ))}
                 </div>
               </motion.div>
             );
@@ -163,7 +176,6 @@ const Projects = () => {
                 <X size={20} />
               </button>
 
-              <p className="modal-index">Project 0{PROJECTS.indexOf(selected) + 1}</p>
               <h2 className="modal-title">{selected.title}</h2>
               <p className="modal-subtitle">{selected.subtitle}</p>
 
@@ -175,7 +187,44 @@ const Projects = () => {
                 ))}
               </div>
 
-              <p className="modal-description">{selected.description}</p>
+              {selected.brief && (
+                <div className="modal-section">
+                  <h4 className="modal-section-title">About</h4>
+                  <p className="modal-description">{selected.brief}</p>
+                </div>
+              )}
+
+              {selected.howItWorks && (
+                <div className="modal-section">
+                  <h4 className="modal-section-title">How It Works</h4>
+                  <p className="modal-description">{selected.howItWorks}</p>
+                </div>
+              )}
+
+              {selected.why && (
+                <div className="modal-section">
+                  <h4 className="modal-section-title">Why This Project</h4>
+                  <p className="modal-description">{selected.why}</p>
+                </div>
+              )}
+
+              {selected.problemSolves?.length > 0 && (
+                <div className="modal-section">
+                  <h4 className="modal-section-title">Problem It Solves</h4>
+                  <ul className="modal-list">
+                    {selected.problemSolves.map((p, i) => <li key={i}>{p}</li>)}
+                  </ul>
+                </div>
+              )}
+
+              {selected.limitations?.length > 0 && (
+                <div className="modal-section">
+                  <h4 className="modal-section-title">Constraints & Limitations</h4>
+                  <ul className="modal-list">
+                    {selected.limitations.map((l, i) => <li key={i}>{l}</li>)}
+                  </ul>
+                </div>
+              )}
 
               <div className="modal-links">
                 {selected.github && (
