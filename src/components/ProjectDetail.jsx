@@ -12,22 +12,31 @@ const panelVariants = {
 
 const leftVariants = {
   hidden: { x: '-100%', opacity: 0 },
-  visible: { x: 0, opacity: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
-  exit: { x: '-100%', opacity: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+  visible: { x: 0, opacity: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+  exit: { x: '-100%', opacity: 0, transition: { duration: 0.5, ease: 'easeInOut' } },
 };
 
 const rightVariants = {
   hidden: { x: '100%', opacity: 0 },
-  visible: { x: 0, opacity: 1, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
-  exit: { x: '100%', opacity: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+  visible: { x: 0, opacity: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+  exit: { x: '100%', opacity: 0, transition: { duration: 0.5, ease: 'easeInOut' } },
 };
 
 const sectionVariants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, x: 50 },
   visible: (i) => ({
     opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1 + 0.3, duration: 0.5, ease: 'easeOut' },
+    x: 0,
+    transition: { delay: i * 0.12 + 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+  }),
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, x: 20 },
+  visible: (j) => ({
+    opacity: 1,
+    x: 0,
+    transition: { delay: j * 0.05, duration: 0.4, ease: 'easeOut' },
   }),
 };
 
@@ -94,18 +103,45 @@ const ProjectDetail = ({ project, onClose }) => {
             </button>
 
             {/* Category label */}
-            <p className="pd-category">{project.subtitle}</p>
+            <motion.p 
+              className="pd-category"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.6 }}
+            >
+              {project.subtitle}
+            </motion.p>
 
             {/* Giant title */}
-            <h1 className="pd-title">{project.title}</h1>
+            <motion.h1 
+              className="pd-title"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.9, duration: 0.7 }}
+            >
+              {project.title}
+            </motion.h1>
 
             {/* Divider */}
-            <div className="pd-divider" />
+            <motion.div 
+              className="pd-divider"
+              initial={{ width: 0 }}
+              animate={{ width: 48 }}
+              transition={{ delay: 1.1, duration: 0.5 }}
+            />
 
             {/* Tech badges */}
             <div className="pd-tech">
-              {project.tech.map((t) => (
-                <span key={t} className="pd-badge">{t}</span>
+              {project.tech.map((t, i) => (
+                <motion.span 
+                  key={t} 
+                  className="pd-badge"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.2 + i * 0.05 }}
+                >
+                  {t}
+                </motion.span>
               ))}
             </div>
 
@@ -156,9 +192,14 @@ const ProjectDetail = ({ project, onClose }) => {
                 ) : (
                   <ul className="pd-section-list">
                     {sec.content.map((item, j) => (
-                      <li key={j} style={{ '--accent': project.accent }}>
+                      <motion.li 
+                        key={j} 
+                        style={{ '--accent': project.accent }}
+                        custom={j}
+                        variants={itemVariants}
+                      >
                         {item}
-                      </li>
+                      </motion.li>
                     ))}
                   </ul>
                 )}
