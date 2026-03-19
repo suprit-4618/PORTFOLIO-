@@ -44,8 +44,22 @@ const SECTIONS = (project) => {
 const ProjectDetail = ({ project, onClose }) => {
   // Lock body scroll while open
   useEffect(() => {
+    const originalBodyPadding = window.getComputedStyle(document.body).paddingRight;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
+    document.documentElement.style.overflow = 'hidden';
+    
+    // Prevent layout shift if scrollbar disappears
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    return () => { 
+      document.body.style.overflow = ''; 
+      document.documentElement.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
   }, []);
 
   if (!project) return null;

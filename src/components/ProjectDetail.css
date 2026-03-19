@@ -146,6 +146,7 @@
   flex-direction: column;
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,0.12) transparent;
+  overscroll-behavior: contain;
 }
 
 .pd-sections {
