@@ -64,22 +64,24 @@ const Skills = () => {
     const cards = gridRef.current.querySelectorAll('.skill-cube');
     cards.forEach((card) => {
       const rect = card.getBoundingClientRect();
-      // Distance from cursor to center of this card
       const cardCx = rect.left + rect.width / 2;
       const cardCy = rect.top + rect.height / 2;
       const dx = e.clientX - cardCx;
       const dy = e.clientY - cardCy;
       const dist = Math.sqrt(dx * dx + dy * dy);
-
-      // Relative cursor position within the card (for the foreground gradient)
       const relX = e.clientX - rect.left;
       const relY = e.clientY - rect.top;
 
-      // Glow intensity fades off with distance (max radius ~300 px)
-      const maxRadius = 300;
+      // Main glow intensity (0–1)
+      const maxRadius = 260;
       const intensity = Math.max(0, 1 - dist / maxRadius);
 
+      // Pop scale: tiles go from base 0.78 to 1.0 as cursor approaches
+      // Use a power curve so only nearby tiles pop strongly
+      const popIntensity = Math.pow(intensity, 1.4);
+
       card.style.setProperty('--glow', intensity);
+      card.style.setProperty('--pop', popIntensity);
       card.style.setProperty('--cx', `${relX}px`);
       card.style.setProperty('--cy', `${relY}px`);
     });
@@ -89,6 +91,7 @@ const Skills = () => {
     if (!gridRef.current) return;
     gridRef.current.querySelectorAll('.skill-cube').forEach((card) => {
       card.style.setProperty('--glow', 0);
+      card.style.setProperty('--pop', 0);
     });
   }, []);
 

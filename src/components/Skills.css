@@ -38,8 +38,9 @@
 
 /* ── Individual Cube ─────────────────────────────────────────── */
 .skill-cube {
-  --glow: 0;      /* 0–1, driven by JS mouse distance */
-  --cx: 50%;      /* cursor X relative to card, for the inner gradient */
+  --glow: 0;
+  --pop: 0;
+  --cx: 50%;
   --cy: 50%;
   --color: 139, 92, 246;
 
@@ -49,25 +50,28 @@
   overflow: hidden;
   cursor: default;
 
-  /* 
-   * DEFAULT STATE: nearly invisible
-   * The cube exists geometrically (holds grid space) but is essentially dark.
-   * border-color and box-shadow are all near-zero opacity driven by --glow.
-   */
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(var(--color), calc(var(--glow) * 0.5));
+  /* Glass base — invisible by default */
+  background: rgba(10, 10, 16, calc(0.6 + var(--pop) * 0.25));
+  border: 1px solid rgba(var(--color), calc(var(--glow) * 0.55));
   box-shadow:
-    0 0 0 0 rgba(var(--color), 0),
-    0 0 calc(var(--glow) * 40px) calc(var(--glow) * 4px) rgba(var(--color), calc(var(--glow) * 0.12)),
-    inset 0 1px 0 rgba(255, 255, 255, calc(var(--glow) * 0.08));
+    0 0 calc(var(--pop) * 48px) calc(var(--pop) * 6px) rgba(var(--color), calc(var(--pop) * 0.14)),
+    inset 0 1px 0 rgba(255, 255, 255, calc(var(--pop) * 0.08));
 
+  /*
+   * POP-UP TRANSFORM
+   * Default: tiles are sunken (scale 0.78, pushed down 10px)
+   * Hovered: tiles spring to full size (scale 1.04) and lift (-5px)
+   */
+  transform:
+    scale(calc(0.78 + var(--pop) * 0.26))
+    translateY(calc((1 - var(--pop)) * 10px - var(--pop) * 5px));
+
+  /* Snappy spring-like easing */
   transition:
-    border-color 0.12s ease,
-    box-shadow 0.12s ease,
-    transform 0.15s ease;
-
-  /* Slight scale-up when the cube lights up */
-  transform: scale(calc(1 + var(--glow) * 0.04));
+    transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
 }
 
 /* ── Proximity glow fill ─────────────────────────────────────── */
