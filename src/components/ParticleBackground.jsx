@@ -35,11 +35,8 @@ const ParticleBackground = () => {
     };
 
     const drawParticles = () => {
+      // Draw particles (canvas is transparent by default)
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Draw a solid black background
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       particles.forEach((p) => {
         ctx.beginPath();

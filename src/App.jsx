@@ -2,15 +2,11 @@ import React from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
 import { Github, Linkedin, Mail, ArrowRight } from 'lucide-react';
 import ParticleBackground from './components/ParticleBackground';
+import ParallaxBackground from './components/ParallaxBackground';
 import About from './components/About';
 import './index.css';
 
 function App() {
-  // --- Scroll Parallax for Background ---
-  const { scrollY } = useScroll();
-  // Sky translates down by 10vh, pushing it back in parallax depth
-  const skyY = useTransform(scrollY, [0, 1000], ['0vh', '10vh']);
-
   // --- Mouse Parallax for Hero Text ---
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -20,7 +16,7 @@ function App() {
   const smoothMouseX = useSpring(mouseX, springConfig);
   const smoothMouseY = useSpring(mouseY, springConfig);
 
-  // Map mouse position to parallax offset
+  // Map mouse position to parallax offset for hero text
   const parallaxX = useTransform(smoothMouseX, [-0.5, 0.5], [-30, 30]);
   const parallaxY = useTransform(smoothMouseY, [-0.5, 0.5], [-30, 30]);
 
@@ -31,38 +27,24 @@ function App() {
     mouseY.set((clientY / innerHeight) - 0.5);
   };
 
+  const { scrollY } = useScroll();
+
+  // Bubble Overlay Visibility: Starts after landing parallax (e.g. 100vh)
+  // We'll fade it in between 600px and 1000px scroll
+  const bubbleOpacity = useTransform(scrollY, [600, 1000], [0, 1]);
+
   return (
     <>
-      <ParticleBackground />
+      <motion.div style={{ opacity: bubbleOpacity, position: 'fixed', inset: 0, zIndex: -1 }}>
+        <ParticleBackground />
+      </motion.div>
       <div className="portfolio-container" onMouseMove={handleMouseMove}>
         
         {/* --- Hero Wrapper (Ensures 100vh height so parallax finishes before About begins) --- */}
         <div className="hero-section-wrapper" style={{ position: 'relative', height: '100vh', display: 'flex', flexDirection: 'column' }}>
           
-          {/* --- Scroll Parallax Background Container --- */}
-          <div 
-            className="scroll-parallax-bg" 
-            style={{ 
-              position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, 
-              overflow: 'hidden', zIndex: 0, pointerEvents: 'none',
-              // Fades out only the very bottom edge of the parallax section (85% to 100%) so the particles overlay right at the end!
-              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%)',
-              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%)'
-            }}
-          >
-          {/* Layer 1: New Landscape (Slow, Primary Background) */}
-          <motion.div
-            style={{
-              position: 'absolute',
-              top: '-15vh', left: '-5vw', right: '-5vw', bottom: '-15vh',
-              backgroundImage: `url('/landscape.jpg')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              zIndex: 0,
-              y: skyY
-            }}
-          />
-          </div>
+          <ParallaxBackground />
+
         <header className="header">
           <nav>
             <ul className="nav-links">
@@ -75,46 +57,35 @@ function App() {
         </header>
 
         <main className="hero-section">
-          {/* Parallax wrapper */}
-          <motion.div style={{ x: parallaxX, y: parallaxY }}>
+          <div className="hero-content-wrapper">
             <motion.div
               className="hero-content"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.4 }}
             >
-            <h1 className="hero-title">
-              SUPRIT L
-            </h1>
-            <p className="hero-subtitle">
-              AI & Data Science Engineer
-            </p>
-            <div className="btn-group">
-              <motion.a
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                href="#projects"
-                className="btn primary-btn"
-              >
-                View My Work <ArrowRight className="btn-icon" />
-              </motion.a>
-              <motion.a
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                href="#contact"
-                className="btn secondary-btn"
-              >
-                Contact Me
-              </motion.a>
-            </div>
+              <h1 className="hero-title">
+                SUPRIT L
+              </h1>
+              
+              <div className="btn-group">
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  href="#projects"
+                  className="btn primary-btn"
+                >
+                  View My Work <ArrowRight className="btn-icon" />
+                </motion.a>
+              </div>
 
-            <div className="social-links">
-              <motion.a whileHover={{ y: -5, color: '#fff' }} href="#"><Github /></motion.a>
-              <motion.a whileHover={{ y: -5, color: '#fff' }} href="#"><Linkedin /></motion.a>
-              <motion.a whileHover={{ y: -5, color: '#fff' }} href="#"><Mail /></motion.a>
-            </div>
+              <div className="social-links">
+                <motion.a whileHover={{ y: -5, color: '#fff' }} href="#"><Github /></motion.a>
+                <motion.a whileHover={{ y: -5, color: '#fff' }} href="#"><Linkedin /></motion.a>
+                <motion.a whileHover={{ y: -5, color: '#fff' }} href="#"><Mail /></motion.a>
+              </div>
             </motion.div>
-          </motion.div>
+          </div>
         </main>
         </div> {/* End Hero Wrapper */}
 

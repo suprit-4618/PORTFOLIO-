@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Calendar, GraduationCap, Heart, Tv, Coffee } from 'lucide-react';
+import { MapPin, GraduationCap, Heart, Code, Rocket, Gamepad2 } from 'lucide-react';
 import './About.css';
 
 const About = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
       transition: { staggerChildren: 0.2 }
     }
@@ -17,9 +17,27 @@ const About = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
   };
 
+  const interests = [
+    {
+      title: "Personal",
+      icon: <Heart className="card-icon" />,
+      tags: ["Movies: Science Fiction", "Music: Eclectic Listener", "Travel: Globetrotter"]
+    },
+    {
+      title: "R&D",
+      icon: <Rocket className="card-icon" />,
+      tags: ["Space Exploration", "Defense Technology"]
+    },
+    {
+      title: "Tech Stack",
+      icon: <Code className="card-icon" />,
+      tags: ["AI & Data Science", "DevOps", "Full Stack"]
+    }
+  ];
+
   return (
     <section id="about" className="about-section">
-      <motion.div 
+      <motion.div
         className="about-container glass-panel"
         variants={containerVariants}
         initial="hidden"
@@ -32,13 +50,14 @@ const About = () => {
 
         <div className="about-content">
           <motion.div variants={itemVariants} className="about-text">
-            <h3 className="greeting">Hello! I'm SUPRIT L.</h3>
+            <h3 className="greeting">Hello! </h3>
             <p>
-              I am a passionate AI & Data Science Engineer dedicated to building intelligent systems and engaging digital experiences. I thrive on solving complex problems and turning data into actionable insights.
+              I’m an AI & Data Science Engineer with a deep fascination for space exploration and defense systems. My work focuses on building intelligent solutions and contributing to open-source projects that push the boundaries of technology.
             </p>
             <p>
-              When I'm not writing code or training models, you'll find me exploring my diverse range of interests and constantly learning new things.
+              When I'm not coding, you'll find me exploring virtual worlds as an avid gamer or experimenting with different ways of building solutions to real-world problems.
             </p>
+            
           </motion.div>
 
           <motion.div variants={itemVariants} className="quick-facts">
@@ -46,65 +65,46 @@ const About = () => {
               <MapPin className="fact-icon" />
               <div>
                 <h4>Location</h4>
-                <p>[Your City, Country]</p>
-              </div>
-            </div>
-            <div className="fact-item">
-              <Calendar className="fact-icon" />
-              <div>
-                <h4>Age</h4>
-                <p>[Your Age]</p>
+                <p>Karnataka, India</p>
               </div>
             </div>
             <div className="fact-item">
               <GraduationCap className="fact-icon" />
               <div>
                 <h4>Education</h4>
-                <p>[Your Degree / University]</p>
+                <p>B.Tech in AI & Data Science</p>
+              </div>
+            </div>
+            <div className="fact-item">
+              <Gamepad2 className="fact-icon" />
+              <div>
+                <h4>Gaming</h4>
+                <p>Nocturnal</p>
               </div>
             </div>
           </motion.div>
         </div>
 
-        <motion.div variants={itemVariants} className="interests-section">
-          <h3>What I Love</h3>
-          
+        <motion.div className="interests-section" variants={itemVariants}>
+          <h3>Areas of <span className="highlight">Interest</span></h3>
           <div className="interest-groups">
-            <div className="interest-card">
-              <div className="card-header">
-                <Coffee className="card-icon" />
-                <h4>Free Time</h4>
-              </div>
-              <ul className="tags">
-                <li className="tag">[Hobby 1]</li>
-                <li className="tag">[Hobby 2]</li>
-                <li className="tag">[Hobby 3]</li>
-              </ul>
-            </div>
-
-            <div className="interest-card">
-              <div className="card-header">
-                <Heart className="card-icon" />
-                <h4>Interests</h4>
-              </div>
-              <ul className="tags">
-                <li className="tag">Artificial Intelligence</li>
-                <li className="tag">Data Visualization</li>
-                <li className="tag">[Interest 3]</li>
-              </ul>
-            </div>
-
-            <div className="interest-card">
-              <div className="card-header">
-                <Tv className="card-icon" />
-                <h4>Favorite Series</h4>
-              </div>
-              <ul className="tags">
-                <li className="tag">[Series 1]</li>
-                <li className="tag">[Series 2]</li>
-                <li className="tag">[Series 3]</li>
-              </ul>
-            </div>
+            {interests.map((group, index) => (
+              <motion.div 
+                key={index} 
+                className="interest-card"
+                whileHover={{ y: -10 }}
+              >
+                <div className="card-header">
+                  {group.icon}
+                  <h4>{group.title}</h4>
+                </div>
+                <ul className="tags">
+                  {group.tags.map((tag, i) => (
+                    <li key={i} className="tag">{tag}</li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </motion.div>
