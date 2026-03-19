@@ -60,11 +60,11 @@ const PROJECTS = [
 
 // ─── Fan angle per card index ─────────────────────────────────────
 const getFanTransform = (index, total, isHovered) => {
-  const spread = 18; // degrees between cards
+  const spread = 22;  // degrees between cards
   const offset = (total - 1) / 2;
-  const rotate = isHovered ? (index - offset) * spread : (index - offset) * 2;
-  const translateX = isHovered ? (index - offset) * 60 : 0;
-  const translateY = isHovered ? Math.abs(index - offset) * 18 : index * -2;
+  const rotate = isHovered ? (index - offset) * spread : (index - offset) * 1.5;
+  const translateX = isHovered ? (index - offset) * 70 : 0;
+  const translateY = isHovered ? Math.abs(index - offset) * 14 : index * -2;
   return { rotate, translateX, translateY };
 };
 
@@ -104,10 +104,13 @@ const Projects = () => {
                 className="project-card"
                 style={{ '--accent': project.accent, zIndex: index + 1 }}
                 animate={{ rotate, x: translateX, y: translateY }}
-                transition={{ type: 'spring', stiffness: 200, damping: 22 }}
-                whileHover={{ scale: 1.06, zIndex: 20 }}
+                transition={{ type: 'spring', stiffness: 420, damping: 28, mass: 0.6 }}
+                whileHover={{ scale: 1.08, zIndex: 20 }}
                 onClick={() => setSelected(project)}
               >
+                {/* Glossy sheen */}
+                <div className="card-gloss" />
+
                 {/* Glow border accent */}
                 <div className="card-glow" style={{ borderColor: project.accent }} />
 

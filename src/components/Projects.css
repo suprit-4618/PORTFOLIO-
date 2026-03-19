@@ -45,43 +45,72 @@
   bottom: 0;
   width: 280px;
   height: 380px;
-  background: rgba(14, 18, 24, 0.95);
-  border-radius: 20px;
+  /* Glossy glass base */
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(30, 35, 48, 0.92) 40%,
+    rgba(14, 18, 28, 0.97) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 22px;
   padding: 2rem 1.75rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 20px 60px rgba(0, 0, 0, 0.6),
-    0 0 30px color-mix(in srgb, var(--accent) 20%, transparent);
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 20px 60px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 30px color-mix(in srgb, var(--accent) 15%, transparent);
   transform-origin: bottom center;
   will-change: transform;
-  transition: box-shadow 0.3s ease;
+  overflow: hidden;
   cursor: pointer;
   user-select: none;
 }
 
 .project-card:hover {
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 30px 80px rgba(0, 0, 0, 0.7),
-    0 0 50px color-mix(in srgb, var(--accent) 40%, transparent);
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 30px 80px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 0 60px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+/* Glossy sheen overlay */
+.card-gloss {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.13) 0%,
+    rgba(255, 255, 255, 0.04) 40%,
+    transparent 100%
+  );
+  border-radius: 22px 22px 60% 60% / 22px 22px 40px 40px;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Glowing edge accent */
 .card-glow {
   position: absolute;
   inset: 0;
-  border-radius: 20px;
+  border-radius: 22px;
   border: 1.5px solid var(--accent);
-  opacity: 0.4;
+  opacity: 0.35;
   pointer-events: none;
-  transition: opacity 0.3s;
+  transition: opacity 0.25s;
+  z-index: 2;
 }
 
 .project-card:hover .card-glow {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 /* Card top row */
