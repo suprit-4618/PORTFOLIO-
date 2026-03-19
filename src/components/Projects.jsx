@@ -11,7 +11,7 @@ const PROJECTS = [
     id: 1,
     title: 'Janisa',
     subtitle: 'Holographic AI Interface',
-    tech: ['JavaScript', 'Python', 'CSS', 'HTML'],
+    tech: ['Three.js', 'WebGL', 'MediaPipe Hands', 'JavaScript'],
     accent: '#00dcc8',
     github: 'https://github.com/suprit-4618/janisa-hologram',
     live: 'https://janisa-hologram.vercel.app',
