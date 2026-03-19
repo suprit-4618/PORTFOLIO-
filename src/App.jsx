@@ -4,6 +4,7 @@ import { Github, Linkedin, Mail, ArrowRight } from 'lucide-react';
 import ParticleBackground from './components/ParticleBackground';
 import ParallaxBackground from './components/ParallaxBackground';
 import About from './components/About';
+import Projects from './components/Projects';
 import './index.css';
 
 function App() {
@@ -91,17 +92,8 @@ function App() {
 
         <About />
 
-        {/* Temporary space to allow scrolling and testing parallax */}
-        <section id="skills" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 10, backgroundColor: 'transparent' }}>
-          <motion.h2 
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ fontSize: '3rem', color: '#fff' }}
-          >
-            Skills Section Coming Soon
-          </motion.h2>
-        </section>
+        <Projects />
+
       </div>
     </>
   );
