@@ -90,16 +90,24 @@ const PROJECTS = [
   {
     id: 5,
     title: 'AI Semantic Search',
-    subtitle: 'Vector-powered Semantic Search',
-    tech: ['Python', 'Embeddings', 'endee'],
+    subtitle: 'Vector-Powered Retrieval',
+    tech: ['Python', 'SentenceTransformers', 'Endee', 'PyTorch'],
     accent: '#f76ab4',
     github: 'https://github.com/suprit-4618/ai-semantic-search-endee',
     live: null,
-    brief: 'Details coming soon.',
-    howItWorks: null,
-    why: null,
-    problemSolves: [],
-    limitations: [],
+    brief: 'An AI-powered semantic search system built using vector embeddings and the Endee Vector Database. It understands the meaning of queries beyond simple keywords.',
+    howItWorks: 'Documents are converted into 384-dimensional vector embeddings using SentenceTransformers and stored in the Endee Vector Database. The system performs high-dimensional similarity search to find the closest document match.',
+    why: 'This project demonstrates the power of transformer-based embeddings and vector databases in solving the limitations of traditional keyword-based search systems.',
+    problemSolves: [
+      'Overcomes keyword mismatch by identifying semantic intent',
+      'Enables context-aware document discovery in unstructured text',
+      'Demonstrates efficient high-dimensional vector similarity search',
+    ],
+    limitations: [
+      'Currently optimized for small to medium-scale document sets',
+      'Requires pre-generation of embeddings (static indexing)',
+      'Search accuracy is dependent on the underlying embedding model',
+    ],
   },
 ];
 
