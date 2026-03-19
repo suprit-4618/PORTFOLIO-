@@ -44,7 +44,8 @@ const SECTIONS = (project) => {
 const ProjectDetail = ({ project, onClose }) => {
   // Lock body scroll while open
   useEffect(() => {
-    const originalBodyPadding = window.getComputedStyle(document.body).paddingRight;
+    if (!project) return;
+
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     
     document.body.style.overflow = 'hidden';
@@ -60,7 +61,7 @@ const ProjectDetail = ({ project, onClose }) => {
       document.documentElement.style.overflow = '';
       document.body.style.paddingRight = '';
     };
-  }, []);
+  }, [project]);
 
   if (!project) return null;
   const sections = SECTIONS(project);
