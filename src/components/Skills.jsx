@@ -1,51 +1,63 @@
 import React, { useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import { 
+  Terminal, 
+  Database, 
+  Zap, 
+  Wind, 
+  GitBranch, 
+  RefreshCw, 
+  Triangle, 
+  Boxes, 
+  Layout,
+  Layers,
+  Cpu,
+  BarChart3,
+  Network,
+  Code2,
+  FileCode2,
+  Coffee
+} from 'lucide-react';
 import './Skills.css';
 
 // ─── Skills Data ──────────────────────────────────────────────────────────────
 const SKILLS = [
-  // Languages
-  { name: 'Python',       category: 'Languages', icon: 'python' },
-  { name: 'Java',         category: 'Languages', icon: 'openjdk' },
-  { name: 'JavaScript',   category: 'Languages', icon: 'javascript' },
-  { name: 'PySpark',      category: 'Languages', icon: 'apachespark' },
+  { name: 'Python', category: 'Languages', icon: <FileCode2 size={28} /> },
+  { name: 'Java', category: 'Languages', icon: <Coffee size={28} /> },
+  { name: 'JavaScript', category: 'Languages', icon: <Code2 size={28} /> },
+  { name: 'PySpark', category: 'Languages', icon: <Zap size={28} /> },
 
-  // AI / ML & Data
-  { name: 'Artificial Intelligence', category: 'AI / ML & Data', icon: null },
-  { name: 'Machine Learning', category: 'AI / ML & Data', icon: null },
-  { name: 'Data Science', category: 'AI / ML & Data', icon: null },
+  { name: 'Artificial Intelligence', category: 'AI / ML', icon: <Cpu size={28} /> },
+  { name: 'Machine Learning', category: 'AI / ML', icon: <Network size={28} /> },
+  { name: 'Data Science', category: 'AI / ML', icon: <BarChart3 size={28} /> },
 
-  // Backend & APIs
-  { name: 'FastAPI',      category: 'Backend & APIs', icon: 'fastapi' },
+  { name: 'FastAPI', category: 'Backend', icon: <Zap size={28} /> },
 
-  // Databases
-  { name: 'SQL',          category: 'Databases', icon: 'postgresql' }, 
-  { name: 'PostgreSQL',   category: 'Databases', icon: 'postgresql' },
-  { name: 'MongoDB',      category: 'Databases', icon: 'mongodb' },
-  { name: 'NoSQL',        category: 'Databases', icon: null },
+  { name: 'SQL', category: 'Databases', icon: <Database size={28} /> },
+  { name: 'PostgreSQL', category: 'Databases', icon: <Database size={28} /> },
+  { name: 'MongoDB', category: 'Databases', icon: <Layers size={28} /> },
+  { name: 'NoSQL', category: 'Databases', icon: <Database size={28} /> },
 
-  // Tools & Platforms
-  { name: 'Docker',       category: 'Tools & Platforms', icon: 'docker' },
-  { name: 'Airflow',      category: 'Tools & Platforms', icon: 'apacheairflow' },
-  { name: 'Git',          category: 'Tools & Platforms', icon: 'git' },
-  { name: 'CI/CD',        category: 'Tools & Platforms', icon: null },
-  { name: 'Linux',        category: 'Tools & Platforms', icon: 'linux' },
-  { name: 'Vercel',       category: 'Tools & Platforms', icon: 'vercel' },
+  { name: 'Docker', category: 'Tools', icon: <Boxes size={28} /> },
+  { name: 'Airflow', category: 'Tools', icon: <Wind size={28} /> },
+  { name: 'Git', category: 'Tools', icon: <GitBranch size={28} /> },
+  { name: 'CI/CD', category: 'Tools', icon: <RefreshCw size={28} /> },
+  { name: 'Linux', category: 'Tools', icon: <Terminal size={28} /> },
+  { name: 'Vercel', category: 'Tools', icon: <Triangle size={28} /> },
 
-  // Simulation, 3D & Web Graphics
-  { name: 'Three.js',     category: 'Simulation, 3D & Web Graphics', icon: 'three.js' },
-  { name: 'WebGL',        category: 'Simulation, 3D & Web Graphics', icon: 'webgl' },
-  { name: 'MediaPipe',    category: 'Simulation, 3D & Web Graphics', icon: 'google' },
-  { name: 'Unreal Engine', category: 'Simulation, 3D & Web Graphics', icon: 'unrealengine' },
+  { name: 'Three.js', category: '3D & Graphics', icon: <Boxes size={28} /> },
+  { name: 'WebGL', category: '3D & Graphics', icon: <Layout size={28} /> },
+  { name: 'MediaPipe', category: '3D & Graphics', icon: <Cpu size={28} /> },
+  { name: 'Unreal Engine', category: '3D & Graphics', icon: <Layers size={28} /> },
 ];
 
 const CATEGORY_COLORS = {
-  'Languages':                    '139, 92, 246',   // violet
-  'AI / ML & Data':               '236, 72, 153',   // pink
-  'Backend & APIs':               '6, 182, 212',    // cyan
-  'Databases':                    '251, 146, 60',   // orange
-  'Tools & Platforms':            '52, 211, 153',   // emerald
-  'Simulation, 3D & Web Graphics':'248, 113, 113',  // red
+  'Languages':    '139, 92, 246',   // violet
+  'AI / ML':      '236, 72, 153',   // pink
+  'Backend':      '6, 182, 212',    // cyan
+  'Databases':    '251, 146, 60',   // orange
+  'Tools':        '52, 211, 153',   // emerald
+  '3D & Graphics':'248, 113, 113',  // red
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -126,16 +138,8 @@ const Skills = () => {
 
                 {/* Card content */}
                 <div className="cube-body">
-                  {skill.icon ? (
-                    <img 
-                      src={`https://cdn.simpleicons.org/${skill.icon}/white`} 
-                      alt={skill.name}
-                      className="cube-icon"
-                    />
-                  ) : (
-                    <span className="cube-name">{skill.name}</span>
-                  )}
-                  <span className="cube-category">{skill.category}</span>
+                  <div className="cube-icon">{skill.icon}</div>
+                  <span className="cube-name">{skill.name}</span>
                 </div>
 
                 {/* Sheen */}
