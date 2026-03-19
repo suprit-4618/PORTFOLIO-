@@ -1,36 +1,27 @@
 import React, { useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import './Skills.css';
+import './TechnicalSkills.css';
 
 // ─── Skills Data ──────────────────────────────────────────────────────────────
 const SKILLS = [
-  // Languages
   { name: 'Python',       category: 'Languages' },
   { name: 'JavaScript',   category: 'Languages' },
   { name: 'Java',         category: 'Languages' },
   { name: 'PySpark',      category: 'Languages' },
-
-  // AI / ML
   { name: 'TensorFlow',   category: 'AI / ML' },
   { name: 'PyTorch',      category: 'AI / ML' },
   { name: 'OpenCV',       category: 'AI / ML' },
   { name: 'Machine Learning', category: 'AI / ML' },
   { name: 'Data Science', category: 'AI / ML' },
   { name: 'MobileNetV2',  category: 'AI / ML' },
-
-  // Backend
   { name: 'FastAPI',      category: 'Backend' },
   { name: 'Node.js',      category: 'Backend' },
   { name: 'Flask',        category: 'Backend' },
   { name: 'REST APIs',    category: 'Backend' },
-
-  // Databases
   { name: 'PostgreSQL',   category: 'Databases' },
   { name: 'MongoDB',      category: 'Databases' },
   { name: 'SQL',          category: 'Databases' },
   { name: 'NoSQL',        category: 'Databases' },
-
-  // Tools
   { name: 'Docker',       category: 'Tools' },
   { name: 'Airflow',      category: 'Tools' },
   { name: 'dbt',          category: 'Tools' },
@@ -38,8 +29,6 @@ const SKILLS = [
   { name: 'Linux',        category: 'Tools' },
   { name: 'CI/CD',        category: 'Tools' },
   { name: 'Vercel',       category: 'Tools' },
-
-  // 3D & Graphics
   { name: 'Three.js',     category: '3D & Graphics' },
   { name: 'WebGL',        category: '3D & Graphics' },
   { name: 'MediaPipe',    category: '3D & Graphics' },
@@ -55,8 +44,7 @@ const CATEGORY_COLORS = {
   '3D & Graphics':'248, 113, 113',  // red
 };
 
-// ─── Component ────────────────────────────────────────────────────────────────
-const Skills = () => {
+const TechnicalSkills = () => {
   const gridRef = useRef(null);
 
   const handleMouseMove = useCallback((e) => {
@@ -72,16 +60,24 @@ const Skills = () => {
       const relX = e.clientX - rect.left;
       const relY = e.clientY - rect.top;
 
-      // Main glow intensity (0–1)
-      const maxRadius = 260;
+      const maxRadius = 500; // Much wider influence for a 'wave' feel
       const intensity = Math.max(0, 1 - dist / maxRadius);
+      // Use a more aggressive curve for the 'pop' so it's very clear when near
+      const popIntensity = Math.pow(intensity, 1.2); 
 
-      // Pop scale: tiles go from base 0.78 to 1.0 as cursor approaches
-      // Use a power curve so only nearby tiles pop strongly
-      const popIntensity = Math.pow(intensity, 1.4);
+      const maxTilt = 25; // More tilt
+      const rx = ((relY - rect.height / 2) / (rect.height / 2)) * -maxTilt * intensity;
+      const ry = ((relX - rect.width / 2) / (rect.width / 2)) * maxTilt * intensity;
+
+      const mx = (relX / rect.width) * 100;
+      const my = (relY / rect.height) * 100;
 
       card.style.setProperty('--glow', intensity);
       card.style.setProperty('--pop', popIntensity);
+      card.style.setProperty('--rx', `${rx}deg`);
+      card.style.setProperty('--ry', `${ry}deg`);
+      card.style.setProperty('--mx', `${mx}%`);
+      card.style.setProperty('--my', `${my}%`);
       card.style.setProperty('--cx', `${relX}px`);
       card.style.setProperty('--cy', `${relY}px`);
     });
@@ -104,7 +100,6 @@ const Skills = () => {
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.8 }}
       >
-        {/* Header */}
         <div className="skills-header">
           <h2 className="section-title">
             My <span className="highlight">Skills</span>
@@ -112,43 +107,36 @@ const Skills = () => {
           <p className="skills-hint">Move your cursor across the grid</p>
         </div>
 
-        {/* Grid */}
         <div
           className="skills-grid"
           ref={gridRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
-          {SKILLS.map((skill, i) => {
-            const color = CATEGORY_COLORS[skill.category] || '139, 92, 246';
-            return (
-              <motion.div
-                key={skill.name}
-                className="skill-cube"
-                style={{ '--color': color }}
-                initial={{ opacity: 0, scale: 0.85 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ delay: i * 0.025, duration: 0.4, ease: 'easeOut' }}
-              >
-                {/* Glow layer (follows cursor) */}
-                <div className="cube-glow" />
-
-                {/* Card content */}
-                <div className="cube-body">
-                  <span className="cube-category">{skill.category}</span>
-                  <span className="cube-name">{skill.name}</span>
-                </div>
-
-                {/* Sheen */}
-                <div className="cube-sheen" />
-              </motion.div>
-            );
-          })}
+          {SKILLS.map((skill, i) => (
+            <motion.div
+              key={skill.name}
+              className="skill-cube"
+              style={{ '--color': CATEGORY_COLORS[skill.category] || '139, 92, 246' }}
+              initial={{ opacity: 0, scale: 0.85 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ delay: i * 0.025, duration: 0.4, ease: 'easeOut' }}
+            >
+              <span className="cube-marker">+</span>
+              <div className="cube-glow" />
+              <div className="cube-refraction" />
+              <div className="cube-body">
+                <span className="cube-category">{skill.category}</span>
+                <span className="cube-name">{skill.name}</span>
+              </div>
+              <div className="cube-sheen" />
+            </motion.div>
+          ))}
         </div>
       </motion.div>
     </section>
   );
 };
 
-export default Skills;
+export default TechnicalSkills;

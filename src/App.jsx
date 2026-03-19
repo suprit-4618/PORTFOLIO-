@@ -5,7 +5,7 @@ import ParticleBackground from './components/ParticleBackground';
 import ParallaxBackground from './components/ParallaxBackground';
 import About from './components/About';
 import Projects from './components/Projects';
-import Skills from './components/Skills';
+import TechnicalSkills from './components/TechnicalSkills';
 import './index.css';
 
 function App() {
@@ -95,7 +95,7 @@ function App() {
 
         <Projects />
 
-        <Skills />
+        <TechnicalSkills />
 
       </div>
     </>
