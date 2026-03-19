@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import './TechnicalSkills.css';
+import './Skills.css';
 
 // ─── Skills Data ──────────────────────────────────────────────────────────────
 const SKILLS = [
@@ -44,7 +44,7 @@ const CATEGORY_COLORS = {
   '3D & Graphics':'248, 113, 113',  // red
 };
 
-const TechnicalSkills = () => {
+const Skills = () => {
   const gridRef = useRef(null);
 
   const handleMouseMove = useCallback((e) => {
@@ -60,12 +60,11 @@ const TechnicalSkills = () => {
       const relX = e.clientX - rect.left;
       const relY = e.clientY - rect.top;
 
-      const maxRadius = 500; // Much wider influence for a 'wave' feel
+      const maxRadius = 350;
       const intensity = Math.max(0, 1 - dist / maxRadius);
-      // Use a more aggressive curve for the 'pop' so it's very clear when near
-      const popIntensity = Math.pow(intensity, 1.2); 
+      const popIntensity = Math.pow(intensity, 1.5);
 
-      const maxTilt = 25; // More tilt
+      const maxTilt = 20;
       const rx = ((relY - rect.height / 2) / (rect.height / 2)) * -maxTilt * intensity;
       const ry = ((relX - rect.width / 2) / (rect.width / 2)) * maxTilt * intensity;
 
@@ -139,4 +138,4 @@ const TechnicalSkills = () => {
   );
 };
 
-export default TechnicalSkills;
+export default Skills;
