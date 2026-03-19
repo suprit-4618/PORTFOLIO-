@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, ExternalLink, X } from 'lucide-react';
+import ProjectDetail from './ProjectDetail';
 import './Projects.css';
 
 // ─── Project Data ────────────────────────────────────────────────
@@ -153,95 +154,8 @@ const Projects = () => {
         </div>
       </motion.div>
 
-      {/* ── Modal / Detail Overlay ── */}
-      <AnimatePresence>
-        {selected && (
-          <motion.div
-            className="modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelected(null)}
-          >
-            <motion.div
-              className="modal-card"
-              style={{ '--accent': selected.accent }}
-              initial={{ scale: 0.8, y: 60, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.8, y: 60, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 250, damping: 25 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button className="modal-close" onClick={() => setSelected(null)}>
-                <X size={20} />
-              </button>
-
-              <h2 className="modal-title">{selected.title}</h2>
-              <p className="modal-subtitle">{selected.subtitle}</p>
-
-              <div className="modal-tags">
-                {selected.tech.map((t) => (
-                  <span key={t} className="card-tech-tag" style={{ borderColor: selected.accent }}>
-                    {t}
-                  </span>
-                ))}
-              </div>
-
-              {selected.brief && (
-                <div className="modal-section">
-                  <h4 className="modal-section-title">About</h4>
-                  <p className="modal-description">{selected.brief}</p>
-                </div>
-              )}
-
-              {selected.howItWorks && (
-                <div className="modal-section">
-                  <h4 className="modal-section-title">How It Works</h4>
-                  <p className="modal-description">{selected.howItWorks}</p>
-                </div>
-              )}
-
-              {selected.why && (
-                <div className="modal-section">
-                  <h4 className="modal-section-title">Why This Project</h4>
-                  <p className="modal-description">{selected.why}</p>
-                </div>
-              )}
-
-              {selected.problemSolves?.length > 0 && (
-                <div className="modal-section">
-                  <h4 className="modal-section-title">Problem It Solves</h4>
-                  <ul className="modal-list">
-                    {selected.problemSolves.map((p, i) => <li key={i}>{p}</li>)}
-                  </ul>
-                </div>
-              )}
-
-              {selected.limitations?.length > 0 && (
-                <div className="modal-section">
-                  <h4 className="modal-section-title">Constraints & Limitations</h4>
-                  <ul className="modal-list">
-                    {selected.limitations.map((l, i) => <li key={i}>{l}</li>)}
-                  </ul>
-                </div>
-              )}
-
-              <div className="modal-links">
-                {selected.github && (
-                  <a href={selected.github} target="_blank" rel="noreferrer" className="modal-link">
-                    <Github size={16} /> GitHub
-                  </a>
-                )}
-                {selected.live && (
-                  <a href={selected.live} target="_blank" rel="noreferrer" className="modal-link primary">
-                    <ExternalLink size={16} /> Live Demo
-                  </a>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* ── Full-screen Editorial Detail ── */}
+      <ProjectDetail project={selected} onClose={() => setSelected(null)} />
     </section>
   );
 };
