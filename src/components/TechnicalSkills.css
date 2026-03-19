@@ -73,9 +73,9 @@
 
 /* Text visibility - sharpen the threshold */
 .cube-category, .cube-name {
-  opacity: var(--glow); /* Simple direct mapping */
-  transform: translateZ(35px);
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  opacity: calc(var(--glow) * 2 - 0.1); /* Brighter, faster reveal */
+  transform: translateZ(40px); /* Push further forward */
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.2, 0, 0.2, 1);
 }
 
 .cube-category {
@@ -134,7 +134,7 @@
 .cube-refraction {
   position: absolute;
   inset: 0;
-  z-index: 12;
+  z-index: 5; /* Place BEHIND the text layer (z-index 10) */
   pointer-events: none;
   /* A sharp, intense light beam that moves with the cursor */
   background: linear-gradient(
@@ -170,13 +170,13 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.15);
   font-size: 1.4rem;
-  font-family: 'Inter', sans-serif;
+  font-family: monospace;
   pointer-events: none;
   z-index: 1;
-  opacity: calc(1 - var(--pop) * 0.8);
-  transition: opacity 0.3s;
+  opacity: calc(1 - var(--pop) * 1.5); /* Faster fade out */
+  transition: opacity 0.2s;
 }
 
 /* Entrance Sheen (from old version, kept for polish) */
