@@ -11,6 +11,8 @@ const ParallaxBackground = () => {
                     zIndex: -1
                 }}
             />
+            {/* Mask to cover the Gemini star in the bottom right corner */}
+            <div className="parallax-mask" />
             {/* Gradient Overlay for bottom fade */}
             <div className="parallax-overlay" />
         </div>

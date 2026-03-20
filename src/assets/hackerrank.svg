@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60">
+  <!-- HackerRank logo: White H and Green Square -->
+  <path fill="white" d="M10 10h12v18h20v-18h12v40h-12v-12h-20v12h-12z"/>
+  <rect x="58" y="10" width="32" height="32" fill="#27D17C"/>
+</svg>

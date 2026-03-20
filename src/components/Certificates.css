@@ -1,0 +1,194 @@
+.certificates-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10rem 5%;
+  position: relative;
+  background: transparent;
+  overflow: hidden;
+}
+
+.certificates-container {
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  z-index: 2;
+}
+
+.certificates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  margin-top: 4rem;
+}
+
+.cert-card {
+  position: relative;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  height: 100%;
+}
+
+.cert-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--cert-accent);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(var(--cert-accent), 0.1);
+}
+
+.cert-card-inner {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem;
+}
+
+.cert-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.cert-logo-wrapper {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.cert-company-name {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.cert-body {
+  flex: 1;
+  margin-bottom: 2rem;
+}
+
+.cert-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.cert-footer {
+  margin-top: auto;
+}
+
+.view-cert-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.view-cert-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+.cert-card.company-card {
+  cursor: pointer;
+  padding: 0; /* Handled by inner */
+}
+
+.cert-description {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.6;
+  margin-top: 0.5rem;
+}
+
+.cert-count {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.view-details {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--cert-accent);
+  font-weight: 600;
+  margin-top: 0.5rem;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.cert-card:hover .view-details {
+  opacity: 1;
+}
+
+.btn-arrow {
+  transition: transform 0.3s ease;
+}
+
+.cert-card:hover .btn-arrow {
+  transform: translateX(3px);
+}
+
+.cert-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(var(--cert-accent), 0.05),
+    transparent 80%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.cert-card:hover .cert-glow {
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .certificates-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .cert-card-inner {
+    padding: 2rem;
+  }
+}

@@ -21,6 +21,17 @@
     pointer-events: none;
 }
 
+.parallax-mask {
+    position: absolute;
+    bottom: -15px;
+    right: -15px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle at bottom right, #000 0%, transparent 70%);
+    z-index: 5;
+    pointer-events: none;
+}
+
 .parallax-overlay {
     position: absolute;
     bottom: 0;
