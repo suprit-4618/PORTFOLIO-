@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, GraduationCap, Heart, Code, Rocket, Gamepad2 } from 'lucide-react';
+import { MapPin, GraduationCap, Sparkles, Code, Rocket, Gamepad2 } from 'lucide-react';
 import './About.css';
 
 const About = () => {
@@ -20,8 +20,8 @@ const About = () => {
   const interests = [
     {
       title: "Personal",
-      icon: <Heart className="card-icon" />,
-      tags: ["Movies: Science Fiction", "Music: Eclectic Listener", "Travel: Globetrotter"]
+      icon: <Sparkles className="card-icon" />,
+      tags: ["Movies/Series: Science Fiction", "Music: Eclectic Listener", "Travel: Globetrotter"]
     },
     {
       title: "R&D",
@@ -57,7 +57,7 @@ const About = () => {
             <p>
               When I'm not coding, you'll find me exploring virtual worlds as an avid gamer or experimenting with different ways of building solutions to real-world problems.
             </p>
-            
+
           </motion.div>
 
           <motion.div variants={itemVariants} className="quick-facts">
@@ -89,8 +89,8 @@ const About = () => {
           <h3>Areas of <span className="highlight">Interest</span></h3>
           <div className="interest-groups">
             {interests.map((group, index) => (
-              <motion.div 
-                key={index} 
+              <motion.div
+                key={index}
                 className="interest-card"
                 whileHover={{ y: -10 }}
               >
