@@ -1,0 +1,282 @@
+.contact-sleek-section {
+  padding: 12rem 5% 8rem;
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Ambient Halo ── */
+.sleek-halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  height: 90vw;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+  filter: blur(150px);
+  pointer-events: none;
+  z-index: 1;
+  animation: halo-breathe 15s infinite alternate ease-in-out;
+}
+
+@keyframes halo-breathe {
+  from { opacity: 0.1; transform: translate(-50%, -50%) scale(0.9); }
+  to { opacity: 0.3; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.sleek-badge {
+  font-family: monospace;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 5px;
+  color: #555;
+  margin-bottom: 2rem;
+  display: inline-block;
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+}
+
+.sleek-container {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  text-align: center;
+}
+
+/* ── Header ── */
+.sleek-header {
+  margin-bottom: 8rem;
+}
+
+.sleek-title {
+  display: none; /* Replaced by ParticleText */
+}
+
+.particle-text-container {
+  width: 100%;
+  height: 250px;
+  position: relative;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+}
+
+.particle-text-container canvas {
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Interaction handled via window listener in component */
+}
+
+.sleek-highlight {
+  display: none;
+}
+
+.sleek-subtitle {
+  font-size: 1.15rem;
+  color: #666;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.8;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+/* ── Form Card ── */
+.sleek-form-wrapper {
+  width: 100%;
+}
+
+.sleek-form {
+  background: rgba(255, 255, 255, 0.005);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 60px;
+  padding: 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 50px 100px rgba(0,0,0,0.4);
+  transition: border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sleek-form:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Interactive Spotlight */
+.sleek-spotlight {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Glass Sweep Indicator - Defines the "surface" */
+.sleek-gloss {
+  position: absolute;
+  top: -150%;
+  left: -150%;
+  right: -150%;
+  bottom: -150%;
+  background: linear-gradient(
+    135deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 55%
+  );
+  background-size: 200% 200%;
+  pointer-events: none;
+  animation: gloss-sweep 10s infinite linear;
+}
+
+@keyframes gloss-sweep {
+  0% { transform: rotate(30deg) translateX(-100%); }
+  100% { transform: rotate(30deg) translateX(100%); }
+}
+
+.sleek-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+.sleek-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: left;
+}
+
+.sleek-input-group label {
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #333;
+  letter-spacing: 0.3em;
+}
+
+.sleek-input-group input,
+.sleek-input-group textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.03);
+  padding: 1rem 0;
+  color: #fff;
+  font-size: 1.25rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sleek-input-group input:focus,
+.sleek-input-group textarea:focus {
+  border-bottom-color: #fff;
+  padding-left: 1rem;
+}
+
+.sleek-submit {
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 2rem;
+  border-radius: 100px;
+  font-size: 1rem;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 2rem;
+  width: fit-content;
+  align-self: center;
+  min-width: 250px;
+}
+
+.sleek-submit:hover {
+  background: #fff;
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 40px 80px rgba(255, 255, 255, 0.2);
+}
+
+.sleek-submit.sending {
+  background: #222;
+  color: #444;
+}
+
+.sleek-status {
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.sleek-status.success { background: rgba(106, 247, 138, 0.05); color: #6af78a; border: 1px solid rgba(106, 247, 138, 0.1); }
+.sleek-status.error { background: rgba(239, 68, 68, 0.05); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.1); }
+
+/* ── Socials ── */
+.sleek-socials {
+  display: flex;
+  gap: 2rem;
+  margin-top: 6rem;
+  justify-content: center;
+}
+
+.sleek-social-link {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  transition: all 0.3s ease;
+}
+
+.sleek-social-link:hover {
+  color: #fff;
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-5px);
+}
+
+/* ── Footer ── */
+.sleek-footer {
+  margin-top: 8rem;
+  opacity: 0.2;
+}
+
+.sleek-footer p {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .sleek-form { padding: 2.5rem 1.5rem; gap: 2rem; }
+  .sleek-form-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .sleek-title { font-size: 3.5rem; }
+}
