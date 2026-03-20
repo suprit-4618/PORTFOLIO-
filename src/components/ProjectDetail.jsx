@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, ArrowUpRight, X } from 'lucide-react';
+import { Github, ExternalLink, ArrowUpRight, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import './ProjectDetail.css';
 
 // Animation variants
@@ -45,12 +45,40 @@ const SECTIONS = (project) => {
   if (project.brief)        items.push({ label: 'Overview',            content: project.brief,        type: 'text' });
   if (project.howItWorks)   items.push({ label: 'How It Works',        content: project.howItWorks,   type: 'text' });
   if (project.why)          items.push({ label: 'Motivation',          content: project.why,          type: 'text' });
+  if (project.gallery?.length) items.push({ label: 'Snapshots',           content: project.gallery,      type: 'images' });
   if (project.problemSolves?.length) items.push({ label: 'What It Solves', content: project.problemSolves, type: 'list' });
   if (project.limitations?.length)   items.push({ label: 'Limitations',    content: project.limitations,   type: 'list' });
   return items;
 };
 
 const ProjectDetail = ({ project, onClose }) => {
+  const [selectedIdx, setSelectedIdx] = React.useState(null);
+  const gallery = project?.gallery || [];
+
+  const handleNext = (e) => {
+    e.stopPropagation();
+    setSelectedIdx((prev) => (prev + 1) % gallery.length);
+  };
+
+  const handlePrev = (e) => {
+    e.stopPropagation();
+    setSelectedIdx((prev) => (prev - 1 + gallery.length) % gallery.length);
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    if (selectedIdx === null) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight') handleNext(e);
+      if (e.key === 'ArrowLeft') handlePrev(e);
+      if (e.key === 'Escape') setSelectedIdx(null);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedIdx, gallery.length]);
+
   // Lock body scroll while open
   useEffect(() => {
     if (!project) return;
@@ -79,6 +107,7 @@ const ProjectDetail = ({ project, onClose }) => {
     <AnimatePresence>
       <motion.div
         className="pd-overlay"
+        data-lenis-prevent
         variants={panelVariants}
         initial="hidden"
         animate="visible"
@@ -164,6 +193,7 @@ const ProjectDetail = ({ project, onClose }) => {
         {/* ── Right Panel ── */}
         <motion.main
           className="pd-right"
+          data-lenis-prevent
           variants={rightVariants}
           initial="hidden"
           animate="visible"
@@ -189,6 +219,22 @@ const ProjectDetail = ({ project, onClose }) => {
 
                 {sec.type === 'text' ? (
                   <p className="pd-section-text">{sec.content}</p>
+                ) : sec.type === 'images' ? (
+                  <div className="pd-gallery">
+                    {sec.content.map((img, idx) => (
+                      <motion.div 
+                        key={idx}
+                        className="pd-gallery-item glass-panel"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: idx * 0.1 }}
+                        onClick={() => setSelectedIdx(idx)}
+                      >
+                        <img src={img} alt={`Screenshot ${idx + 1}`} />
+                        <div className="gallery-overlay"><ArrowUpRight size={24} /></div>
+                      </motion.div>
+                    ))}
+                  </div>
                 ) : (
                   <ul className="pd-section-list">
                     {sec.content.map((item, j) => (
@@ -219,6 +265,48 @@ const ProjectDetail = ({ project, onClose }) => {
             )}
           </div>
         </motion.main>
+
+        {/* ── Lightbox for Images ── */}
+        <AnimatePresence>
+          {selectedIdx !== null && (
+            <motion.div 
+              className="pd-lightbox"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedIdx(null)}
+            >
+              <button className="pd-lightbox-close" onClick={() => setSelectedIdx(null)}>
+                <X size={24} />
+              </button>
+
+              {gallery.length > 1 && (
+                <>
+                  <button className="pd-nav-btn prev" onClick={handlePrev}>
+                    <ChevronLeft size={32} />
+                  </button>
+                  <button className="pd-nav-btn next" onClick={handleNext}>
+                    <ChevronRight size={32} />
+                  </button>
+                </>
+              )}
+
+              <motion.img 
+                key={selectedIdx}
+                src={gallery[selectedIdx]} 
+                initial={{ scale: 0.8, opacity: 0, x: 20 }}
+                animate={{ scale: 1, opacity: 1, x: 0 }}
+                exit={{ scale: 0.8, opacity: 0, x: -20 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                onClick={(e) => e.stopPropagation()}
+              />
+              
+              <div className="pd-counter">
+                {selectedIdx + 1} / {gallery.length}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </AnimatePresence>
   );
