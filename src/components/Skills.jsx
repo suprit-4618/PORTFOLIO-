@@ -1,54 +1,38 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Terminal, 
-  Database, 
-  Zap, 
-  Wind, 
-  GitBranch, 
-  RefreshCw, 
-  Triangle, 
-  Boxes, 
-  Layout,
-  Layers,
-  Cpu,
-  BarChart3,
-  Network,
-  Code2,
-  FileCode2,
-  Coffee
-} from 'lucide-react';
 import './Skills.css';
+import javaIcon from '../assets/java.svg';
+import mysqlIcon from '../assets/mysql.png';
 
-// ─── Skills Data ──────────────────────────────────────────────────────────────
+// ─── Skills Data (Direct mapping to Simple Icons slugs) ────────────────────
 const SKILLS = [
-  { name: 'Python', category: 'Languages', icon: <FileCode2 size={28} /> },
-  { name: 'Java', category: 'Languages', icon: <Coffee size={28} /> },
-  { name: 'JavaScript', category: 'Languages', icon: <Code2 size={28} /> },
-  { name: 'PySpark', category: 'Languages', icon: <Zap size={28} /> },
+  { name: 'Python', category: 'Languages', slug: 'python' },
+  { name: 'Java', category: 'Languages', slug: javaIcon },
+  { name: 'JavaScript', category: 'Languages', slug: 'javascript' },
+  { name: 'PySpark', category: 'Languages', slug: 'apachespark' },
 
-  { name: 'Artificial Intelligence', category: 'AI / ML', icon: <Cpu size={28} /> },
-  { name: 'Machine Learning', category: 'AI / ML', icon: <Network size={28} /> },
-  { name: 'Data Science', category: 'AI / ML', icon: <BarChart3 size={28} /> },
+  { name: 'Artificial Intelligence', category: 'AI / ML', slug: 'googlegemini' },
+  { name: 'Machine Learning', category: 'AI / ML', slug: 'scikitlearn' },
+  { name: 'Data Science', category: 'AI / ML', slug: 'jupyter' },
 
-  { name: 'FastAPI', category: 'Backend', icon: <Zap size={28} /> },
+  { name: 'FastAPI', category: 'Backend', slug: 'fastapi' },
 
-  { name: 'SQL', category: 'Databases', icon: <Database size={28} /> },
-  { name: 'PostgreSQL', category: 'Databases', icon: <Database size={28} /> },
-  { name: 'MongoDB', category: 'Databases', icon: <Layers size={28} /> },
-  { name: 'NoSQL', category: 'Databases', icon: <Database size={28} /> },
+  { name: 'MySQL', category: 'Databases', slug: mysqlIcon },
+  { name: 'PostgreSQL', category: 'Databases', slug: 'postgresql' },
+  { name: 'MongoDB', category: 'Databases', slug: 'mongodb' },
 
-  { name: 'Docker', category: 'Tools', icon: <Boxes size={28} /> },
-  { name: 'Airflow', category: 'Tools', icon: <Wind size={28} /> },
-  { name: 'Git', category: 'Tools', icon: <GitBranch size={28} /> },
-  { name: 'CI/CD', category: 'Tools', icon: <RefreshCw size={28} /> },
-  { name: 'Linux', category: 'Tools', icon: <Terminal size={28} /> },
-  { name: 'Vercel', category: 'Tools', icon: <Triangle size={28} /> },
 
-  { name: 'Three.js', category: '3D & Graphics', icon: <Boxes size={28} /> },
-  { name: 'WebGL', category: '3D & Graphics', icon: <Layout size={28} /> },
-  { name: 'MediaPipe', category: '3D & Graphics', icon: <Cpu size={28} /> },
-  { name: 'Unreal Engine', category: '3D & Graphics', icon: <Layers size={28} /> },
+  { name: 'Docker', category: 'Tools', slug: 'docker' },
+  { name: 'Airflow', category: 'Tools', slug: 'apacheairflow' },
+  { name: 'Git', category: 'Tools', slug: 'git' },
+  { name: 'CI/CD', category: 'Tools', slug: 'githubactions' },
+  { name: 'Linux', category: 'Tools', slug: 'linux' },
+  { name: 'Vercel', category: 'Tools', slug: 'vercel' },
+
+  { name: 'Three.js', category: '3D & Graphics', slug: 'threedotjs' },
+  { name: 'WebGL', category: '3D & Graphics', slug: 'webgl' },
+  { name: 'MediaPipe', category: '3D & Graphics', slug: 'google' },
+  { name: 'Unreal Engine', category: '3D & Graphics', slug: 'unrealengine' },
 ];
 
 const CATEGORY_COLORS = {
@@ -60,28 +44,35 @@ const CATEGORY_COLORS = {
   '3D & Graphics':'248, 113, 113',  // red
 };
 
-// ─── Component ────────────────────────────────────────────────────────────────
 const Skills = () => {
   const gridRef = useRef(null);
 
+  useEffect(() => {
+    // Initializing state
+    if (gridRef.current) {
+      const cards = gridRef.current.querySelectorAll('.reveal-cube');
+      cards.forEach(card => card.style.setProperty('--glow', '0'));
+    }
+  }, []);
+
   const handleMouseMove = useCallback((e) => {
     if (!gridRef.current) return;
-    const cards = gridRef.current.querySelectorAll('.skill-cube');
+    const cards = gridRef.current.querySelectorAll('.reveal-cube');
+    if (cards.length === 0) return;
+
     cards.forEach((card) => {
       const rect = card.getBoundingClientRect();
-      // Distance from cursor to center of this card
       const cardCx = rect.left + rect.width / 2;
       const cardCy = rect.top + rect.height / 2;
       const dx = e.clientX - cardCx;
       const dy = e.clientY - cardCy;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      // Relative cursor position within the card (for the foreground gradient)
       const relX = e.clientX - rect.left;
       const relY = e.clientY - rect.top;
 
-      // Glow intensity fades off with distance (max radius ~300 px)
-      const maxRadius = 300;
+      // Glow intensity fades off with distance
+      const maxRadius = 300; 
       const intensity = Math.max(0, 1 - dist / maxRadius);
 
       card.style.setProperty('--glow', intensity);
@@ -92,27 +83,27 @@ const Skills = () => {
 
   const handleMouseLeave = useCallback(() => {
     if (!gridRef.current) return;
-    gridRef.current.querySelectorAll('.skill-cube').forEach((card) => {
-      card.style.setProperty('--glow', 0);
+    gridRef.current.querySelectorAll('.reveal-cube').forEach((card) => {
+      card.style.setProperty('--glow', '0');
     });
   }, []);
 
   return (
     <section id="skills" className="skills-section">
-      <motion.div
-        className="skills-container"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.8 }}
-      >
-        {/* Header */}
+      <div className="skills-container">
+        {/* Header (No motion for absolute stealth) */}
         <div className="skills-header">
-          <h2 className="section-title">
-            My <span className="highlight">Skills</span>
-          </h2>
-          <p className="skills-hint">Move your cursor across the grid</p>
-        </div>
+           <motion.h2 
+             className="section-title"
+             initial={{ opacity: 0, y: 20 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             viewport={{ once: true }}
+             transition={{ duration: 0.6 }}
+           >
+             Tech <span className="highlight">Stack</span>
+           </motion.h2>
+           <p className="skills-hint">Move your cursor across the grid</p>
+         </div>
 
         {/* Grid */}
         <div
@@ -121,34 +112,42 @@ const Skills = () => {
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
-          {SKILLS.map((skill, i) => {
+          {SKILLS.map((skill) => {
             const color = CATEGORY_COLORS[skill.category] || '139, 92, 246';
             return (
-              <motion.div
+              <div
                 key={skill.name}
-                className="skill-cube"
+                className="reveal-cube"
                 style={{ '--color': color }}
-                initial={{ opacity: 0, scale: 0.85 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ delay: i * 0.025, duration: 0.4, ease: 'easeOut' }}
               >
-                {/* Glow layer (follows cursor) */}
-                <div className="cube-glow" />
+                {/* Glow layer */}
+                <div className="reveal-glow" />
 
                 {/* Card content */}
-                <div className="cube-body">
-                  <div className="cube-icon">{skill.icon}</div>
-                  <span className="cube-name">{skill.name}</span>
+                <div className="reveal-body">
+                  <div className="reveal-icon">
+                    <img 
+                      src={ (skill.slug.includes('/') || skill.slug.startsWith('data:')) ? skill.slug : `https://cdn.simpleicons.org/${skill.slug}`} 
+                      alt={skill.name}
+                      onLoad={(e) => e.target.style.opacity = '1'}
+                      onError={(e) => {
+                        // Fallback or debug
+                        console.warn('Icon load failed:', skill.slug);
+                        e.target.style.display = 'none';
+                      }}
+                      className="tech-logo"
+                    />
+                  </div>
+                  <span className="reveal-name">{skill.name}</span>
                 </div>
 
-                {/* Sheen */}
-                <div className="cube-sheen" />
-              </motion.div>
+                {/* Global sheen */}
+                <div className="reveal-sheen" />
+              </div>
             );
           })}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
