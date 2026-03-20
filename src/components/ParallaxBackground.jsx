@@ -7,7 +7,7 @@ const ParallaxBackground = () => {
             <div 
                 className="parallax-static-layer"
                 style={{
-                    backgroundImage: 'url(/parallax/6.png)',
+                    backgroundImage: 'url(/parallax/matte_bg.png)',
                     zIndex: -1
                 }}
             />
