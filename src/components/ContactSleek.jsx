@@ -143,7 +143,7 @@ const Contact = () => {
       </motion.div>
 
       <footer className="sleek-footer">
-        <p>© 2026 SUPRIT L. Built with passion.</p>
+        <p>© 2026 SUPRIT L. Hope it was good .</p>
       </footer>
     </section>
   );

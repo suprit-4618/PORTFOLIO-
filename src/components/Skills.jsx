@@ -21,7 +21,6 @@ const SKILLS = [
   { name: 'PostgreSQL', category: 'Databases', slug: 'postgresql' },
   { name: 'MongoDB', category: 'Databases', slug: 'mongodb' },
 
-
   { name: 'Docker', category: 'Tools', slug: 'docker' },
   { name: 'Airflow', category: 'Tools', slug: 'apacheairflow' },
   { name: 'Git', category: 'Tools', slug: 'git' },

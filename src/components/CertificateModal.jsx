@@ -6,9 +6,24 @@ import './CertificateModal.css';
 const CertificateModal = ({ company, onClose }) => {
   // Lock body scroll while open
   useEffect(() => {
+    if (!company) return;
+
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    
     document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
-  }, []);
+    document.documentElement.style.overflow = 'hidden';
+    
+    // Prevent layout shift if scrollbar disappears
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    return () => { 
+      document.body.style.overflow = ''; 
+      document.documentElement.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
+  }, [company]);
 
   if (!company) return null;
 
@@ -16,7 +31,7 @@ const CertificateModal = ({ company, onClose }) => {
     hidden: { opacity: 0, backdropFilter: 'blur(0px)' },
     visible: { 
       opacity: 1, 
-      backdropFilter: 'blur(12px)',
+      backdropFilter: 'blur(8px)',
       transition: { duration: 0.4, ease: 'easeOut' } 
     },
     exit: { 
@@ -66,11 +81,13 @@ const CertificateModal = ({ company, onClose }) => {
   return (
     <motion.div
       className="cm-overlay"
+      data-lenis-prevent
       variants={overlayVariants}
       initial="hidden"
       animate="visible"
       exit="exit"
       onClick={onClose}
+      style={{ willChange: 'backdrop-filter' }}
     >
       <motion.div
         className="cm-content glass-panel"
@@ -99,7 +116,7 @@ const CertificateModal = ({ company, onClose }) => {
           </div>
         </div>
 
-        <div className="cm-list-wrapper">
+        <div className="cm-list-wrapper" data-lenis-prevent>
           <div className="cm-list">
             {company.certificates.map((cert, index) => (
               <motion.div 
@@ -107,6 +124,7 @@ const CertificateModal = ({ company, onClose }) => {
                 className="cm-item"
                 variants={itemVariants}
                 whileHover={{ x: 10, backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+                style={{ willChange: 'transform, opacity' }}
               >
                 <div className="cm-item-icon">
                   {index % 2 === 0 ? <Award size={18} /> : <ShieldCheck size={18} />}

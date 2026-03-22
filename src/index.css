@@ -13,6 +13,25 @@ body {
   color: #f0f0f0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* ── Premium Rich Black Background ── */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Interactive Radial Glow */
+  background: radial-gradient(
+    circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.01),
+    transparent 80%
+  );
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* ── Custom Cursor ── */
@@ -129,31 +148,17 @@ html.lenis {
 
 .hero-tagline {
   font-size: 1.4rem;
-  font-weight: 800;
-  letter-spacing: 6px;
+  font-weight: 700;
+  letter-spacing: 4px;
   text-transform: uppercase;
   margin-top: -1rem;
   margin-bottom: 3rem;
+  color: rgba(255, 255, 255, 0.7);
   
-  /* Glass Text Effect */
-  background: linear-gradient(
-    180deg, 
-    rgba(255, 255, 255, 0.9) 0%, 
-    rgba(255, 255, 255, 0.2) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  
-  /* 3D Depth Effect */
+  /* Sharper 3D Depth Effect */
   text-shadow: 
     0 1px 0 rgba(255, 255, 255, 0.1),
-    0 2px 0 rgba(0, 0, 0, 0.2),
-    0 3px 0 rgba(0, 0, 0, 0.3),
-    0 4px 0 rgba(0, 0, 0, 0.4),
-    0 10px 20px rgba(0, 0, 0, 0.5);
-  
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
+    0 2px 20px rgba(0, 0, 0, 0.8);
 }
 
 .highlight {
@@ -180,19 +185,21 @@ html.lenis {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem 2rem;
-  font-size: 1rem;
+  padding: 0.8rem 2rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  border-radius: 50px;
+  border-radius: 4px; /* Sharper corners */
   text-decoration: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .primary-btn {
   background-color: #fff;
   color: #000;
-  border: 2px solid #fff;
+  border: 1px solid #fff;
 }
 
 .btn-icon {

@@ -88,6 +88,10 @@
   max-height: 50vh;
   overflow-y: auto;
   padding-right: 1rem;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
 }
 
 /* Custom Scrollbar */
@@ -99,8 +103,15 @@
   border-radius: 10px;
 }
 .cm-list-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.cm-list-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+  background-clip: content-box;
 }
 
 .cm-list {
@@ -119,6 +130,8 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: default;
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Force layer promotion */
 }
 
 .cm-item-icon {

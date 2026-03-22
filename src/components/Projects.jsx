@@ -15,6 +15,9 @@ const PROJECTS = [
     accent: '#00dcc8',
     github: 'https://github.com/suprit-4618/janisa-hologram',
     live: 'https://janisa-hologram.vercel.app',
+    gallery: [
+      '/projects/janisa/janisa_model.png'
+    ],
     brief: 'An interactive holographic visualization system that enables users to explore 3D models through gesture-based interaction. It allows real-time manipulation such as rotation and zoom, making complex structures easier to understand. Designed for education, it enhances learning through immersive and interactive visualization.',
     howItWorks: 'The system runs on a web interface where users load 3D models. A camera captures hand gestures, which are processed using computer vision to control actions like rotate, zoom, and interact with the model in real time.',
     why: 'The goal was to improve educational understanding by allowing users to interact with models instead of relying only on imagination. Viewing objects from multiple angles makes learning more intuitive and engaging.',
@@ -54,23 +57,26 @@ const PROJECTS = [
   {
     id: 3,
     title: 'Friday',
-    subtitle: 'Advanced AI Assistant',
-    tech: ['Gemini 2.0 Flash', 'Python', 'edge-tts', 'AI'],
-    accent: '#f7a26a',
-    github: null,
+    subtitle: 'Personal AI Agent',
+    tech: ['Groq', 'FastAPI', 'Electron', 'React', 'Picovoice', 'Playwright'],
+    accent: '#00d2ff',
+    github: 'https://github.com/suprit-4618/FRIDAY',
     live: null,
-    brief: 'A next-generation local AI assistant featuring real-time voice interaction, multilingual support, and system control, powered by Google Gemini 2.0 Flash.',
-    howItWorks: 'Friday integrates the Gemini API for deep natural language understanding and leverages edge-tts for high-quality neural speech. It processes voice commands to control system settings and interact across 20+ languages.',
-    why: 'The goal was to create a highly responsive, multilingual personal assistant that offers direct system integration and natural voice-based command execution.',
+    gallery: [
+      '/projects/friday/friday_snapshot.png'
+    ],
+    brief: 'A fully functional, voice-activated AI desktop assistant that wakes up on hearing its name, features a stunning HUD interface, and executes real system actions using Groq LLaMA 3.3.',
+    howItWorks: 'Uses Picovoice Porcupine for low-latency wake-word detection ("Friday"/"Computer"). Commands are processed via Groq API (llama-3-70b) for reasoning and executed through a FastAPI backend. Playwright is used for automated WhatsApp messaging and system control.',
+    why: 'Built to create a futuristic, high-performance local assistant that combines state-of-the-art LLMs with direct desktop and web automation, inspired by sci-fi HUDs.',
     problemSolves: [
       'Enables hands-free system control and application management',
-      'Provides low-latency multilingual translation and voice synthesis',
-      'Integrates state-of-the-art LLMs for complex task assistance',
+      'Automates repetitive tasks like sending WhatsApp messages',
+      'Provides instant, voice-based access to complex AI reasoning on the desktop',
     ],
     limitations: [
-      'Requires active internet for Gemini API and neural voice',
-      'Speech recognition performance varies with background noise',
-      'Hardware-dependent for local system control features',
+      'Requires active internet for Groq LLM and Azure neural voice',
+      'Whisper STT performance depends on microphone quality and background noise',
+      'WhatsApp automation requires a one-time QR scan via the browser',
     ],
   },
   {

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
 import { Github, Linkedin, Mail, ArrowRight, FileDown } from 'lucide-react';
-import ParticleBackground from './components/ParticleBackground';
 import ParallaxBackground from './components/ParallaxBackground';
 import About from './components/About';
 import Projects from './components/Projects';
@@ -17,15 +16,16 @@ import './index.css';
 function App() {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.5,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1,
+      wheelMultiplier: 1.2,
       smoothTouch: false,
       touchMultiplier: 2,
       infinite: false,
+      lerp: 0.1, // Added lerp for smoother interpolation
     });
 
     function raf(time) {
@@ -53,24 +53,29 @@ function App() {
   const parallaxX = useTransform(smoothMouseX, [-0.5, 0.5], [-30, 30]);
   const parallaxY = useTransform(smoothMouseY, [-0.5, 0.5], [-30, 30]);
 
+  // Use a ref to track if an animation frame is already requested
+  const rafRef = React.useRef();
+
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
     const { innerWidth, innerHeight } = window;
+    
+    // Update Framer Motion values immediately
     mouseX.set((clientX / innerWidth) - 0.5);
     mouseY.set((clientY / innerHeight) - 0.5);
+    
+    // Throttle CSS variable updates to the next animation frame
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      document.documentElement.style.setProperty('--mouse-x', `${clientX}px`);
+      document.documentElement.style.setProperty('--mouse-y', `${clientY}px`);
+    });
   };
 
   const { scrollY } = useScroll();
 
-  // Bubble Overlay Visibility: Starts after landing parallax (e.g. 100vh)
-  // We'll fade it in between 600px and 1000px scroll
-  const bubbleOpacity = useTransform(scrollY, [600, 1000], [0, 1]);
-
   return (
     <>
-      <motion.div style={{ opacity: bubbleOpacity, position: 'fixed', inset: 0, zIndex: -1 }}>
-        <ParticleBackground />
-      </motion.div>
       <div className="portfolio-container" onMouseMove={handleMouseMove}>
         
         {/* --- Hero Wrapper (Ensures 100vh height so parallax finishes before About begins) --- */}

@@ -19,6 +19,8 @@
     background-position: center;
     background-repeat: no-repeat;
     pointer-events: none;
+    filter: brightness(0.6); /* Reduced from default for a more muted, premium look */
+    transition: filter 0.8s ease;
 }
 
 .parallax-mask {

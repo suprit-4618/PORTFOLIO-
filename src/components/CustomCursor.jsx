@@ -9,8 +9,8 @@ const CustomCursor = () => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Smooth springs for the follower
-  const springConfig = { damping: 25, stiffness: 150 };
+  // "Buttery" smooth springs for the follower
+  const springConfig = { damping: 35, stiffness: 200, mass: 0.8 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
@@ -42,8 +42,8 @@ const CustomCursor = () => {
     };
   }, []);
 
-  // Determine size and position based on state
-  const haloSize = isHovering ? 50 : 30;
+  // Smaller, subtler halo
+  const haloSize = isHovering ? 35 : 20;
   
   return (
     <>
@@ -64,8 +64,8 @@ const CustomCursor = () => {
         animate={{
           width: haloSize,
           height: haloSize,
-          backgroundColor: isHovering ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)',
-          borderColor: isHovering ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.2)',
+          backgroundColor: isHovering ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.03)',
+          borderColor: isHovering ? 'rgba(255, 255, 255, 0.6)' : 'rgba(255, 255, 255, 0.15)',
         }}
         style={{
           left: smoothX,
