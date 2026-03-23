@@ -195,7 +195,8 @@ html.lenis {
   font-size: clamp(1.5rem, 6vw, 4rem);
   font-weight: 800;
   line-height: 1;
-  margin-bottom: 0.5rem;
+  margin: 0;
+  white-space: nowrap;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: #fff;
@@ -207,6 +208,7 @@ html.lenis {
   letter-spacing: 0.4em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.6);
+  margin-top: 0.5rem;
   margin-bottom: 3.5rem;
 }
 
@@ -307,10 +309,15 @@ html.lenis {
     text-align: center;
     margin-bottom: 2.5rem;
   }
+  .hero-section {
+    justify-content: center;
+    padding: 0 10%;
+  }
   .hero-content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 100%;
   }
   .btn-group {
     flex-direction: column;

@@ -62,8 +62,8 @@
   overflow: hidden;
 
   box-shadow: 
-    0 0 40px rgba(var(--color), calc(var(--glow) * 0.2)),
-    inset 0 0 15px rgba(var(--color), calc(var(--glow) * 0.1));
+    0 0 40px rgba(var(--color), calc(var(--glow, 0) * 0.2)),
+    inset 0 0 15px rgba(var(--color), calc(var(--glow, 0) * 0.1));
 
   transition:
     background 0.4s ease,
@@ -81,9 +81,9 @@
   object-fit: contain;
   pointer-events: none;
   display: block;
-  /* Reveal logo on hover */
-  opacity: var(--glow);
-  transition: opacity 0.3s ease;
+  /* Reveal logo on proximity */
+  opacity: var(--glow, 0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 /* ── Body Layout ────────────────────────────────────────────── */
@@ -112,7 +112,8 @@
   text-transform: uppercase;
   color: #fff;
   text-align: center;
-  opacity: var(--glow);
+  opacity: var(--glow, 0);
+  transition: opacity 0.3s ease;
 }
 
 /* ── Interactive Layering ─────────────────────────────────────── */

@@ -466,6 +466,7 @@ const Skills = () => {
                   <motion.div 
                     layoutId={`icon-container-${skill.name}-${id}`}
                     className="reveal-icon"
+                    style={{ opacity: 'var(--glow)' }}
                   >
                     <img 
                       src={ (skill.slug.includes('/') || skill.slug.startsWith('data:')) ? skill.slug : `https://cdn.simpleicons.org/${skill.slug}`} 
@@ -476,6 +477,7 @@ const Skills = () => {
                   <motion.span 
                     layoutId={`name-${skill.name}-${id}`}
                     className="reveal-name"
+                    style={{ opacity: 'var(--glow)' }}
                   >
                     {skill.name}
                   </motion.span>

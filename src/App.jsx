@@ -96,7 +96,26 @@ function App() {
               
               <ParallaxBackground />
 
-            <header className="header">
+              {/* OVERLAY FOR PERFECT SETTLE EFFECT */}
+              <motion.div
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 0 }}
+                transition={{ delay: 0.8, duration: 1.5 }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundColor: '#000',
+                  zIndex: 0,
+                  pointerEvents: 'none'
+                }}
+              />
+
+            <motion.header 
+              className="header"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9, duration: 1 }}
+            >
               <div className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
               </div>
@@ -133,7 +152,7 @@ function App() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </header>
+            </motion.header>
 
             <main className="hero-section">
               <div className="hero-content-wrapper">
