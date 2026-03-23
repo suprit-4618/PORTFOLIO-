@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
-import { Github, Linkedin, Mail, ArrowRight, FileDown } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { motion, useMotionValue, useSpring, useTransform, useScroll, AnimatePresence } from 'framer-motion';
+import { Github, Linkedin, Mail, ArrowRight, FileDown, Menu, X } from 'lucide-react';
 import ParallaxBackground from './components/ParallaxBackground';
 import About from './components/About';
 import Projects from './components/Projects';
@@ -10,10 +10,14 @@ import Experience from './components/Experience';
 import Publications from './components/Publications';
 import Contact from './components/ContactSleek';
 import CustomCursor from './components/CustomCursor';
+import Intro from './components/Intro';
 import Lenis from 'lenis';
+import { Analytics } from '@vercel/analytics/react';
 import './index.css';
 
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.5,
@@ -76,74 +80,114 @@ function App() {
 
   return (
     <>
-      <div className="portfolio-container" onMouseMove={handleMouseMove}>
-        
-        {/* --- Hero Wrapper (Ensures 100vh height so parallax finishes before About begins) --- */}
-        <div className="hero-section-wrapper" style={{ position: 'relative', height: '100vh', display: 'flex', flexDirection: 'column' }}>
-          
-          <ParallaxBackground />
-
-        <header className="header">
-          <nav>
-            <ul className="nav-links">
-              <motion.li initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}><a href="#about">About</a></motion.li>
-              <motion.li initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }}><a href="#experience">Journey</a></motion.li>
-              <motion.li initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}><a href="#skills">Skills</a></motion.li>
-              <motion.li initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.25 }}><a href="#projects">Projects</a></motion.li>
-              <motion.li initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}><a href="#publications">Publications</a></motion.li>
-              <motion.li initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.35 }}><a href="#certificates">Certificates</a></motion.li>
-              <motion.li initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }}><a href="#contact">Contact</a></motion.li>
-            </ul>
-          </nav>
-        </header>
-
-        <main className="hero-section">
-          <div className="hero-content-wrapper">
-            <motion.div
-              className="hero-content"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.4 }}
-            >
-              <h1 className="hero-title">
-                SUPRIT L
-              </h1>
-              <p className="hero-tagline">AI & Data Science Engineer</p>
+      <Analytics />
+      <AnimatePresence>
+        {showIntro ? (
+          <Intro key="intro" onFinish={() => setShowIntro(false)} />
+        ) : (
+          <motion.div 
+            key="content"
+            className="portfolio-container" 
+            onMouseMove={handleMouseMove}
+          >
+            
+            {/* --- Hero Wrapper --- */}
+            <div className="hero-section-wrapper" style={{ position: 'relative', height: '100vh', display: 'flex', flexDirection: 'column' }}>
               
-              <div className="btn-group">
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="#projects"
-                  className="btn primary-btn"
-                >
-                  View My Work <ArrowRight className="btn-icon" />
-                </motion.a>
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="/Suprit.pdf"
-                  download="Suprit_L_Resume.pdf"
-                  className="btn secondary-btn"
-                >
-                  Download CV <FileDown className="btn-icon" />
-                </motion.a>
+              <ParallaxBackground />
+
+            <header className="header">
+              <div className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
               </div>
+              <nav className={`desktop-nav ${isMenuOpen ? 'hidden' : ''}`}>
+                <ul className="nav-links">
+                  <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}><a href="#about">About</a></motion.li>
+                  <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }}><a href="#experience">Journey</a></motion.li>
+                  <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}><a href="#skills">Skills</a></motion.li>
+                  <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}><a href="#projects">Projects</a></motion.li>
+                  <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}><a href="#publications">Publications</a></motion.li>
+                  <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}><a href="#certificates">Certificates</a></motion.li>
+                  <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}><a href="#contact">Contact</a></motion.li>
+                </ul>
+              </nav>
 
+              <AnimatePresence>
+                {isMenuOpen && (
+                  <motion.div 
+                    className="mobile-nav-overlay"
+                    initial={{ opacity: 0, x: '100%' }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: '100%' }}
+                    transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                  >
+                    <ul className="mobile-nav-links">
+                      <li><a href="#about" onClick={() => setIsMenuOpen(false)}>About</a></li>
+                      <li><a href="#experience" onClick={() => setIsMenuOpen(false)}>Journey</a></li>
+                      <li><a href="#skills" onClick={() => setIsMenuOpen(false)}>Skills</a></li>
+                      <li><a href="#projects" onClick={() => setIsMenuOpen(false)}>Projects</a></li>
+                      <li><a href="#publications" onClick={() => setIsMenuOpen(false)}>Publications</a></li>
+                      <li><a href="#certificates" onClick={() => setIsMenuOpen(false)}>Certificates</a></li>
+                      <li><a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a></li>
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </header>
+
+            <main className="hero-section">
+              <div className="hero-content-wrapper">
+                <div className="hero-content">
+                  <motion.h1 
+                    className="hero-title"
+                    layoutId="hero-name"
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                  >
+                    SUPRIT L
+                  </motion.h1>
+                  <motion.p className="hero-tagline" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9, duration: 1 }}>AI & DATA SCIENCE ENGINEER</motion.p>
+                  
+                  <motion.div className="btn-group" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9, duration: 1 }}>
+                    <motion.a
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      href="#projects"
+                      className="btn primary-btn"
+                    >
+                      VIEW MY WORK <ArrowRight className="btn-icon" />
+                    </motion.a>
+                    <motion.a
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      href="/Suprit.pdf"
+                      download="Suprit_L_Resume.pdf"
+                      className="btn secondary-btn"
+                    >
+                      DOWNLOAD CV <FileDown className="btn-icon" />
+                    </motion.a>
+                  </motion.div>
+                </div>
+              </div>
+            </main>
+            </div> {/* End Hero Wrapper */}
+
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              transition={{ delay: 1, duration: 1.5 }}
+            >
+              <About />
+              <Experience />
+              <Skills />
+              <Projects />
+              <Publications />
+              <Certificates />
+              <Contact />
+              <CustomCursor />
             </motion.div>
-          </div>
-        </main>
-        </div> {/* End Hero Wrapper */}
-
-        <About />
-        <Experience />
-        <Skills />
-        <Projects />
-        <Publications />
-        <Certificates />
-        <Contact />
-        <CustomCursor />
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

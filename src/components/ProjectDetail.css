@@ -219,13 +219,16 @@
   transition: transform 0.3s ease;
 }
 
-.pd-gallery-item:hover {
-  transform: translateY(-5px);
-  border-color: var(--accent);
-}
+@media (hover: hover) {
+  .pd-gallery-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+  }
 
-.pd-gallery-item:hover .gallery-overlay {
-  opacity: 1;
+  .pd-gallery-item:hover .gallery-overlay {
+    opacity: 1;
+    transition-delay: 0.15s; /* Delay to prevent flicker while scrolling past */
+  }
 }
 
 .gallery-overlay {

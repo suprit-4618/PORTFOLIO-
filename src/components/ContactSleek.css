@@ -276,7 +276,44 @@
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .sleek-form { padding: 2.5rem 1.5rem; gap: 2rem; }
-  .sleek-form-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .sleek-title { font-size: 3.5rem; }
+  .contact-sleek-section {
+    padding: 6rem 5% 4rem;
+  }
+  .sleek-header {
+    margin-bottom: 4rem;
+  }
+  .particle-text-container {
+    height: 180px;
+  }
+  .sleek-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .sleek-form { 
+    padding: 3rem 1.5rem; 
+    gap: 2.5rem; 
+    border-radius: 30px;
+  }
+  .sleek-form-grid { 
+    grid-template-columns: 1fr; 
+    gap: 2rem; 
+  }
+  .sleek-input-group label {
+    font-size: 0.6rem;
+  }
+  .sleek-input-group input,
+  .sleek-input-group textarea {
+    font-size: 1rem;
+  }
+  .sleek-submit {
+    width: 100%;
+    padding: 1.5rem;
+  }
+  .sleek-socials {
+    margin-top: 4rem;
+    gap: 1.5rem;
+  }
+  .sleek-footer {
+    margin-top: 4rem;
+  }
 }
