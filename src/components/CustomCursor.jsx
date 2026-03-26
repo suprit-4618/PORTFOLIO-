@@ -5,6 +5,7 @@ const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [cursorType, setCursorType] = useState('default'); // 'default' or 'magnetic'
   const [targetRect, setTargetRect] = useState(null);
+  const targetRef = React.useRef(null);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -22,10 +23,14 @@ const CustomCursor = () => {
 
     const handleMouseOver = (e) => {
       const target = e.target.closest('button, a, .magnetic');
+      if (target === targetRef.current) return;
+      
+      targetRef.current = target;
       if (target) {
+        const newRect = target.getBoundingClientRect();
         setIsHovering(true);
         setCursorType('magnetic');
-        setTargetRect(target.getBoundingClientRect());
+        setTargetRect(newRect);
       } else {
         setIsHovering(false);
         setCursorType('default');
