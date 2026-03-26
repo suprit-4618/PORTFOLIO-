@@ -177,12 +177,12 @@ const ProjectDetail = ({ project, onClose }) => {
             {/* Links at bottom */}
             <div className="pd-links">
               {project.github && (
-                <a href={project.github} target="_blank" rel="noreferrer" className="pd-link">
+                <a href={project.github} target="_blank" rel="noopener noreferrer" className="pd-link">
                   <Github size={14} /> GitHub <ArrowUpRight size={12} />
                 </a>
               )}
               {project.live && (
-                <a href={project.live} target="_blank" rel="noreferrer" className="pd-link pd-link-live">
+                <a href={project.live} target="_blank" rel="noopener noreferrer" className="pd-link pd-link-live">
                   <ExternalLink size={14} /> Live Demo <ArrowUpRight size={12} />
                 </a>
               )}

@@ -116,9 +116,14 @@ function App() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9, duration: 1 }}
             >
-              <div className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              <button 
+                className="hamburger" 
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isMenuOpen}
+              >
                 {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-              </div>
+              </button>
               <nav className={`desktop-nav ${isMenuOpen ? 'hidden' : ''}`}>
                 <ul className="nav-links">
                   <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}><a href="#about">About</a></motion.li>
