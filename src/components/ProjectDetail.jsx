@@ -230,7 +230,7 @@ const ProjectDetail = ({ project, onClose }) => {
                         transition={{ delay: idx * 0.1 }}
                         onClick={() => setSelectedIdx(idx)}
                       >
-                        <img src={img} alt={`Screenshot ${idx + 1}`} />
+                        <img src={img} alt={`${project.title} Screenshot ${idx + 1}`} />
                         <div className="gallery-overlay"><ArrowUpRight size={24} /></div>
                       </motion.div>
                     ))}

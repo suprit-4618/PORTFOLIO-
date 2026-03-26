@@ -139,9 +139,11 @@ const PROJECTS = [
 const getFanTransform = (index, total, isHovered) => {
   const spread = 22;  // degrees between cards
   const offset = (total - 1) / 2;
-  const rotate = isHovered ? (index - offset) * spread : (index - offset) * 1.5;
+  // Increase non-hovered rotation slightly for better "fan" feel (from 1.5 to 3)
+  const rotate = isHovered ? (index - offset) * spread : (index - offset) * 3;
   const translateX = isHovered ? (index - offset) * 70 : 0;
-  const translateY = isHovered ? Math.abs(index - offset) * 14 : index * -2;
+  // Adjust baseline translateY to scale with index for better stacking
+  const translateY = isHovered ? Math.abs(index - offset) * 14 : index * -4;
   return { rotate, translateX, translateY };
 };
 
