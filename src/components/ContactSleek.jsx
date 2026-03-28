@@ -136,9 +136,9 @@ const Contact = () => {
         </motion.div>
 
         <motion.div className="sleek-socials" variants={containerVariants}>
-          <motion.a variants={itemVariants} whileHover={{ y: -5, borderColor: '#fff' }} href="https://github.com/suprit-4618" target="_blank" rel="noreferrer" className="sleek-social-link"><Github size={20} /></motion.a>
-          <motion.a variants={itemVariants} whileHover={{ y: -5, borderColor: '#fff' }} href="https://www.linkedin.com/in/suprit-k-l" target="_blank" rel="noreferrer" className="sleek-social-link"><Linkedin size={20} /></motion.a>
-          <motion.a variants={itemVariants} whileHover={{ y: -5, borderColor: '#fff' }} href="mailto:supritkl49@gmail.com" className="sleek-social-link"><Mail size={20} /></motion.a>
+          <motion.a variants={itemVariants} whileHover={{ y: -5, borderColor: '#fff' }} href="https://github.com/suprit-4618" target="_blank" rel="noopener noreferrer" className="sleek-social-link" aria-label="GitHub Profile"><Github size={20} /></motion.a>
+          <motion.a variants={itemVariants} whileHover={{ y: -5, borderColor: '#fff' }} href="https://www.linkedin.com/in/suprit-k-l" target="_blank" rel="noopener noreferrer" className="sleek-social-link" aria-label="LinkedIn Profile"><Linkedin size={20} /></motion.a>
+          <motion.a variants={itemVariants} whileHover={{ y: -5, borderColor: '#fff' }} href="mailto:supritkl49@gmail.com" className="sleek-social-link" aria-label="Send Email"><Mail size={20} /></motion.a>
         </motion.div>
       </motion.div>
 
