@@ -5,18 +5,25 @@ import './ScrollToTop.css';
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const toggleVisibility = () => {
+    const handleScroll = () => {
+      // Visibility
       if (window.scrollY > 500) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
       }
+
+      // Progress calculation
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalHeight) * 100;
+      setScrollProgress(progress);
     };
 
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const scrollToTop = () => {
@@ -25,6 +32,10 @@ const ScrollToTop = () => {
       behavior: 'smooth',
     });
   };
+
+  const radius = 22;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (scrollProgress / 100) * circumference;
 
   return (
     <AnimatePresence>
@@ -39,8 +50,28 @@ const ScrollToTop = () => {
           whileTap={{ scale: 0.9 }}
           aria-label="Scroll to top"
         >
+          <svg className="scroll-progress-svg" width="56" height="56" viewBox="0 0 56 56">
+            <circle
+              className="scroll-progress-bg"
+              cx="28"
+              cy="28"
+              r={radius}
+              fill="transparent"
+              strokeWidth="3"
+            />
+            <circle
+              className="scroll-progress-indicator"
+              cx="28"
+              cy="28"
+              r={radius}
+              fill="transparent"
+              strokeWidth="3"
+              strokeDasharray={circumference}
+              style={{ strokeDashoffset: offset }}
+              strokeLinecap="round"
+            />
+          </svg>
           <ArrowUp size={24} />
-          <div className="scroll-progress-ring"></div>
         </motion.button>
       )}
     </AnimatePresence>
