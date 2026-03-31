@@ -1,7 +1,7 @@
 .cm-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--glass-shadow);
   backdrop-filter: blur(0px); /* Transitioned by Framer Motion */
   -webkit-backdrop-filter: blur(0px);
   z-index: 1000;
@@ -17,20 +17,20 @@
   width: 100%;
   max-width: 600px;
   background: rgba(20, 20, 20, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border-strong);
   border-radius: 32px;
   padding: 3rem;
   overflow: hidden;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), 0 0 40px rgba(var(--cert-accent), 0.1);
+  box-shadow: 0 40px 100px var(--glass-shadow), 0 0 40px rgba(var(--cert-accent), 0.1);
 }
 
 .cm-close {
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: var(--glass-border-light);
+  border: 1px solid var(--glass-border-strong);
+  color: var(--text-primary);
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -43,8 +43,8 @@
 }
 
 .cm-close:hover {
-  background: #fff;
-  color: #000;
+  background: var(--text-primary);
+  color: var(--bg-color);
 }
 
 .cm-header {
@@ -52,15 +52,15 @@
   align-items: center;
   gap: 1.5rem;
   margin-bottom: 2.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--glass-border-light);
   padding-bottom: 1.5rem;
 }
 
 .cm-logo-wrapper {
   padding: 14px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--glass-border-light);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
 }
 
 .cm-company-logo {
@@ -72,13 +72,13 @@
 .cm-company-name {
   font-size: 2rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 0.25rem;
 }
 
 .cm-subtitle {
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--glass-border-strong);
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 600;
@@ -99,18 +99,18 @@
   width: 6px;
 }
 .cm-list-wrapper::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--glass-border-light);
   border-radius: 10px;
 }
 .cm-list-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--glass-border-strong);
   border-radius: 10px;
   border: 2px solid transparent;
   background-clip: content-box;
 }
 
 .cm-list-wrapper::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--glass-border-strong);
   background-clip: content-box;
 }
 
@@ -125,9 +125,9 @@
   align-items: center;
   gap: 1.25rem;
   padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--glass-border-light);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border-light);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: default;
   will-change: transform, opacity;
@@ -161,7 +161,7 @@
   opacity: 0.6;
   transition: opacity 0.3s ease;
   padding: 0.5rem 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border-light);
   border-radius: 50px;
 }
 

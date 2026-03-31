@@ -49,7 +49,7 @@
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.2);
   border: none;
-  color: rgba(0, 0, 0, 0.8);
+  color: var(--glass-shadow);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,7 +67,7 @@
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.55);
+  color: var(--glass-shadow);
   margin-top: auto;
   margin-bottom: 1.25rem;
 }
@@ -78,7 +78,7 @@
   font-weight: 900;
   line-height: 1;
   letter-spacing: -2px;
-  color: rgba(0, 0, 0, 0.85);
+  color: var(--glass-shadow);
   margin-bottom: 2.5rem;
 }
 
@@ -86,7 +86,7 @@
 .pd-divider {
   width: 48px;
   height: 3px;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--glass-shadow);
   border-radius: 2px;
   margin-bottom: 2rem;
 }
@@ -106,7 +106,7 @@
   padding: 0.35rem 0.85rem;
   border-radius: 50px;
   background: rgba(0, 0, 0, 0.15);
-  color: rgba(0, 0, 0, 0.75);
+  color: var(--glass-shadow);
   border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
@@ -125,7 +125,7 @@
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: rgba(0, 0, 0, 0.7);
+  color: var(--glass-shadow);
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -135,7 +135,7 @@
 }
 
 .pd-link-live {
-  color: rgba(0, 0, 0, 0.9);
+  color: var(--glass-shadow);
 }
 
 /* ── Right Panel ────────────────────────────────────────────── */
@@ -146,7 +146,7 @@
   display: flex;
   flex-direction: column;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.12) transparent;
+  scrollbar-color: var(--glass-border-strong) transparent;
   overscroll-behavior: contain;
 }
 
@@ -161,7 +161,7 @@
 /* Individual section */
 .pd-section {
   padding: 2.5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--glass-border-light);
 }
 
 .pd-section:last-child {
@@ -190,7 +190,7 @@
   font-weight: 700;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--glass-border-strong);
   flex-shrink: 0;
 }
 
@@ -214,8 +214,8 @@
   aspect-ratio: 16/9;
   border-radius: 16px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--glass-border-light);
+  border: 1px solid var(--glass-border);
   transition: transform 0.3s ease;
 }
 
@@ -237,8 +237,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
+  background: var(--glass-shadow);
+  color: var(--text-primary);
   opacity: 0;
   transition: opacity 0.3s ease;
   backdrop-filter: blur(2px);
@@ -255,7 +255,7 @@
 .pd-lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: var(--glass-shadow);
   backdrop-filter: blur(10px);
   z-index: 2000;
   display: flex;
@@ -269,9 +269,9 @@
   position: absolute;
   top: 2rem;
   right: 2rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--glass-border-strong);
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -280,11 +280,11 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border-strong);
 }
 
 .pd-lightbox-close:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--glass-border-strong);
   transform: rotate(90deg);
 }
 
@@ -292,7 +292,7 @@
   max-width: 100%;
   max-height: 85vh;
   border-radius: 12px;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 40px 100px var(--glass-shadow);
   cursor: default;
 }
 
@@ -301,9 +301,9 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: var(--glass-border-light);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
   width: 60px;
   height: 100px;
   border-radius: 12px;
@@ -317,8 +317,8 @@
 }
 
 .pd-nav-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--glass-border-strong);
+  border-color: var(--glass-border-strong);
   width: 70px;
 }
 
@@ -330,21 +330,21 @@
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--glass-shadow);
   backdrop-filter: blur(8px);
   padding: 0.5rem 1.5rem;
   border-radius: 50px;
-  color: #aaa;
+  color: var(--text-tertiary);
   font-size: 0.85rem;
   letter-spacing: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border-strong);
 }
 
 @media (max-width: 768px) {
   .pd-nav-btn {
     width: 45px;
     height: 70px;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--card-bg);
   }
   .pd-nav-btn.prev { left: 1rem; }
   .pd-nav-btn.next { right: 1rem; }
@@ -357,7 +357,7 @@
 .pd-section-text {
   font-size: 1.05rem;
   line-height: 1.85;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--text-muted);
   font-weight: 300;
 }
 
@@ -372,7 +372,7 @@
 .pd-section-list li {
   font-size: 1rem;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-muted);
   font-weight: 300;
   padding-left: 1.5rem;
   position: relative;
@@ -392,7 +392,7 @@
 /* Empty state */
 .pd-empty {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--glass-border-strong);
   padding: 2rem 0;
   font-style: italic;
 }

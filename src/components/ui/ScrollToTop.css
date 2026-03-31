@@ -7,20 +7,20 @@
   height: 56px;
   border-radius: 50%;
   background: #0a0a0a;
-  color: #fff;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px var(--glass-shadow);
+  border: 1px solid var(--glass-border-strong);
   transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
   overflow: visible;
 }
 
 .scroll-to-top:hover {
   background: #111;
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--glass-border-strong);
 }
 
 .scroll-progress-svg {
@@ -32,7 +32,7 @@
 }
 
 .scroll-progress-bg {
-  stroke: rgba(255, 255, 255, 0.05);
+  stroke: var(--glass-border-light);
 }
 
 .scroll-progress-indicator {

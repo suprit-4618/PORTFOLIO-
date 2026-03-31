@@ -1,7 +1,7 @@
 .intro-container {
   position: fixed;
   inset: 0;
-  background-color: #000;
+  background-color: var(--bg-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,13 +34,13 @@
 
 .intro-line {
   width: 2px;
-  background-color: #fff;
+  background-color: var(--text-primary);
   height: 0;
   position: absolute;
   right: -4px; /* Just outside the right edge of the text */
   top: 50%;
   transform: translateY(-50%);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 10px var(--text-muted);
   z-index: 10;
 }
 
@@ -48,7 +48,7 @@
   font-size: clamp(1.5rem, 6vw, 4rem);
   font-weight: 800;
   line-height: 1;
-  color: #fff;
+  color: var(--text-primary);
   letter-spacing: 0.15em;
   margin: 0;
   white-space: nowrap;

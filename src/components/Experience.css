@@ -18,14 +18,14 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--glass-border-light);
   transform: translateX(-50%);
 }
 
 .line-progress {
   width: 100%;
   background: linear-gradient(to bottom, transparent, #fff, transparent);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 20px var(--glass-border-strong);
 }
 
 .experience-list {
@@ -53,9 +53,9 @@
 .experience-dot {
   position: absolute;
   top: 2rem;
-  color: #fff;
+  color: var(--text-primary);
   z-index: 5;
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+  filter: drop-shadow(0 0 8px var(--text-muted));
 }
 
 .experience-item.left .experience-dot {
@@ -74,7 +74,7 @@
 
 .experience-card:hover {
   transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--glass-border-light);
 }
 
 .experience-card .card-header {
@@ -90,10 +90,10 @@
 
 .type-icon {
   padding: 12px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--glass-border-light);
   border-radius: 12px;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border-strong);
 }
 
 .date-tag {
@@ -101,7 +101,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--glass-border-strong);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -109,32 +109,32 @@
 }
 
 .status-badge {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: var(--glass-border-strong);
+  color: var(--text-primary);
   padding: 2px 8px;
   border-radius: 4px;
   margin-left: 0.75rem;
   font-size: 0.65rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--glass-border-strong);
 }
 
 .role-title {
   font-size: 1.5rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 0.25rem;
 }
 
 .company-name {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
   font-weight: 500;
 }
 
 .experience-desc {
   font-size: 1rem;
   line-height: 1.7;
-  color: #ccc;
+  color: var(--text-secondary);
   margin-bottom: 2rem;
 }
 
@@ -151,10 +151,10 @@
 .skill-tag {
   font-size: 0.75rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-muted);
   padding: 0.4rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--glass-border-light);
+  border: 1px solid var(--glass-border-strong);
   border-radius: 50px;
 }
 

@@ -7,7 +7,7 @@
   padding: 6rem 5%;
   position: relative;
   z-index: 10;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .projects-container {
@@ -21,7 +21,7 @@
 
 .projects-hint {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-muted);
   letter-spacing: 1px;
   text-transform: uppercase;
   margin-top: -1rem;
@@ -52,9 +52,9 @@
   flex-direction: column;
   justify-content: space-between;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 20px 60px rgba(0, 0, 0, 0.7),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 1px var(--glass-border),
+    0 20px 60px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-border-strong),
     0 0 30px color-mix(in srgb, var(--accent) 15%, transparent);
   transform-origin: bottom center;
   will-change: transform;
@@ -65,9 +65,9 @@
 
 .project-card:hover {
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 30px 80px rgba(0, 0, 0, 0.8),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 0 0 1px var(--glass-border-strong),
+    0 30px 80px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-border-strong),
     0 0 60px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
@@ -80,8 +80,8 @@
   height: 55%;
   background: linear-gradient(
     160deg,
-    rgba(255, 255, 255, 0.13) 0%,
-    rgba(255, 255, 255, 0.04) 40%,
+    var(--glass-border-strong) 0%,
+    var(--glass-border-light) 40%,
     transparent 100%
   );
   border-radius: 22px 22px 60% 60% / 22px 22px 40px 40px;
@@ -121,7 +121,7 @@
 }
 
 .card-arrow {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--glass-border-strong);
   transition: color 0.3s, transform 0.3s;
 }
 
@@ -143,13 +143,13 @@
   font-size: 1.75rem;
   font-weight: 800;
   letter-spacing: -0.5px;
-  color: #fff;
+  color: var(--text-primary);
   line-height: 1.1;
 }
 
 .card-subtitle {
   font-size: 0.9rem;
-  color: #888;
+  color: var(--text-tertiary);
   line-height: 1.5;
 }
 
@@ -165,17 +165,17 @@
   font-weight: 600;
   padding: 0.3rem 0.75rem;
   border-radius: 50px;
-  border: 1px solid var(--accent, rgba(255,255,255,0.2));
-  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--accent, var(--glass-border-strong));
+  color: var(--text-muted);
   letter-spacing: 0.5px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--glass-border-light);
 }
 
 /* ── Modal Overlay ─────────────────────────────────────────── */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: var(--glass-shadow);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   z-index: 1000;
@@ -186,7 +186,7 @@
 }
 
 .modal-card {
-  background: rgba(12, 15, 22, 0.98);
+  background: var(--nav-bg);
   border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
   border-radius: 24px;
   padding: 3rem;
@@ -196,8 +196,8 @@
   overflow-y: auto;
   position: relative;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 40px 100px rgba(0, 0, 0, 0.8),
+    0 0 0 1px var(--glass-border),
+    0 40px 100px var(--glass-shadow),
     0 0 60px color-mix(in srgb, var(--accent) 20%, transparent);
   scrollbar-width: thin;
   scrollbar-color: var(--accent) transparent;
@@ -207,9 +207,9 @@
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--glass-border);
   border: none;
-  color: #aaa;
+  color: var(--text-tertiary);
   border-radius: 50%;
   width: 36px;
   height: 36px;
@@ -221,8 +221,8 @@
 }
 
 .modal-close:hover {
-  background: rgba(255, 255, 255, 0.14);
-  color: #fff;
+  background: var(--glass-border-strong);
+  color: var(--text-primary);
 }
 
 .modal-index {
@@ -236,13 +236,13 @@
 .modal-title {
   font-size: 2.2rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .modal-subtitle {
   font-size: 1rem;
-  color: #888;
+  color: var(--text-tertiary);
   margin-bottom: 1.5rem;
 }
 
@@ -255,7 +255,7 @@
 
 .modal-description {
   font-size: 0.95rem;
-  color: #bbb;
+  color: var(--text-secondary);
   line-height: 1.8;
   margin-bottom: 0;
 }
@@ -263,7 +263,7 @@
 .modal-section {
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--glass-border-light);
 }
 
 .modal-section:last-of-type {
@@ -288,7 +288,7 @@
 
 .modal-list li {
   font-size: 0.9rem;
-  color: #bbb;
+  color: var(--text-secondary);
   line-height: 1.6;
   padding-left: 1rem;
   position: relative;
@@ -316,20 +316,20 @@
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  color: #ccc;
+  border: 1.5px solid var(--glass-border-strong);
+  color: var(--text-secondary);
   transition: all 0.2s ease;
 }
 
 .modal-link:hover {
   border-color: var(--accent);
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .modal-link.primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: #000;
+  color: var(--bg-color);
 }
 
 .modal-link.primary:hover {

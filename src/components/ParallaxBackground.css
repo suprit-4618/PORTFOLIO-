@@ -6,7 +6,7 @@
     height: 100vh;
     overflow: hidden;
     z-index: -10;
-    background: #000;
+    background: var(--bg-color);
 }
 
 .parallax-static-layer {

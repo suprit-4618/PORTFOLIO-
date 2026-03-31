@@ -23,7 +23,7 @@
 
 .skills-hint {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
   letter-spacing: 3px;
   text-transform: uppercase;
   margin-top: 1rem;
@@ -56,7 +56,7 @@
   /* Individual box look with distance between them */
   opacity: 1;
   background: #080808; 
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
   transform: scale(1);
   border-radius: 12px;
   overflow: hidden;
@@ -110,7 +110,7 @@
   font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--text-primary);
   text-align: center;
   opacity: var(--glow, 0);
   transition: opacity 0.3s ease;

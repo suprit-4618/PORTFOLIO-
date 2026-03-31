@@ -26,17 +26,17 @@
 .cert-card {
   position: relative;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--glass-border-light);
+  border: 1px solid var(--glass-border);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   height: 100%;
 }
 
 .cert-card:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--glass-border-light);
   border-color: var(--cert-accent);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(var(--cert-accent), 0.1);
+  box-shadow: 0 10px 40px var(--glass-shadow), 0 0 20px rgba(var(--cert-accent), 0.1);
 }
 
 .cert-card-inner {
@@ -57,9 +57,9 @@
 
 .cert-logo-wrapper {
   padding: 12px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--glass-border-light);
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,7 +74,7 @@
 
 .cert-company-name {
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -88,7 +88,7 @@
 .cert-title {
   font-size: 1.35rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--text-primary);
   line-height: 1.4;
   margin: 0;
 }
@@ -102,10 +102,10 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.6rem 1.25rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--glass-border-light);
+  border: 1px solid var(--glass-border-strong);
   border-radius: 50px;
-  color: #fff;
+  color: var(--text-primary);
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 600;
@@ -113,8 +113,8 @@
 }
 
 .view-cert-btn:hover {
-  background: #fff;
-  color: #000;
+  background: var(--text-primary);
+  color: var(--bg-color);
 }
 
 .cert-card.company-card {
@@ -124,14 +124,14 @@
 
 .cert-description {
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--glass-border-strong);
   line-height: 1.6;
   margin-top: 0.5rem;
 }
 
 .cert-count {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--glass-border-strong);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
