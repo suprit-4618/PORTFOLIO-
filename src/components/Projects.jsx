@@ -11,6 +11,7 @@ const PROJECTS = [
     id: 1,
     title: 'Janisa',
     subtitle: 'Holographic AI Interface',
+    bgImage: '/projects/bgs/janisa_bg.png',
     tech: ['Three.js', 'WebGL', 'MediaPipe Hands', 'JavaScript'],
     accent: '#00dcc8',
     github: 'https://github.com/suprit-4618/janisa-hologram',
@@ -36,6 +37,7 @@ const PROJECTS = [
     id: 2,
     title: 'Crypto Airflow',
     subtitle: 'Automated ETL Pipeline',
+    bgImage: '/projects/bgs/crypto_airflow_bg.png',
     tech: ['Apache Airflow', 'dbt', 'PostgreSQL', 'Docker', 'Python'],
     accent: '#7c6af7',
     github: 'https://github.com/suprit-4618/crypto-airflow-dbt-pipeline',
@@ -58,6 +60,7 @@ const PROJECTS = [
     id: 3,
     title: 'Friday',
     subtitle: 'Personal AI Agent',
+    bgImage: '/projects/bgs/friday_bg.png',
     tech: ['Groq', 'FastAPI', 'Electron', 'React', 'Picovoice', 'Playwright'],
     accent: '#00d2ff',
     github: 'https://github.com/suprit-4618/FRIDAY',
@@ -83,6 +86,7 @@ const PROJECTS = [
     id: 4,
     title: 'AgriVerseAI',
     subtitle: 'Smart AI Agriculture',
+    bgImage: '/projects/bgs/agriverseai_bg.png',
     tech: ['TensorFlow', 'FastAPI', 'OpenCV', 'MobileNetV2'],
     accent: '#6af78a',
     github: null,
@@ -115,6 +119,7 @@ const PROJECTS = [
     id: 5,
     title: 'AI Semantic Search',
     subtitle: 'Vector-Powered Retrieval',
+    bgImage: '/projects/bgs/semantic_search_bg.png',
     tech: ['Python', 'SentenceTransformers', 'Endee', 'PyTorch'],
     accent: '#f76ab4',
     github: 'https://github.com/suprit-4618/ai-semantic-search-endee',
@@ -189,6 +194,15 @@ const Projects = () => {
                 whileHover={{ scale: 1.07, zIndex: 20, transition: { type: 'spring', stiffness: 200, damping: 22 } }}
                 onClick={() => setSelected(project)}
               >
+                {/* Background Image */}
+                <div 
+                  className="card-image" 
+                  style={{ backgroundImage: `url(${project.bgImage})` }} 
+                />
+                
+                {/* Translucent Overlay */}
+                <div className="card-overlay" />
+
                 {/* Glossy sheen */}
                 <div className="card-gloss" />
 
