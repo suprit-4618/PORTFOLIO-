@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { Briefcase, GraduationCap, Calendar, Circle } from 'lucide-react';
 import './Experience.css';
 
@@ -29,6 +29,21 @@ const EXPERIENCE_DATA = [
 ];
 
 const Experience = () => {
+  const containerRef = React.useRef(null);
+  
+  // Track scroll progress within the container
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end end"]
+  });
+
+  // Snappier spring for a "liquid" feel without the lag
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 200,
+    damping: 40,
+    restDelta: 0.001
+  });
+
   return (
     <section id="experience" className="experience-section">
       <div className="experience-container">
@@ -42,14 +57,15 @@ const Experience = () => {
           My <span className="highlight">Journey</span>
         </motion.h2>
 
-        <div className="timeline-wrapper">
+        <div className="timeline-wrapper" ref={containerRef}>
           <div className="timeline-line">
             <motion.div
               className="line-progress"
-              initial={{ height: 0 }}
-              whileInView={{ height: '100%' }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.5, ease: "easeInOut" }}
+              style={{ 
+                scaleY,
+                originY: 0,
+                height: '100%' 
+              }}
             />
           </div>
 
@@ -58,10 +74,16 @@ const Experience = () => {
               <motion.div
                 key={item.id}
                 className={`experience-item ${index % 2 === 0 ? 'left' : 'right'}`}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -60 : 60 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
+                exit={{ opacity: 0, x: index % 2 === 0 ? -60 : 60, scale: 0.8 }}
+                viewport={{ once: false, amount: 0.1, margin: "-10%" }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 120, 
+                  damping: 18,
+                  delay: 0 // Removed delay for instant feedback
+                }}
               >
                 <div className="experience-dot">
                   <Circle size={12} fill="currentColor" />
