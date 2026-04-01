@@ -142,9 +142,6 @@ const Contact = () => {
         </motion.div>
       </motion.div>
 
-      <footer className="sleek-footer">
-        <p>© 2026 SUPRIT L. Hope it was good .</p>
-      </footer>
     </section>
   );
 };

@@ -11,6 +11,7 @@ import Publications from './components/Publications';
 import Contact from './components/ContactSleek';
 import CustomCursor from './components/CustomCursor';
 import Intro from './components/Intro';
+import Footer from './components/Footer';
 import ScrollToTop from './components/ui/ScrollToTop';
 import Lenis from 'lenis';
 import { Analytics } from '@vercel/analytics/react';
@@ -208,6 +209,7 @@ function App() {
               <Publications />
               <Certificates />
               <Contact />
+              <Footer />
               <ScrollToTop />
               <CustomCursor />
             </motion.div>
