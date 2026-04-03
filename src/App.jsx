@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useScroll, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Mail, ArrowRight, FileDown, Menu, X } from 'lucide-react';
-import ParallaxBackground from './components/ParallaxBackground';
+import LiquidBackground from './components/LiquidBackground';
 import About from './components/About';
 import Projects from './components/Projects';
 import Skills from './components/Skills';
@@ -11,6 +11,7 @@ import Publications from './components/Publications';
 import Contact from './components/ContactSleek';
 import CustomCursor from './components/CustomCursor';
 import Intro from './components/Intro';
+import BulgeText from './components/BulgeText';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ui/ScrollToTop';
 import Lenis from 'lenis';
@@ -96,7 +97,7 @@ function App() {
             {/* --- Hero Wrapper --- */}
             <div className="hero-section-wrapper" style={{ position: 'relative', height: '100vh', display: 'flex', flexDirection: 'column' }}>
               
-              <ParallaxBackground />
+              <LiquidBackground />
 
               {/* OVERLAY FOR PERFECT SETTLE EFFECT */}
               <motion.div
@@ -164,13 +165,14 @@ function App() {
             <main className="hero-section">
               <div className="hero-content-wrapper">
                 <div className="hero-content">
-                  <motion.h1 
-                    className="hero-title"
-                    layoutId="hero-name"
-                    transition={{ duration: 0.8, ease: "easeOut" }}
+                  <motion.div 
+                    className="hero-title-container"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8, duration: 1 }}
                   >
-                    SUPRIT L
-                  </motion.h1>
+                    <BulgeText text="SUPRIT L" />
+                  </motion.div>
                   <motion.p className="hero-tagline" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9, duration: 1 }}>AI & DATA SCIENCE ENGINEER</motion.p>
                   
                   <motion.div className="btn-group" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9, duration: 1 }}>
