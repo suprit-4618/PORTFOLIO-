@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Github, ExternalLink, X } from 'lucide-react';
 import ProjectDetail from './ProjectDetail';
 import './Projects.css';
@@ -154,7 +154,80 @@ const getFanTransform = (index, total, isHovered) => {
   return { rotate, translateX, translateY };
 };
 
-// ─── Component ────────────────────────────────────────────────────
+// ─── Individual 3D Card Component ─────────────────────────────
+const ProjectCard = ({ project, index, total, deckHovered, onClick }) => {
+  const { rotate: fanRotate, translateX: fanX, translateY: fanY } = getFanTransform(index, total, deckHovered);
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['15deg', '-15deg']);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-15deg', '15deg']);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      className="project-card"
+      style={{ 
+        '--accent': project.accent, 
+        zIndex: index + 1,
+        rotateX: deckHovered ? rotateX : 0,
+        rotateY: deckHovered ? rotateY : 0,
+        transformStyle: 'preserve-3d'
+      }}
+      animate={{ rotate: fanRotate, x: fanX, y: fanY }}
+      transition={{ type: 'spring', stiffness: 140, damping: 20, mass: 1.4 }}
+      whileHover={{ scale: 1.07, zIndex: 20 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={() => onClick(project)}
+    >
+      <div style={{ transform: 'translateZ(50px)', transformStyle: 'preserve-3d', height: '100%', display: 'flex', flexDirection: 'column', pointerEvents: 'none' }}>
+        {/* Background Image */}
+        <div 
+          className="card-image" 
+          style={{ backgroundImage: `url(${project.bgImage})`, transform: 'translateZ(-10px)' }} 
+        />
+        
+        {/* Translucent Overlay */}
+        <div className="card-overlay" style={{ transform: 'translateZ(0px)' }} />
+
+        {/* Glossy sheen */}
+        <div className="card-gloss" style={{ transform: 'translateZ(30px)' }} />
+
+        {/* Glow border accent */}
+        <div className="card-glow" style={{ borderColor: project.accent, transform: 'translateZ(40px)' }} />
+
+        {/* Card content */}
+        <div className="card-body" style={{ transform: 'translateZ(60px)' }}>
+          <h3 className="card-title">{project.title}</h3>
+          <p className="card-subtitle">{project.subtitle}</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+// ─── Main Component ───────────────────────────────────────────────
 const Projects = () => {
   const [deckHovered, setDeckHovered] = useState(false);
   const [selected, setSelected] = useState(null);
@@ -181,42 +254,16 @@ const Projects = () => {
           onMouseEnter={() => setDeckHovered(true)}
           onMouseLeave={() => setDeckHovered(false)}
         >
-          {PROJECTS.map((project, index) => {
-            const { rotate, translateX, translateY } = getFanTransform(index, total, deckHovered);
-
-            return (
-              <motion.div
-                key={project.id}
-                className="project-card"
-                style={{ '--accent': project.accent, zIndex: index + 1 }}
-                animate={{ rotate, x: translateX, y: translateY }}
-                transition={{ type: 'spring', stiffness: 140, damping: 20, mass: 1.4, restDelta: 0.001 }}
-                whileHover={{ scale: 1.07, zIndex: 20, transition: { type: 'spring', stiffness: 200, damping: 22 } }}
-                onClick={() => setSelected(project)}
-              >
-                {/* Background Image */}
-                <div 
-                  className="card-image" 
-                  style={{ backgroundImage: `url(${project.bgImage})` }} 
-                />
-                
-                {/* Translucent Overlay */}
-                <div className="card-overlay" />
-
-                {/* Glossy sheen */}
-                <div className="card-gloss" />
-
-                {/* Glow border accent */}
-                <div className="card-glow" style={{ borderColor: project.accent }} />
-
-                {/* Card content */}
-                <div className="card-body">
-                  <h3 className="card-title">{project.title}</h3>
-                  <p className="card-subtitle">{project.subtitle}</p>
-                </div>
-              </motion.div>
-            );
-          })}
+          {PROJECTS.map((project, index) => (
+            <ProjectCard 
+              key={project.id}
+              project={project}
+              index={index}
+              total={total}
+              deckHovered={deckHovered}
+              onClick={setSelected}
+            />
+          ))}
         </div>
       </motion.div>
 
