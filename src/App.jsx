@@ -11,7 +11,6 @@ import Publications from './components/Publications';
 import Contact from './components/ContactSleek';
 import CustomCursor from './components/CustomCursor';
 import Intro from './components/Intro';
-import BulgeText from './components/BulgeText';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ui/ScrollToTop';
 import Lenis from 'lenis';
@@ -99,6 +98,25 @@ function App() {
               
               <LiquidBackground />
 
+              {/* HERO IMAGE BACKGROUND LAYER */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.5 }}
+                transition={{ delay: 1, duration: 2 }}
+                className="hero-background-image"
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundImage: 'url(/parallax/matte_bg.png)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  zIndex: -1,
+                  filter: 'brightness(0.7) contrast(1.1)',
+                  pointerEvents: 'none'
+                }}
+              />
+
               {/* OVERLAY FOR PERFECT SETTLE EFFECT */}
               <motion.div
                 initial={{ opacity: 1 }}
@@ -167,11 +185,14 @@ function App() {
                 <div className="hero-content">
                   <motion.div 
                     className="hero-title-container"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8, duration: 1 }}
                   >
-                    <BulgeText text="SUPRIT L" />
+                    <motion.h1 
+                      className="hero-title"
+                      layoutId="hero-name"
+                      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      SUPRIT L
+                    </motion.h1>
                   </motion.div>
                   <motion.p className="hero-tagline" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9, duration: 1 }}>AI & DATA SCIENCE ENGINEER</motion.p>
                   

@@ -19,15 +19,16 @@ const LiquidBackground = () => {
         observerRef.current.observe(containerRef.current);
 
         const scene = new THREE.Scene();
-        const width = window.innerWidth;
-        const height = window.innerHeight;
+        const width = containerRef.current.clientWidth;
+        const height = containerRef.current.clientHeight;
         
         const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
         camera.position.z = 1;
 
         const renderer = new THREE.WebGLRenderer({ 
             canvas: canvasRef.current,
-            antialias: true 
+            antialias: true,
+            alpha: true
         });
         renderer.setSize(width, height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));

@@ -123,6 +123,7 @@ const BulgeText = ({ text = "SUPRIT L" }) => {
 
     // --- Dynamic Scaling ---
     const handleResize = () => {
+        if (!containerRef.current) return;
         const w = containerRef.current.clientWidth;
         const h = 200;
         renderer.setSize(w, h);
