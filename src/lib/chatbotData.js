@@ -4,8 +4,8 @@ export const CHATBOT_CONFIG = {
   quickQuestions: [
     "What are your core skills?",
     "Tell me about your AI projects.",
-    "Which technologies do you specialize in?",
-    "How can I contact you?"
+    "Where is your internship?",
+    "Tell me about your research."
   ]
 };
 
@@ -37,6 +37,18 @@ export const KNOWLEDGE_BASE = [
   {
     keywords: ["crypto", "airflow"],
     response: "Crypto Airflow is an automated ETL pipeline that fetches live crypto prices every 5 minutes and transforms them using dbt for analytics-ready PostgreSQL tables."
+  },
+  {
+    keywords: ["experience", "intern", "internship", "tap academy", "work"],
+    response: "Suprit is currently a Full Stack Web Development Intern at TAP Academy in Bengaluru, gaining hands-on experience with Java, React, and SQL. He's also a Student Innovator at K-tech (NAIN) in Belagavi, developing a smart reverse vending system involving embedded hardware!"
+  },
+  {
+    keywords: ["publication", "paper", "journal", "research"],
+    response: "Suprit has published a research paper titled 'AGRIVERSEAI – SMART AGRICULTURAL WEB APPLICATION FOR KARNATAKA PEOPLE' in the IRJMETS Journal. It focuses on a bilingual voice assistant for farmers using NLP."
+  },
+  {
+    keywords: ["education", "degree", "college", "university", "study", "btech"],
+    response: "Suprit is pursuing his B.Tech in AI & Data Science. He is based in Karnataka, India, and is highly active in institutional innovation teams."
   },
   {
     keywords: ["contact", "email", "linkedin", "hire", "reach"],
