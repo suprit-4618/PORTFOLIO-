@@ -11,6 +11,7 @@ import Publications from './components/Publications';
 import Contact from './components/ContactSleek';
 import CustomCursor from './components/CustomCursor';
 import Intro from './components/Intro';
+import ChatBot from './components/ChatBot';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ui/ScrollToTop';
 import Lenis from 'lenis';
@@ -235,6 +236,7 @@ function App() {
               <Footer />
               <ScrollToTop />
               <CustomCursor />
+              <ChatBot />
             </motion.div>
           </motion.div>
         )}
