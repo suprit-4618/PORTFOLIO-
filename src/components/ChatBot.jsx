@@ -74,7 +74,12 @@ const ChatBot = () => {
             </div>
 
             {/* Messages */}
-            <div className="chat-messages">
+            <div 
+              className="chat-messages"
+              onWheel={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+              data-lenis-prevent="true"
+            >
               {messages.map((msg) => (
                 <div key={msg.id} className={`message ${msg.sender}`}>
                   {msg.text}
