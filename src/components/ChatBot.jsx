@@ -91,17 +91,19 @@ const ChatBot = () => {
             </div>
 
             {/* Quick Actions */}
-            <div className="quick-questions">
-              {CHATBOT_CONFIG.quickQuestions.map((q, i) => (
-                <button 
-                  key={i} 
-                  className="quick-btn"
-                  onClick={() => handleSend(q)}
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
+            {messages.length === 1 && (
+              <div className="quick-questions">
+                {CHATBOT_CONFIG.quickQuestions.map((q, i) => (
+                  <button 
+                    key={i} 
+                    className="quick-btn"
+                    onClick={() => handleSend(q)}
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            )}
 
             {/* Input */}
             <div className="chat-input-wrapper">
