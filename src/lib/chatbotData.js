@@ -11,7 +11,7 @@ export const CHATBOT_CONFIG = {
 
 export const KNOWLEDGE_BASE = [
   {
-    keywords: ["who", "suprit", "you", "about"],
+    keywords: ["who", "suprit", "introduction", "background", "yourself"],
     response: "Suprit L is an AI & Data Science Engineer with a deep fascination for space exploration and defense systems. He focuses on building intelligent solutions and contributing to open-source projects."
   },
   {
@@ -74,7 +74,8 @@ export const getResponse = (input) => {
   KNOWLEDGE_BASE.forEach(entry => {
     let overlap = 0;
     entry.keywords.forEach(keyword => {
-      if (lowercaseInput.includes(keyword)) {
+      const regex = new RegExp(`\\b${keyword}\\b`, 'i');
+      if (regex.test(lowercaseInput)) {
         overlap++;
       }
     });
