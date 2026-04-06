@@ -191,6 +191,7 @@ function App() {
                       className="hero-title"
                       layoutId="hero-name"
                       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                      style={{ willChange: "transform, opacity, filter", transformOrigin: "left center" }}
                     >
                       SUPRIT L
                     </motion.h1>
