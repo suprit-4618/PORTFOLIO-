@@ -26,6 +26,24 @@ const ChatBot = () => {
     }
   }, [messages, isOpen]);
 
+  const windowRef = useRef(null);
+  
+  useEffect(() => {
+    const el = windowRef.current;
+    if (!el) return;
+
+    const stopPropagation = (e) => e.stopPropagation();
+
+    // Native event listener ensures it runs before/alongside Lenis and stops propagation perfectly
+    el.addEventListener('wheel', stopPropagation, { passive: false });
+    el.addEventListener('touchmove', stopPropagation, { passive: false });
+
+    return () => {
+      el.removeEventListener('wheel', stopPropagation);
+      el.removeEventListener('touchmove', stopPropagation);
+    };
+  }, [isOpen]);
+
   const handleSend = async (text) => {
     if (!text.trim()) return;
 
@@ -52,6 +70,7 @@ const ChatBot = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={windowRef}
             initial={{ opacity: 0, scale: 0.8, y: 20, x: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20, x: 20 }}
