@@ -21,6 +21,15 @@ import './index.css';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
+  const [showBelowFold, setShowBelowFold] = useState(false);
+
+  useEffect(() => {
+    if (!showIntro) {
+      const timer = setTimeout(() => setShowBelowFold(true), 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [showIntro]);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.5,
@@ -191,7 +200,7 @@ function App() {
                       className="hero-title"
                       layoutId="hero-name"
                       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                      style={{ willChange: "transform, opacity, filter", transformOrigin: "left center" }}
+                      style={{ willChange: "transform, opacity", transformOrigin: "left center" }}
                     >
                       SUPRIT L
                     </motion.h1>
@@ -222,23 +231,25 @@ function App() {
             </main>
             </div> {/* End Hero Wrapper */}
 
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              transition={{ delay: 1, duration: 1.5 }}
-            >
-              <About />
-              <Experience />
-              <Skills />
-              <Projects />
-              <Publications />
-              <Certificates />
-              <Contact />
-              <Footer />
-              <ScrollToTop />
-              <CustomCursor />
-              <ChatBot />
-            </motion.div>
+            {showBelowFold && (
+              <motion.div 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                transition={{ duration: 1.5 }}
+              >
+                <About />
+                <Experience />
+                <Skills />
+                <Projects />
+                <Publications />
+                <Certificates />
+                <Contact />
+                <Footer />
+                <ScrollToTop />
+                <CustomCursor />
+                <ChatBot />
+              </motion.div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

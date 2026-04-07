@@ -26,7 +26,7 @@ const Intro = ({ onFinish }) => {
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-              style={{ willChange: "transform, opacity, filter", transformOrigin: "left center" }}
+              style={{ willChange: "transform, opacity", transformOrigin: "left center" }}
             >
               SUPRIT L
             </motion.h1>
