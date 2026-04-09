@@ -280,6 +280,32 @@ const SKILLS = [
       </p>
     )
   },
+  { 
+    name: 'Firebase', 
+    category: 'Tools', 
+    slug: 'firebase',
+    description: 'BaaS & Auth',
+    content: () => (
+      <p>
+        I use Firebase for rapid backend development, specifically for 
+        Authentication, Real-time Databases, and Cloud Functions, 
+        ensuring secure and scalable user management.
+      </p>
+    )
+  },
+  { 
+    name: 'Render', 
+    category: 'Tools', 
+    slug: 'render',
+    description: 'Cloud Hosting',
+    content: () => (
+      <p>
+        Render is my choice for hosting full-stack applications and 
+        background services. Its seamless deployment and zero-downtime 
+        updates make it a reliable partner for production code.
+      </p>
+    )
+  },
 ];
 
 const CATEGORY_COLORS = {

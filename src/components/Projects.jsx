@@ -87,10 +87,10 @@ const PROJECTS = [
     title: 'AgriVerseAI',
     subtitle: 'Smart AI Agriculture',
     bgImage: '/projects/bgs/agriverseai_bg.png',
-    tech: ['TensorFlow', 'FastAPI', 'OpenCV', 'MobileNetV2'],
+    tech: ['TensorFlow', 'FastAPI', 'OpenCV', 'MobileNetV2', 'Firebase', 'Render'],
     accent: '#6af78a',
-    github: null,
-    live: null,
+    github: 'https://github.com/suprit-4618/AgriVerseAI',
+    live: 'https://agriverseai-six.vercel.app',
     gallery: [
       '/projects/agriverseai/Screenshot 2026-03-20 165701.png',
       '/projects/agriverseai/Screenshot 2026-03-20 165721.png',
@@ -101,8 +101,8 @@ const PROJECTS = [
       '/projects/agriverseai/Screenshot 2026-03-20 165821.png',
       '/projects/agriverseai/Screenshot 2026-03-20 165830.png'
     ],
-    brief: 'A bilingual (Kannada & English), voice-activated smart agriculture assistant that provides real-time crop disease detection, weather insights, and market price tracking for farmers using advanced NLP.',
-    howItWorks: 'The platform integrates Google Speech-to-Text and Gemini 2.0/2.5 Pro APIs for natural language understanding. It uses a MobileNetV2-based CNN model for crop disease detection and is built with a React.js/Flutter frontend and a Python (FastAPI) backend.',
+    brief: 'A bilingual (Kannada & English), voice-activated smart agriculture assistant that provides real-time crop disease detection, weather insights, and market price tracking. Now live and helping farmers optimize their yields with AI-driven insights.',
+    howItWorks: 'The platform integrates Google Speech-to-Text and Gemini 2.0/2.5 Pro APIs for natural language understanding. It uses a MobileNetV2-based CNN model for crop disease detection and is built with a React.js frontend and a Python (FastAPI) backend deployed on Render/Vercel.',
     why: 'Developed to bridge the digital literacy gap for rural farmers in Karnataka by providing a voice-first, localized interface for critical agricultural decision-making.',
     problemSolves: [
       'Overcomes language barriers with bilingual voice support',

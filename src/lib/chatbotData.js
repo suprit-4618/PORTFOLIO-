@@ -16,7 +16,7 @@ export const KNOWLEDGE_BASE = [
   },
   {
     keywords: ["skills", "tech", "technologies", "stack", "languages"],
-    response: "Suprit specializes in AI/ML (TensorFlow, PyTorch), Python, Java, and Big Data (PySpark). He's also proficient in Backend (FastAPI, SQL/NoSQL), DevOps (Docker, CI/CD), and 3D Graphics (Three.js, WebGL)."
+    response: "Suprit specializes in AI/ML (TensorFlow, PyTorch), Python, Java, and Big Data (PySpark). He's also proficient in Backend (FastAPI, Firebase, Render), DevOps (Docker, CI/CD), and 3D Graphics (Three.js, WebGL)."
   },
   {
     keywords: ["projects", "work", "portfolio"],
@@ -32,7 +32,7 @@ export const KNOWLEDGE_BASE = [
   },
   {
     keywords: ["agriverse", "agriculture"],
-    response: "AgriVerseAI is a bilingual (Kannada & English) assistant for farmers. It providing real-time crop disease detection and weather insights using Gemini 2.0 and MobileNetV2."
+    response: "AgriVerseAI is a bilingual (Kannada & English) assistant for farmers. It provides real-time crop disease detection and weather insights using Gemini 2.0 and MobileNetV2. It's now live and helping farmers optimize their process!"
   },
   {
     keywords: ["crypto", "airflow"],
@@ -66,7 +66,7 @@ export const KNOWLEDGE_BASE = [
 
 export const getResponse = (input) => {
   const lowercaseInput = input.toLowerCase();
-  
+
   // Find the best match based on keywords
   let bestMatch = null;
   let maxOverlap = 0;
@@ -90,5 +90,5 @@ export const getResponse = (input) => {
     return bestMatch.response;
   }
 
-  return "That's an interesting question! I don't have a specific answer for that, but you can definitely ask Suprit directly through the contact section below.";
+  return "I don't have a specific answer for that, but you can definitely ask Suprit directly through the contact section below.";
 };
