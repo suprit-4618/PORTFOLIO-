@@ -224,7 +224,7 @@ const ProjectDetail = ({ project, onClose }) => {
                     {sec.content.map((img, idx) => (
                       <motion.div 
                         key={idx}
-                        className="pd-gallery-item glass-panel"
+                        className="pd-gallery-item"
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         transition={{ delay: idx * 0.1 }}
