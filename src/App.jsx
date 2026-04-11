@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, useScroll, AnimatePresence } from 'framer-motion';
+import { motion, useMotionValue, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Mail, ArrowRight, FileDown, Menu, X } from 'lucide-react';
 import LiquidBackground from './components/LiquidBackground';
 import About from './components/About';
@@ -60,14 +60,7 @@ function App() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Smooth out the mouse movement
-  const springConfig = { damping: 25, stiffness: 200, mass: 0.5 };
-  const smoothMouseX = useSpring(mouseX, springConfig);
-  const smoothMouseY = useSpring(mouseY, springConfig);
 
-  // Map mouse position to parallax offset for hero text
-  const parallaxX = useTransform(smoothMouseX, [-0.5, 0.5], [-30, 30]);
-  const parallaxY = useTransform(smoothMouseY, [-0.5, 0.5], [-30, 30]);
 
   // Use a ref to track if an animation frame is already requested
   const rafRef = React.useRef();
@@ -88,7 +81,6 @@ function App() {
     });
   };
 
-  const { scrollY } = useScroll();
 
   return (
     <>

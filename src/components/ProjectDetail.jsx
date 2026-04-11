@@ -55,15 +55,15 @@ const ProjectDetail = ({ project, onClose }) => {
   const [selectedIdx, setSelectedIdx] = React.useState(null);
   const gallery = project?.gallery || [];
 
-  const handleNext = (e) => {
-    e.stopPropagation();
+  const handleNext = React.useCallback((e) => {
+    if (e) e.stopPropagation();
     setSelectedIdx((prev) => (prev + 1) % gallery.length);
-  };
+  }, [gallery.length]);
 
-  const handlePrev = (e) => {
-    e.stopPropagation();
+  const handlePrev = React.useCallback((e) => {
+    if (e) e.stopPropagation();
     setSelectedIdx((prev) => (prev - 1 + gallery.length) % gallery.length);
-  };
+  }, [gallery.length]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -77,7 +77,7 @@ const ProjectDetail = ({ project, onClose }) => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedIdx, gallery.length]);
+  }, [selectedIdx, gallery.length, handleNext, handlePrev]);
 
   // Lock body scroll while open
   useEffect(() => {

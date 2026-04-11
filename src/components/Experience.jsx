@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { Briefcase, GraduationCap, Calendar, Circle } from 'lucide-react';
 import './Experience.css';

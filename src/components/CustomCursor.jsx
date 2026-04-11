@@ -4,7 +4,6 @@ import { motion, useMotionValue, useSpring } from 'framer-motion';
 const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [cursorType, setCursorType] = useState('default'); // 'default' or 'magnetic'
-  const [targetRect, setTargetRect] = useState(null);
   const targetRef = React.useRef(null);
 
   const mouseX = useMotionValue(0);
@@ -27,14 +26,11 @@ const CustomCursor = () => {
       
       targetRef.current = target;
       if (target) {
-        const newRect = target.getBoundingClientRect();
         setIsHovering(true);
         setCursorType('magnetic');
-        setTargetRect(newRect);
       } else {
         setIsHovering(false);
         setCursorType('default');
-        setTargetRect(null);
       }
     };
 
@@ -45,7 +41,7 @@ const CustomCursor = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
     };
-  }, []);
+  }, [mouseX, mouseY]);
 
   // Smaller, subtler halo
   const haloSize = isHovering ? 35 : 20;

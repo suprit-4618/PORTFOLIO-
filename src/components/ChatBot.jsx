@@ -14,6 +14,7 @@ const ChatBot = () => {
   const [hasNewMessage, setHasNewMessage] = useState(true);
   
   const messagesEndRef = useRef(null);
+  const nextId = useRef(2); // Start from 2 since greet message is 1
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -22,7 +23,6 @@ const ChatBot = () => {
   useEffect(() => {
     if (isOpen) {
       scrollToBottom();
-      setHasNewMessage(false);
     }
   }, [messages, isOpen]);
 
@@ -47,7 +47,7 @@ const ChatBot = () => {
   const handleSend = async (text) => {
     if (!text.trim()) return;
 
-    const userMessage = { id: Date.now(), text, sender: 'user' };
+    const userMessage = { id: nextId.current++, text, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
     setInputText('');
     setIsTyping(true);
@@ -55,7 +55,7 @@ const ChatBot = () => {
     // Simulate AI thinking time
     setTimeout(() => {
       const botResponse = getResponse(text);
-      const botMessage = { id: Date.now() + 1, text: botResponse, sender: 'bot' };
+      const botMessage = { id: nextId.current++, text: botResponse, sender: 'bot' };
       setMessages(prev => [...prev, botMessage]);
       setIsTyping(false);
     }, 1000);
@@ -153,7 +153,13 @@ const ChatBot = () => {
 
       <motion.button
         className="chatbot-toggle"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          const nextState = !isOpen;
+          setIsOpen(nextState);
+          if (nextState) {
+            setHasNewMessage(false);
+          }
+        }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >

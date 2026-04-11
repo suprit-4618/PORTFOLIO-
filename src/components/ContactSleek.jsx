@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import { Mail, Github, Linkedin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import ParticleText from './ParticleText';
@@ -75,7 +75,7 @@ const Contact = () => {
             <ParticleText text="Let's Connect" />
           </motion.div>
           <motion.p variants={itemVariants} className="sleek-subtitle">
-            Have a project in mind or just want to say hi? I'm always open to new opportunities.
+            Have a project in mind or just want to say hi? I&apos;m always open to new opportunities.
           </motion.p>
         </header>
 
@@ -111,7 +111,7 @@ const Contact = () => {
 
             <motion.div className="sleek-input-group" variants={itemVariants}>
               <label>Message</label>
-              <textarea name="message" rows="5" placeholder="What's on your mind?" required></textarea>
+              <textarea name="message" rows="5" placeholder="What&apos;s on your mind?" required></textarea>
             </motion.div>
 
             <motion.button

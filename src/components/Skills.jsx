@@ -67,7 +67,7 @@ const SKILLS = [
     content: () => (
       <p>
         I specialize in integrating AI to solve real-world problems. 
-        Whether it's natural language processing or custom generative models, 
+        Whether it&apos;s natural language processing or custom generative models, 
         I aim to build systems that automate and enhance human capabilities.
       </p>
     )
@@ -236,7 +236,7 @@ const SKILLS = [
     content: () => (
       <p>
         Three.js allows me to bring 3D experiences to the browser. 
-        Whether it's a creative portfolio or a complex visualization, 
+        Whether it&apos;s a creative portfolio or a complex visualization, 
         I use it to push the boundaries of traditional web UI.
       </p>
     )
@@ -275,7 +275,7 @@ const SKILLS = [
     content: () => (
       <p>
         Beyond the web, I explore real-time graphics with Unreal Engine. 
-        It's my tool for high-fidelity 3D environments, VR experiences, 
+        It&apos;s my tool for high-fidelity 3D environments, VR experiences, 
         and professional simulations.
       </p>
     )

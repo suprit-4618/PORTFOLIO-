@@ -52,10 +52,10 @@ const About = () => {
           <motion.div variants={itemVariants} className="about-text">
             <h3 className="greeting">Hello! </h3>
             <p>
-              I’m an AI & Data Science Engineer with a deep fascination for space exploration and defense systems. My work focuses on building intelligent solutions and contributing to open-source projects that push the boundaries of technology.
+              I&apos;m an AI & Data Science Engineer with a deep fascination for space exploration and defense systems. My work focuses on building intelligent solutions and contributing to open-source projects that push the boundaries of technology.
             </p>
             <p>
-              When I'm not coding, you'll find me exploring virtual worlds as an avid gamer or experimenting with different ways of building solutions to real-world problems.
+              When I&apos;m not coding, you&apos;ll find me exploring virtual worlds as an avid gamer or experimenting with different ways of building solutions to real-world problems.
             </p>
 
           </motion.div>

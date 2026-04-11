@@ -4,9 +4,6 @@ import { Github, Linkedin, Mail, ArrowUp, Heart, ExternalLink } from 'lucide-rea
 import './Footer.css';
 
 const Footer = () => {
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
 
     const currentYear = new Date().getFullYear();
 
