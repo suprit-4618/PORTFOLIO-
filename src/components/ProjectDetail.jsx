@@ -1,312 +1,263 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react'; 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, ArrowUpRight, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Github, ExternalLink, ArrowUpRight, Cpu, Layout, Info, Terminal, Calendar, Activity, ChevronLeft, ChevronRight } from 'lucide-react';
 import './ProjectDetail.css';
 
-// Animation variants
-const panelVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.4, ease: 'easeOut' } },
-  exit: { opacity: 0, transition: { duration: 0.3 } },
+/* ─── HUD Decryption Component ────────────────────────────── */
+const HUDText = ({ text, delay = 0, className = "" }) => {
+  const [displayText, setDisplayText] = useState("");
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+  
+  useEffect(() => {
+    let timeout;
+    let iteration = 0;
+    const finalBuffer = text.split("");
+    
+    timeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        setDisplayText(
+          finalBuffer
+            .map((char, index) => {
+              if (index < iteration) return char;
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join("")
+        );
+
+        if (iteration >= text.length) clearInterval(interval);
+        iteration += 1 / 3;
+      }, 30);
+    }, delay * 1000);
+
+    return () => clearTimeout(timeout);
+  }, [text, delay]);
+
+  return <span className={className}>{displayText || (text[0] + "... ")}</span>;
 };
 
-const leftVariants = {
-  hidden: { x: '-100%', opacity: 0 },
-  visible: { x: 0, opacity: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
-  exit: { x: '-100%', opacity: 0, transition: { duration: 0.5, ease: 'easeInOut' } },
-};
+/* ─── HUD Widget Frame ───────────────────────────────────── */
+const HUDWidget = ({ title, icon: Icon, children, className = "", delay = 0 }) => (
+  <motion.div 
+    className={`hud-widget ${className}`}
+    initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
+    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+    transition={{ delay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+  >
+    <div className="hud-w-header" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)' }}>
+      {Icon && <Icon size={12} className="hud-w-icon" style={{ opacity: 0.5 }} />}
+      <span style={{ fontSize: '0.55rem', letterSpacing: '2px', textTransform: 'uppercase', opacity: 0.4 }}>{title}</span>
+    </div>
+    <div className="hud-w-content" style={{ flex: 1, position: 'relative' }}>
+      {children}
+    </div>
+  </motion.div>
+);
 
-const rightVariants = {
-  hidden: { x: '100%', opacity: 0 },
-  visible: { x: 0, opacity: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
-  exit: { x: '100%', opacity: 0, transition: { duration: 0.5, ease: 'easeInOut' } },
-};
-
-const sectionVariants = {
-  hidden: { opacity: 0, x: 50 },
-  visible: (i) => ({
-    opacity: 1,
-    x: 0,
-    transition: { delay: i * 0.12 + 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-  }),
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, x: 20 },
-  visible: (j) => ({
-    opacity: 1,
-    x: 0,
-    transition: { delay: j * 0.05, duration: 0.4, ease: 'easeOut' },
-  }),
-};
-
-const SECTIONS = (project) => {
-  const items = [];
-  if (project.brief)        items.push({ label: 'Overview',            content: project.brief,        type: 'text' });
-  if (project.howItWorks)   items.push({ label: 'How It Works',        content: project.howItWorks,   type: 'text' });
-  if (project.why)          items.push({ label: 'Motivation',          content: project.why,          type: 'text' });
-  if (project.gallery?.length) items.push({ label: 'Snapshots',           content: project.gallery,      type: 'images' });
-  if (project.problemSolves?.length) items.push({ label: 'What It Solves', content: project.problemSolves, type: 'list' });
-  if (project.limitations?.length)   items.push({ label: 'Limitations',    content: project.limitations,   type: 'list' });
-  return items;
-};
-
+/* ─── Main Project Detail ────────────────────────────────── */
 const ProjectDetail = ({ project, onClose }) => {
-  const [selectedIdx, setSelectedIdx] = React.useState(null);
+  const [galleryIdx, setGalleryIdx] = useState(0);
+  const [isLightbox, setIsLightbox] = useState(false);
+  const scrollRef = useRef(null);
+
   const gallery = project?.gallery || [];
 
-  const handleNext = React.useCallback((e) => {
-    if (e) e.stopPropagation();
-    setSelectedIdx((prev) => (prev + 1) % gallery.length);
-  }, [gallery.length]);
-
-  const handlePrev = React.useCallback((e) => {
-    if (e) e.stopPropagation();
-    setSelectedIdx((prev) => (prev - 1 + gallery.length) % gallery.length);
-  }, [gallery.length]);
-
-  // Keyboard navigation
-  useEffect(() => {
-    if (selectedIdx === null) return;
-
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowRight') handleNext(e);
-      if (e.key === 'ArrowLeft') handlePrev(e);
-      if (e.key === 'Escape') setSelectedIdx(null);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedIdx, gallery.length, handleNext, handlePrev]);
-
-  // Lock body scroll while open
+  // Lock scroll
   useEffect(() => {
     if (!project) return;
-
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    
+    const sw = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-    
-    // Prevent layout shift if scrollbar disappears
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-
-    return () => { 
-      document.body.style.overflow = ''; 
-      document.documentElement.style.overflow = '';
+    if (sw > 0) document.body.style.paddingRight = `${sw}px`;
+    return () => {
+      document.body.style.overflow = '';
       document.body.style.paddingRight = '';
     };
   }, [project]);
 
   if (!project) return null;
-  const sections = SECTIONS(project);
 
   return (
     <AnimatePresence>
-      <motion.div
-        className="pd-overlay"
-        data-lenis-prevent
-        variants={panelVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        key="overlay"
+      <motion.div 
+        className="hud-overlay"
+        initial={{ opacity: 0, clipPath: 'inset(50% 0 50% 0)' }}
+        animate={{ opacity: 1, clipPath: 'inset(0% 0 0% 0)' }}
+        exit={{ opacity: 0, clipPath: 'inset(50% 0 50% 0)' }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        style={{ '--accent': project.accent }}
       >
-        {/* ── Left Panel ── */}
-        <motion.aside
-          className="pd-left"
-          style={{ '--accent': project.accent }}
-          variants={leftVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-        >
-          {/* Noise texture overlay for the left panel */}
-          <div className="pd-noise" />
+        <div className="hud-grid-bg" />
+        <div className="hud-scan-line" />
 
-          <div className="pd-left-inner">
-            <button className="pd-close" onClick={onClose}>
-              <X size={18} />
-            </button>
-
-            {/* Category label */}
-            <motion.p 
-              className="pd-category"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
-            >
-              {project.subtitle}
-            </motion.p>
-
-            {/* Giant title */}
-            <motion.h1 
-              className="pd-title"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.9, duration: 0.7 }}
-            >
-              {project.title}
-            </motion.h1>
-
-            {/* Divider */}
-            <motion.div 
-              className="pd-divider"
-              initial={{ width: 0 }}
-              animate={{ width: 48 }}
-              transition={{ delay: 1.1, duration: 0.5 }}
-            />
-
-            {/* Tech badges */}
-            <div className="pd-tech">
-              {project.tech.map((t, i) => (
-                <motion.span 
-                  key={t} 
-                  className="pd-badge"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.2 + i * 0.05 }}
-                >
-                  {t}
-                </motion.span>
-              ))}
-            </div>
-
-            {/* Links at bottom */}
-            <div className="pd-links">
-              {project.github && (
-                <a href={project.github} target="_blank" rel="noopener noreferrer" className="pd-link">
-                  <Github size={14} /> GitHub <ArrowUpRight size={12} />
-                </a>
-              )}
-              {project.live && (
-                <a href={project.live} target="_blank" rel="noopener noreferrer" className="pd-link pd-link-live">
-                  <ExternalLink size={14} /> Live Demo <ArrowUpRight size={12} />
-                </a>
-              )}
+        {/* ── HUD HEADER ────────────────────────────────────── */}
+        <header className="hud-header">
+          <div className="hud-header-left">
+            <div className="hud-status">Project // Stable // FW:HUD-V3</div>
+            <div className="hud-title-wrap">
+              <h1 className="hud-title">
+                <HUDText text={project.title} delay={0.4} />
+              </h1>
+              <span className="hud-subtitle">
+                <HUDText text={project.subtitle} delay={0.8} />
+              </span>
             </div>
           </div>
-        </motion.aside>
+          <button className="hud-close" onClick={onClose}>
+            <X size={20} />
+          </button>
+        </header>
 
-        {/* ── Right Panel ── */}
-        <motion.main
-          className="pd-right"
-          data-lenis-prevent
-          variants={rightVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-        >
-          <div className="pd-sections">
-            {sections.map((sec, i) => (
-              <motion.div
-                key={sec.label}
-                className="pd-section"
-                custom={i}
-                variants={sectionVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {/* Section label with index number */}
-                <div className="pd-section-header">
-                  <span className="pd-section-num" style={{ color: project.accent }}>
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <h3 className="pd-section-label">{sec.label}</h3>
+        {/* ── HUD CONTENT BENTO ─────────────────────────────── */}
+        <div className="hud-container" ref={scrollRef}>
+          
+          {/* Main Visual Viewport */}
+          <HUDWidget 
+            title="Visual_Feed" 
+            icon={Layout} 
+            className="hud-viewport" 
+            delay={0.5}
+          >
+            <motion.div 
+              style={{ 
+                height: '100%', 
+                backgroundImage: `url(${gallery[galleryIdx] || project.bgImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+              key={galleryIdx}
+              initial={{ opacity: 0, filter: 'brightness(2) contrast(1.5)' }}
+              animate={{ opacity: 1, filter: 'brightness(1) contrast(1)' }}
+              transition={{ duration: 0.8 }}
+            />
+            <div className="hud-viewport-scrim" />
+            <div className="hud-viewport-tools">
+              <div className="hud-v-label">VIEWPORT_CH_01 // {String(galleryIdx + 1).padStart(2, '0')}</div>
+              {gallery.length > 1 && (
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                   <button 
+                    onClick={() => setGalleryIdx((p) => (p - 1 + gallery.length) % gallery.length)}
+                    style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid var(--hud-border)', color: '#fff', padding: '0.5rem' }}
+                   >
+                     <ChevronLeft size={16} />
+                   </button>
+                   <button 
+                    onClick={() => setGalleryIdx((p) => (p + 1) % gallery.length)}
+                    style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid var(--hud-border)', color: '#fff', padding: '0.5rem' }}
+                   >
+                     <ChevronRight size={16} />
+                   </button>
                 </div>
+              )}
+            </div>
+          </HUDWidget>
 
-                {sec.type === 'text' ? (
-                  <p className="pd-section-text">{sec.content}</p>
-                ) : sec.type === 'images' ? (
-                  <div className="pd-gallery">
-                    {sec.content.map((img, idx) => (
-                      <motion.div 
-                        key={idx}
-                        className="pd-gallery-item"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: idx * 0.1 }}
-                        onClick={() => setSelectedIdx(idx)}
-                      >
-                        <img src={img} alt={`${project.title} Screenshot ${idx + 1}`} />
-                        <div className="gallery-overlay"><ArrowUpRight size={24} /></div>
-                      </motion.div>
-                    ))}
-                  </div>
-                ) : (
-                  <ul className="pd-section-list">
-                    {sec.content.map((item, j) => (
-                      <motion.li 
-                        key={j} 
-                        style={{ '--accent': project.accent }}
-                        custom={j}
-                        variants={itemVariants}
-                      >
-                        {item}
-                      </motion.li>
-                    ))}
-                  </ul>
-                )}
-              </motion.div>
-            ))}
+          {/* Dossier Text */}
+          <HUDWidget 
+            title="Project_Dossier" 
+            icon={Terminal} 
+            className="hud-dossier" 
+            delay={0.6}
+          >
+            <p className="hud-text">
+              <HUDText 
+                text={project.brief} 
+                delay={1.2} 
+                className="hud-typewriter-body"
+              />
+            </p>
+          </HUDWidget>
 
-            {/* Empty state for projects with no content yet */}
-            {sections.length === 0 && (
-              <motion.p
-                className="pd-empty"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
+          {/* Stats / Solves */}
+          <HUDWidget 
+            title="Analysis_Report" 
+            icon={Activity} 
+            className="hud-stats" 
+            delay={0.7}
+          >
+            <ul className="hud-list">
+              {project.problemSolves?.map((item, i) => (
+                <li key={i} className="hud-list-item">
+                  <HUDText text={item} delay={1.5 + i * 0.1} />
+                </li>
+              ))}
+            </ul>
+          </HUDWidget>
+
+          {/* Tech Stack Marquee */}
+          <HUDWidget 
+            title="System_Architecture" 
+            icon={Cpu} 
+            className="hud-tech-widget" 
+            delay={0.8}
+          >
+            <div className="hud-marquee">
+              <motion.div 
+                className="hud-marquee-inner"
+                animate={{ x: [0, -1000] }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                style={{ display: 'flex', gap: '2rem' }}
               >
-                Details for this project are coming soon.
-              </motion.p>
+                {[...project.tech, ...project.tech].map((t, i) => (
+                  <span key={i} className="hud-m-item">{t}</span>
+                ))}
+              </motion.div>
+            </div>
+          </HUDWidget>
+
+          {/* Meta Information */}
+          <HUDWidget 
+            title="Project_Metadata" 
+            icon={Info} 
+            className="hud-meta" 
+            delay={0.9}
+          >
+            <div className="hud-m-row">
+              <span className="hud-m-label">Project_UID</span>
+              <span className="hud-m-val">PRJ-00{project.id}-S</span>
+            </div>
+            <div className="hud-m-row">
+              <span className="hud-m-label">Status</span>
+              <span className="hud-m-val" style={{ color: project.accent }}>LIVE_ENCRYPTED</span>
+            </div>
+            <div className="hud-m-row">
+              <span className="hud-m-label">Core_Foundation</span>
+              <span className="hud-m-val">{project.tech[0]}</span>
+            </div>
+          </HUDWidget>
+
+          {/* Action Links */}
+          <div className="hud-actions">
+            {project.github && (
+              <a href={project.github} target="_blank" rel="noopener noreferrer" className="hud-btn h6">
+                <Github size={20} />
+                <span className="hud-btn-label">Access Repo</span>
+              </a>
+            )}
+            {project.live && (
+              <a href={project.live} target="_blank" rel="noopener noreferrer" className="hud-btn">
+                <ExternalLink size={20} />
+                <span className="hud-btn-label">Live Link</span>
+              </a>
             )}
           </div>
-        </motion.main>
 
-        {/* ── Lightbox for Images ── */}
-        <AnimatePresence>
-          {selectedIdx !== null && (
-            <motion.div 
-              className="pd-lightbox"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedIdx(null)}
-            >
-              <button className="pd-lightbox-close" onClick={() => setSelectedIdx(null)}>
-                <X size={24} />
-              </button>
+        </div>
 
-              {gallery.length > 1 && (
-                <>
-                  <button className="pd-nav-btn prev" onClick={handlePrev}>
-                    <ChevronLeft size={32} />
-                  </button>
-                  <button className="pd-nav-btn next" onClick={handleNext}>
-                    <ChevronRight size={32} />
-                  </button>
-                </>
-              )}
+        {/* ── CSS Injection For Marquee (Simplest way) ── */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          .hud-typewriter-body {
+            display: block;
+            margin-top: 0.5rem;
+          }
+          @media (max-width: 1024px) {
+            .hud-container {
+               display: block !important;
+            }
+            .hud-widget {
+               margin-bottom: 1rem;
+            }
+          }
+        `}} />
 
-              <motion.img 
-                key={selectedIdx}
-                src={gallery[selectedIdx]} 
-                initial={{ scale: 0.8, opacity: 0, x: 20 }}
-                animate={{ scale: 1, opacity: 1, x: 0 }}
-                exit={{ scale: 0.8, opacity: 0, x: -20 }}
-                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                onClick={(e) => e.stopPropagation()}
-              />
-              
-              <div className="pd-counter">
-                {selectedIdx + 1} / {gallery.length}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </motion.div>
     </AnimatePresence>
   );
