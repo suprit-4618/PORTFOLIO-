@@ -24,8 +24,11 @@ const HUDText = ({ text, delay = 0, className = "" }) => {
             .join("")
         );
 
-        if (iteration >= text.length) clearInterval(interval);
-        iteration += 1 / 3;
+        if (iteration >= text.length) {
+          clearInterval(interval);
+          setDisplayText(text); // Final snap to guarantee precision
+        }
+        iteration += 2; // Increased from 1/3 for snappier resolution
       }, 30);
     }, delay * 1000);
 

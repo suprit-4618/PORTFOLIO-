@@ -92,14 +92,14 @@ const PROJECTS = [
     github: 'https://github.com/suprit-4618/AgriVerseAI',
     live: 'https://agriverseai-six.vercel.app',
     gallery: [
-      '/projects/agriverseai/Screenshot 2026-03-20 165701.png',
-      '/projects/agriverseai/Screenshot 2026-03-20 165721.png',
-      '/projects/agriverseai/Screenshot 2026-03-20 165730.png',
-      '/projects/agriverseai/Screenshot 2026-03-20 165740.png',
-      '/projects/agriverseai/Screenshot 2026-03-20 165752.png',
-      '/projects/agriverseai/Screenshot 2026-03-20 165804.png',
-      '/projects/agriverseai/Screenshot 2026-03-20 165821.png',
-      '/projects/agriverseai/Screenshot 2026-03-20 165830.png'
+      '/projects/agriverseai/agri_1.png',
+      '/projects/agriverseai/agri_2.png',
+      '/projects/agriverseai/agri_3.png',
+      '/projects/agriverseai/agri_4.png',
+      '/projects/agriverseai/agri_5.png',
+      '/projects/agriverseai/agri_6.png',
+      '/projects/agriverseai/agri_7.png',
+      '/projects/agriverseai/agri_8.png'
     ],
     brief: 'A bilingual (Kannada & English), voice-activated smart agriculture assistant that provides real-time crop disease detection, weather insights, and market price tracking. Now live and helping farmers optimize their yields with AI-driven insights.',
     howItWorks: 'The platform integrates Google Speech-to-Text and Gemini 2.0/2.5 Pro APIs for natural language understanding. It uses a MobileNetV2-based CNN model for crop disease detection and is built with a React.js frontend and a Python (FastAPI) backend deployed on Render/Vercel.',
@@ -124,7 +124,7 @@ const PROJECTS = [
     accent: '#f76ab4',
     github: 'https://github.com/suprit-4618/ai-semantic-search-endee',
     gallery: [
-      '/projects/ai-semantic-search/endee project.png'
+      '/projects/ai-semantic-search/endee_project.png'
     ],
     brief: 'An AI-powered semantic search system built using vector embeddings and the Endee Vector Database. It understands the meaning of queries beyond simple keywords.',
     howItWorks: 'Documents are converted into 384-dimensional vector embeddings using SentenceTransformers and stored in the Endee Vector Database. The system performs high-dimensional similarity search to find the closest document match.',
@@ -144,11 +144,11 @@ const PROJECTS = [
 
 // ─── Fan angle per card index ─────────────────────────────────────
 const getFanTransform = (index, total, isHovered) => {
-  const spread = 22;  // degrees between cards
+  const spread = 28;  // Increased from 22 for better selection
   const offset = (total - 1) / 2;
   // Increase non-hovered rotation slightly for better "fan" feel (from 1.5 to 3)
   const rotate = isHovered ? (index - offset) * spread : (index - offset) * 3;
-  const translateX = isHovered ? (index - offset) * 70 : 0;
+  const translateX = isHovered ? (index - offset) * 85 : 0; // Increased from 70
   // Adjust baseline translateY to scale with index for better stacking
   const translateY = isHovered ? Math.abs(index - offset) * 14 : index * -4;
   return { rotate, translateX, translateY };

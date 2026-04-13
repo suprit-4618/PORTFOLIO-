@@ -1,49 +1,51 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import './Intro.css';
 
 const Intro = ({ onFinish }) => {
+  const videoRef = useRef(null);
+
+  const finishedRef = useRef(false);
+
   useEffect(() => {
+    // Force video to play (muted autoplay is allowed in all browsers)
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+
+    // Match exact video duration for the snap-point
     const timer = setTimeout(() => {
-      onFinish();
-    }, 1800); // Super fast 1.8s timeout as requested
-    return () => clearTimeout(timer);
+      if (!finishedRef.current) {
+        finishedRef.current = true;
+        onFinish();
+      }
+    }, 2000); 
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [onFinish]);
 
   return (
-    <motion.div 
+    <motion.div
       className="intro-container"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+      style={{ willChange: 'opacity' }}
     >
-      <div className="intro-content">
-        <div className="intro-center-box">
-          <div className="intro-name-wrapper">
-            <motion.h1 
-              className="intro-name"
-              layoutId="hero-name"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-              style={{ willChange: "transform, opacity", transformOrigin: "left center" }}
-            >
-              SUPRIT L
-            </motion.h1>
-          </div>
-          
-          {/* Small Vertical Line */}
-          <motion.div 
-            className="intro-line"
-            initial={{ height: 0, opacity: 1 }}
-            animate={{ height: "120%", opacity: [1, 1, 0] }}
-            transition={{ 
-              height: { duration: 0.3, ease: "circOut" },
-              opacity: { duration: 0.2, delay: 1.4 } // Fades out right before transition
-            }}
-          />
-        </div>
-      </div>
+      {/* Full-screen video plays as the intro animation */}
+      <video
+        ref={videoRef}
+        className="intro-video"
+        src="/intro_text.mp4"
+        muted
+        playsInline
+        preload="auto"
+      />
+
+      {/* Subtle dark overlay so video doesn't blow out */}
+      <div className="intro-overlay" />
     </motion.div>
   );
 };
