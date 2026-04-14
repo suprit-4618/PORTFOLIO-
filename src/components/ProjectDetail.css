@@ -201,7 +201,16 @@
 .hud-dossier {
   grid-column: span 5;
   grid-row: span 5;
-  padding: 2rem;
+  padding: 1.5rem;
+}
+
+.hud-dossier .hud-w-content {
+  overflow-y: auto;
+  margin-top: 1rem;
+  padding-right: 0.5rem;
+  /* Custom scrollbar for inner content */
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
 }
 
 .hud-w-label {
@@ -214,10 +223,12 @@
 }
 
 .hud-text {
-  font-size: 0.85rem;
-  line-height: 1.8;
-  color: var(--hud-text-main);
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.95);
   font-weight: 400;
+  letter-spacing: 0.3px;
 }
 
 /* ── Tech Marquee Widget ── */
@@ -239,12 +250,16 @@
 }
 
 .hud-m-item {
-  font-size: 1.2rem;
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+}
+
+.hud-m-text {
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: #eeeeee;
+  letter-spacing: 0.5px;
 }
 
 /* ── Stats Widget ── */

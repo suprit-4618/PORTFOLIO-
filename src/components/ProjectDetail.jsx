@@ -1,7 +1,42 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'; 
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Github, ExternalLink, ArrowUpRight, Cpu, Layout, Info, Terminal, Calendar, Activity, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Github, ExternalLink, ArrowUpRight, Cpu, Layout, Info, Terminal, Calendar, Activity, ChevronLeft, ChevronRight, Mic, Database, Zap, Network } from 'lucide-react';
 import './ProjectDetail.css';
+
+const getTechIconSlug = (tech) => {
+  const map = {
+    'Three.js': 'threedotjs',
+    'WebGL': 'webgl',
+    'JavaScript': 'javascript',
+    'Apache Airflow': 'apacheairflow',
+    'dbt': 'dbt',
+    'PostgreSQL': 'postgresql',
+    'Docker': 'docker',
+    'Python': 'python',
+    'FastAPI': 'fastapi',
+    'Electron': 'electron',
+    'React': 'react',
+    'Playwright': 'playwright',
+    'TensorFlow': 'tensorflow',
+    'OpenCV': 'opencv',
+    'Firebase': 'firebase',
+    'Render': 'render',
+    'PyTorch': 'pytorch',
+    'MediaPipe Hands': 'google', 
+    'SentenceTransformers': 'huggingface'
+  };
+  return map[tech] || null;
+};
+
+const getFallbackIcon = (tech) => {
+  switch (tech) {
+    case 'Groq': return Zap;
+    case 'Picovoice': return Mic;
+    case 'MobileNetV2': return Network;
+    case 'Endee': return Database;
+    default: return Cpu;
+  }
+};
 
 /* ─── HUD Decryption Component ────────────────────────────── */
 const HUDText = ({ text, delay = 0, className = "" }) => {
@@ -160,13 +195,14 @@ const ProjectDetail = ({ project, onClose }) => {
             className="hud-dossier" 
             delay={0.6}
           >
-            <p className="hud-text">
-              <HUDText 
-                text={project.brief} 
-                delay={1.2} 
-                className="hud-typewriter-body"
-              />
-            </p>
+            <motion.p 
+              className="hud-text"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.0, duration: 0.8 }}
+            >
+              {project.brief}
+            </motion.p>
           </HUDWidget>
 
           {/* Stats / Solves */}
@@ -195,13 +231,29 @@ const ProjectDetail = ({ project, onClose }) => {
             <div className="hud-marquee">
               <motion.div 
                 className="hud-marquee-inner"
-                animate={{ x: [0, -1000] }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                style={{ display: 'flex', gap: '2rem' }}
+                animate={{ x: [0, -1500] }}
+                transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+                style={{ display: 'flex', gap: '3.5rem', paddingLeft: '1.5rem' }}
               >
-                {[...project.tech, ...project.tech].map((t, i) => (
-                  <span key={i} className="hud-m-item">{t}</span>
-                ))}
+                {[...project.tech, ...project.tech, ...project.tech, ...project.tech, ...project.tech].map((t, i) => {
+                  const slug = getTechIconSlug(t);
+                  const FallbackIcon = !slug ? getFallbackIcon(t) : null;
+                  return (
+                    <span key={i} className="hud-m-item" title={t} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                      {slug ? (
+                        <img 
+                          src={`https://cdn.simpleicons.org/${slug}/white`} 
+                          alt={t} 
+                          style={{ width: '22px', height: '22px', objectFit: 'contain', opacity: 0.9 }}
+                          onError={(e) => { e.target.style.display = 'none'; }}
+                        />
+                      ) : (
+                        <FallbackIcon size={22} color="white" style={{ opacity: 0.9 }} />
+                      )}
+                      <span className="hud-m-text">{t}</span>
+                    </span>
+                  );
+                })}
               </motion.div>
             </div>
           </HUDWidget>
