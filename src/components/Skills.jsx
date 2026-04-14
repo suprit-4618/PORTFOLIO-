@@ -1,9 +1,13 @@
-import React, { useRef, useCallback, useEffect, useState, useId } from 'react';
+import React, { useRef, useCallback, useEffect, useState, useId, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useOutsideClick } from '../hooks/use-outside-click';
 import './Skills.css';
 import javaIcon from '../assets/java.svg';
 import mysqlIcon from '../assets/mysql.png';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { RoundedBox, Html, ContactShadows } from '@react-three/drei';
+import * as THREE from 'three';
+
 
 // ─── Skills Data with Descriptions ────────────────────
 const SKILLS = [
@@ -317,6 +321,116 @@ const CATEGORY_COLORS = {
   '3D & Graphics':'248, 113, 113',  // red
 };
 
+// ─── 3D Skill Node Component ─────────────────────────────
+const SkillNode3D = ({ skill, index, total, onClick, activeId }) => {
+  const meshRef = useRef();
+  const [hovered, setHovered] = useState(false);
+  
+  // Create an ultra-wide grid layout
+  const cols = typeof window !== 'undefined' && window.innerWidth < 768 ? 4 : 8;
+  const spacingX = 4.2;
+  const spacingY = 4.2;
+  const row = Math.floor(index / cols);
+  const col = index % cols;
+  
+  // Center the grid dynamically
+  const totalRows = Math.ceil(total / cols);
+  const lastRowItems = total % cols || cols;
+  
+  const isLastRow = row === totalRows - 1;
+  const currentCols = isLastRow ? lastRowItems : cols;
+  
+  const x = (col - (currentCols - 1) / 2) * spacingX;
+  const y = ((totalRows - 1) / 2 - row) * spacingY;
+  
+  const colorStr = CATEGORY_COLORS[skill.category] || '139, 92, 246';
+  const color = `rgb(${colorStr})`;
+
+  const slugStr = typeof skill.slug === 'string' ? skill.slug : String(skill.slug);
+  const imgSrc = (slugStr.includes('/') || slugStr.startsWith('data:')) 
+    ? skill.slug 
+    : `https://cdn.simpleicons.org/${skill.slug}/white`;
+
+  // Animating the rotation on hover
+  useFrame((state) => {
+    if (meshRef.current) {
+      if (hovered && !activeId) {
+        meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, (state.pointer.x * Math.PI) / 6, 0.1);
+        meshRef.current.rotation.x = THREE.MathUtils.lerp(meshRef.current.rotation.x, -(state.pointer.y * Math.PI) / 6, 0.1);
+        meshRef.current.position.z = THREE.MathUtils.lerp(meshRef.current.position.z, 0.5, 0.1);
+      } else {
+        meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, 0, 0.05);
+        meshRef.current.rotation.x = THREE.MathUtils.lerp(meshRef.current.rotation.x, 0, 0.05);
+        meshRef.current.position.z = THREE.MathUtils.lerp(meshRef.current.position.z, 0, 0.05);
+      }
+    }
+  });
+
+  return (
+    <group position={[x, y, 0]}>
+      <RoundedBox
+        ref={meshRef}
+        args={[3.6, 3.6, 0.6]} 
+        radius={0.3}
+        smoothness={4}
+        onClick={(e) => {
+          e.stopPropagation();
+          document.body.style.cursor = 'auto';
+          if (!activeId) onClick(skill, e);
+        }}
+        onPointerOver={(e) => {
+          e.stopPropagation();
+          setHovered(true);
+          if (!activeId) document.body.style.cursor = 'pointer';
+        }}
+        onPointerOut={(e) => {
+          setHovered(false);
+          document.body.style.cursor = 'auto';
+        }}
+      >
+        <meshStandardMaterial 
+          color="#141417" 
+          metalness={0.7} 
+          roughness={0.3} 
+          emissive={color}
+          emissiveIntensity={hovered && !activeId ? 0.35 : 0.02}
+        />
+        
+        {/* Project HTML strictly on front face */}
+        <Html position={[0, 0, 0.31]} transform center distanceFactor={1.5} style={{ pointerEvents: 'none' }}>
+           <div className="flex flex-col items-center justify-center p-2 select-none" style={{ width: '220px', pointerEvents: 'none' }}>
+              <img 
+                 src={imgSrc} 
+                 alt={skill.name}
+                 style={{ 
+                   width: '100px', 
+                   height: '100px', 
+                   objectFit: 'contain', 
+                   filter: hovered && !activeId ? `drop-shadow(0 0 45px ${color})` : 'drop-shadow(0 0 20px rgba(0,0,0,0.8))',
+                   transition: 'filter 0.3s ease'
+                 }}
+              />
+              <span style={{
+                marginTop: '18px',
+                fontSize: '18px',
+                fontWeight: '800',
+                letterSpacing: '1px',
+                textTransform: 'uppercase',
+                color: '#fff',
+                textAlign: 'center',
+                opacity: hovered && !activeId ? 1 : 0.3,
+                transition: 'opacity 0.3s ease'
+              }}>
+                {skill.name}
+              </span>
+           </div>
+        </Html>
+      </RoundedBox>
+    </group>
+  );
+};
+
+
 const Skills = () => {
   const [active, setActive] = useState(null);
   const gridRef = useRef(null);
@@ -414,7 +528,7 @@ const Skills = () => {
                   className="h-48 flex items-center justify-center bg-gradient-to-b from-white/5 to-transparent pt-8"
                 >
                    <img 
-                      src={ (active.slug.includes('/') || active.slug.startsWith('data:')) ? active.slug : `https://cdn.simpleicons.org/${active.slug}`} 
+                      src={ (typeof active.slug === 'string' && (active.slug.includes('/') || active.slug.startsWith('data:'))) ? active.slug : `https://cdn.simpleicons.org/${active.slug}`} 
                       alt={active.name}
                       className="w-24 h-24 object-contain filter drop-shadow-[0_0_20px_rgba(var(--color),0.5)]"
                       style={{ '--color': CATEGORY_COLORS[active.category] }}
@@ -470,48 +584,34 @@ const Skills = () => {
            <p className="skills-hint">Move your cursor across the grid & click to explore</p>
          </div>
 
-        <div
-          className="skills-grid"
-          ref={gridRef}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-        >
-          {SKILLS.map((skill) => {
-            const color = CATEGORY_COLORS[skill.category] || '139, 92, 246';
-            return (
-              <motion.div
-                layoutId={`card-${skill.name}-${id}`}
-                key={skill.name}
-                onClick={() => setActive(skill)}
-                className="reveal-cube group"
-                style={{ '--color': color }}
-              >
-                <div className="reveal-glow" />
-
-                <div className="reveal-body">
-                  <motion.div 
-                    layoutId={`icon-container-${skill.name}-${id}`}
-                    className="reveal-icon"
-                    style={{ opacity: 'var(--glow)' }}
-                  >
-                    <img 
-                      src={ (skill.slug.includes('/') || skill.slug.startsWith('data:')) ? skill.slug : `https://cdn.simpleicons.org/${skill.slug}`} 
-                      alt={skill.name}
-                      className="tech-logo group-hover:scale-110 transition-transform duration-300"
-                    />
-                  </motion.div>
-                  <motion.span 
-                    layoutId={`name-${skill.name}-${id}`}
-                    className="reveal-name"
-                    style={{ opacity: 'var(--glow)' }}
-                  >
-                    {skill.name}
-                  </motion.span>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+         <div className="skills-canvas-container" style={{ minHeight: '85vh', width: '100vw', position: 'relative', left: '50%', right: '50%', marginLeft: '-50vw', marginRight: '-50vw' }}>
+           <Canvas 
+             camera={{ position: [0, 0, typeof window !== 'undefined' && window.innerWidth < 768 ? 38 : 22], fov: 45 }}
+             style={{ pointerEvents: active ? 'none' : 'auto' }}
+           >
+             <Suspense fallback={null}>
+               <ambientLight intensity={0.5} />
+               <directionalLight position={[10, 10, 10]} intensity={1.5} />
+               <pointLight position={[-10, -10, -10]} intensity={1.0} color="#8b5cf6" />
+               <pointLight position={[0, 10, 5]} intensity={0.5} color="#ec4899" />
+               
+               <group position={[0, 0, 0]}>
+                 {SKILLS.map((skill, i) => (
+                   <SkillNode3D 
+                     key={skill.name} 
+                     skill={skill} 
+                     index={i} 
+                     total={SKILLS.length} 
+                     onClick={(s) => setActive(s)}
+                     activeId={active ? active.name : null}
+                   />
+                 ))}
+               </group>
+               
+               <ContactShadows position={[0, -7.5, 0]} opacity={0.6} scale={60} blur={3.5} far={15} color="#000000" />
+             </Suspense>
+           </Canvas>
+         </div>
       </div>
     </section>
   );

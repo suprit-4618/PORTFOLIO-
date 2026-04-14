@@ -30,6 +30,13 @@
 }
 
 /* ── Grid ────────────────────────────────────────────────────── */
+.skills-canvas-container {
+  width: 100%;
+  min-height: 80vh;
+  position: relative;
+  display: block; /* Ensure no flexbox dimension collapse */
+}
+
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
