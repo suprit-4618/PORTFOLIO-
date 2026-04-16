@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 130">
+  <!-- Udemy logo: Purple Arrow + Black U -->
+  <path fill="#A435F0" d="M10 50 L50 10 L90 50 H10 Z"/>
+  <path fill="white" d="M80 70v30c0 10-8 25-30 25s-30-15-30-25v-30h15v28c0 8 4 14 15 14s15-6 15-14v-28z"/>
+</svg>

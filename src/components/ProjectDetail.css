@@ -1,0 +1,336 @@
+/* --- CINEMATIC STUDIO THEME --- */
+
+.studio-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background-color: #030407;
+  color: #ffffff;
+  pointer-events: all;
+  display: flex;
+  flex-direction: column;
+}
+
+.studio-scroll-container {
+  height: 100vh;
+  width: 100%;
+  overflow-y: scroll; /* Force scrollbar visibility and behavior */
+  overflow-x: hidden;
+  overscroll-behavior-y: contain; /* Prevent scroll-leak to background */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
+  scroll-behavior: smooth;
+}
+
+/* --- HERO SECTION --- */
+.studio-hero {
+  position: relative;
+  height: 65vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.studio-hero-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.6) contrast(1.1);
+}
+
+.studio-hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(3,4,7,0.4) 0%, rgba(3,4,7,1) 100%);
+}
+
+.studio-header-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.studio-brand {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  opacity: 0.5;
+}
+
+.studio-close-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 0.75rem 1.5rem;
+  border-radius: 5rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
+}
+
+.studio-close-btn:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.3);
+  transform: scale(1.05);
+}
+
+.studio-close-btn span {
+  font-size: 0.6rem;
+  opacity: 0.5;
+  letter-spacing: 2px;
+}
+
+.studio-hero-content {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  padding: 0 5%;
+}
+
+.studio-hero-content h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.studio-hero-content p {
+  font-family: 'Space Mono', monospace;
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+.studio-gallery-controls {
+  position: absolute;
+  bottom: 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  z-index: 10;
+}
+
+.studio-gallery-controls button {
+  background: none;
+  border: none;
+  color: #fff;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.studio-gallery-controls button:hover {
+  opacity: 1;
+}
+
+.studio-gallery-dots {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.studio-dot {
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  opacity: 0.2;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.studio-dot.active {
+  opacity: 1;
+  transform: scale(2);
+}
+
+/* --- DOSSIER CARD --- */
+.studio-content-wrapper {
+  padding: 0 5% 5rem;
+  position: relative;
+  z-index: 20;
+}
+
+.studio-card {
+  max-width: 1200px;
+  margin: -5rem auto 3rem;
+  background: rgba(10, 12, 18, 0.4);
+  backdrop-filter: blur(60px);
+  -webkit-backdrop-filter: blur(60px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 2.5rem;
+  padding: 4rem;
+  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);
+}
+
+.studio-card-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 5rem;
+}
+
+.studio-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  color: var(--accent-warm);
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+}
+
+.studio-description {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.8;
+  font-weight: 300;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 4rem;
+}
+
+.studio-solves {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.studio-solve-item {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.studio-solve-bullet {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-warm);
+  border-radius: 50%;
+  margin-top: 0.6rem;
+  box-shadow: 0 0 15px var(--accent-warm);
+}
+
+.studio-solve-item span {
+  font-size: 1rem;
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+.studio-tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 3rem;
+}
+
+.studio-tech-tag {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-family: 'Space Mono', monospace;
+  color: rgba(255,255,255,0.6);
+}
+
+.studio-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.studio-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem 2rem;
+  border-radius: 1rem;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.studio-link-btn.primary {
+  background: #fff;
+  color: #000;
+}
+
+.studio-link-btn.primary:hover {
+  background: var(--accent-warm);
+  color: #fff;
+  transform: translateY(-5px);
+}
+
+.studio-link-btn.secondary {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+.studio-link-btn.secondary:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.3);
+  transform: translateY(-5px);
+}
+
+.studio-meta {
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.studio-meta-item {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  opacity: 0.4;
+}
+
+.studio-footer {
+  text-align: center;
+  padding-bottom: 2rem;
+}
+
+.studio-footer p {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 2px;
+  opacity: 0.3;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 1024px) {
+  .studio-card-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .studio-card {
+    padding: 2.5rem;
+    margin-top: -3rem;
+  }
+
+  .studio-hero-content h1 {
+    font-size: 4rem;
+  }
+}

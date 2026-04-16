@@ -1,0 +1,393 @@
+/* ── Section Layout ─────────────────────────────────────────── */
+.projects-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 5%;
+  position: relative;
+  z-index: 10;
+  color: var(--text-primary);
+}
+
+.projects-container {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.projects-hint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: -1rem;
+}
+
+/* ── Deck Wrapper ──────────────────────────────────────────── */
+.deck-wrapper {
+  position: relative;
+  width: 340px;
+  height: 460px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 3rem auto 6rem;
+  cursor: pointer;
+  perspective: 1000px; /* Enable 3D perspective for child cards */
+}
+
+/* ── Individual Card ─────────────────────────────────────────── */
+.project-card {
+  position: absolute;
+  bottom: 0;
+  width: 280px;
+  height: 380px;
+  background: rgba(5, 5, 7, 0.4); /* Translucent for glass effect */
+  backdrop-filter: blur(20px); /* Real glass blur */
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 22px;
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 30px color-mix(in srgb, var(--accent) 15%, transparent);
+  transform-origin: bottom center;
+  transform-style: preserve-3d;
+  will-change: transform;
+  overflow: visible; /* Allow 3D elements to pop out */
+  cursor: pointer;
+  user-select: none;
+}
+
+.project-card:hover {
+  box-shadow:
+    0 0 0 1px var(--glass-border-strong),
+    0 30px 80px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-border-strong),
+    0 0 60px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+/* ── Card Image Background ── */
+.card-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.5s ease;
+  z-index: 0;
+}
+
+.project-card:hover .card-image {
+  transform: scale(1.1);
+}
+
+/* ── Translucent Gradient Overlay ── */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.5) 40%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  z-index: 1;
+}
+
+/* Glossy sheen overlay */
+.card-gloss {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.03) 40%,
+    transparent 100%
+  );
+  border-radius: 22px 22px 60% 60% / 22px 22px 40px 40px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Glowing edge accent */
+.card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  border: 1.5px solid var(--accent);
+  opacity: 0.35;
+  pointer-events: none;
+  transition: opacity 0.25s;
+  z-index: 2;
+}
+
+.project-card:hover .card-glow {
+  opacity: 1;
+}
+
+/* Card top row */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-index {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.card-arrow {
+  color: var(--glass-border-strong);
+  transition: color 0.3s, transform 0.3s;
+}
+
+.project-card:hover .card-arrow {
+  color: var(--accent);
+  transform: translateX(4px);
+}
+
+/* Card body */
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.card-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #fff;
+  line-height: 1.1;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.card-subtitle {
+  font-size: 0.9rem;
+  color: rgba(200, 215, 255, 0.7);
+  line-height: 1.5;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Card footer - tech tags */
+.card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.card-tech-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 50px;
+  border: 1px solid var(--accent, var(--glass-border-strong));
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  background: var(--glass-border-light);
+}
+
+/* ── Modal Overlay ─────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--glass-shadow);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.modal-card {
+  background: var(--nav-bg);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 24px;
+  padding: 3rem;
+  max-width: 560px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow:
+    0 0 0 1px var(--glass-border),
+    0 40px 100px var(--glass-shadow),
+    0 0 60px color-mix(in srgb, var(--accent) 20%, transparent);
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: var(--glass-border);
+  border: none;
+  color: var(--text-tertiary);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.modal-close:hover {
+  background: var(--glass-border-strong);
+  color: var(--text-primary);
+}
+
+.modal-index {
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.modal-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.modal-subtitle {
+  font-size: 1rem;
+  color: var(--text-tertiary);
+  margin-bottom: 1.5rem;
+}
+
+.modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.modal-description {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+.modal-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--glass-border-light);
+}
+
+.modal-section:last-of-type {
+  border-bottom: none;
+}
+
+.modal-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.modal-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-list li {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.modal-list li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.modal-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.modal-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid var(--glass-border-strong);
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.modal-link:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.modal-link.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg-color);
+}
+
+.modal-link.primary:hover {
+  opacity: 0.85;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .deck-wrapper {
+    width: 260px;
+    height: 420px;
+    margin-bottom: 8rem;
+  }
+
+  .project-card {
+    width: 230px;
+    height: 320px;
+    padding: 1.5rem;
+  }
+
+  .card-title {
+    font-size: 1.4rem;
+  }
+
+  .modal-card {
+    padding: 2rem 1.5rem;
+  }
+}

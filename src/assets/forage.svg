@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100">
+  <!-- Forage Logo: Crystalline Gem and Wordmark -->
+  <g fill="#0052FF">
+    <path d="M40 20L20 40l20 20 20-40z" opacity="0.9"/>
+    <path d="M20 40L0 60h40V20L20 40z" opacity="0.7"/>
+    <path d="M40 60l20 20V40L40 60z" opacity="0.7"/>
+    <path d="M60 40L40 20h40L60 40z" opacity="0.8"/>
+  </g>
+  <text x="100" y="65" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="60" fill="white">Forage</text>
+</svg>
