@@ -2,7 +2,7 @@
   --z-background: -1;
   --z-content: 1;
   --z-header: 1000;
-  --z-cursor: 2000;
+  --z-cursor: 1000000;
   --z-chatbot: 10000;
   --z-modal: 100000;
   
@@ -66,7 +66,7 @@ body {
   background-color: #fff;
   border-radius: 50%;
   pointer-events: none;
-  z-index: 10001;
+  z-index: 1000001;
 }
 
 .custom-cursor-halo {
@@ -76,7 +76,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 10000;
+  z-index: 1000000;
   transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
 }
 
