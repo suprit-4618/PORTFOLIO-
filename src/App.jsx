@@ -1,6 +1,6 @@
 // v1.0.8 - Starship Odyssey & Refined UI
 import React, { useEffect, useState, Suspense } from 'react';
-import { motion, useMotionValue, AnimatePresence } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Mail, ArrowRight, FileDown, Menu, X, ChevronDown } from 'lucide-react';
 import SpaceOdyssey from './components/SpaceOdyssey';
 import About from './components/About';
@@ -15,6 +15,7 @@ import CustomCursor from './components/CustomCursor';
 import ChatBot from './components/ChatBot';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ui/ScrollToTop';
+import ParallaxWrapper from './components/ui/ParallaxWrapper';
 import Lenis from 'lenis';
 import { Analytics } from '@vercel/analytics/react';
 import './index.css';
@@ -78,6 +79,15 @@ function App() {
       document.documentElement.style.setProperty('--mouse-y', `${clientY}px`);
     });
   };
+
+  // Parallax transforms for Hero
+  const springX = useSpring(mouseX, { stiffness: 100, damping: 30 });
+  const springY = useSpring(mouseY, { stiffness: 100, damping: 30 });
+  
+  const heroX = useTransform(springX, [-0.5, 0.5], [20, -20]);
+  const heroY = useTransform(springY, [-0.5, 0.5], [20, -20]);
+  const heroRotateX = useTransform(springY, [-0.5, 0.5], [10, -10]);
+  const heroRotateY = useTransform(springX, [-0.5, 0.5], [-10, 10]);
 
   return (
     <>
@@ -152,17 +162,20 @@ function App() {
         {/* --- SECTION 2: HERO (The Name) --- */}
         <main id="hero" className="hero-section" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '0 5%' }}>
           <div className="hero-content-wrapper">
-            <div className="hero-content">
+            <motion.div 
+              className="hero-content"
+              style={{ x: heroX, y: heroY, rotateX: heroRotateX, rotateY: heroRotateY, transformStyle: 'preserve-3d' }}
+            >
               <motion.h1 
                 className="hero-title"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, scale: 0.9, translateZ: 50 }}
+                whileInView={{ opacity: 1, scale: 1, translateZ: 100 }}
                 viewport={{ once: false }}
                 transition={{ duration: 1 }}
               >
                 SUPRIT L
               </motion.h1>
-              <p className="hero-tagline">AI & DATA SCIENCE ENGINEER</p>
+              <p className="hero-tagline" style={{ transform: 'translateZ(50px)' }}>AI & DATA SCIENCE ENGINEER</p>
               
               <div className="btn-group">
                 <motion.a 
@@ -183,7 +196,7 @@ function App() {
                   DOWNLOAD CV <FileDown className="btn-icon" />
                 </motion.a>
               </div>
-            </div>
+            </motion.div>
           </div>
         </main>
 
