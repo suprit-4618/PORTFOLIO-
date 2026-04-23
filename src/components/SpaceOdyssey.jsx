@@ -67,7 +67,8 @@ const SpaceOdyssey = () => {
         };
         stars = createStars(6000, 0.04, 0xffffff);
         stars2 = createStars(4000, 0.06, 0xaaaaaa);
-        scene.add(stars, stars2);
+        const stars3 = createStars(2000, 0.08, 0x8888ff); // Distant blueish stars
+        scene.add(stars, stars2, stars3);
 
         // -- 4. THE CAPITAL STARSHIP (ENTERPRISE STYLE) --
         const shipGroup = new THREE.Group();
@@ -211,6 +212,11 @@ const SpaceOdyssey = () => {
             ship.rotation.x = THREE.MathUtils.lerp(ship.rotation.x, targetY, 0.05);
             ship.rotation.y = THREE.MathUtils.lerp(ship.rotation.y, angle + targetX, 0.05);
             ship.rotation.z = THREE.MathUtils.lerp(ship.rotation.z, targetX * 0.3, 0.05);
+            
+            // Starfield Parallax
+            stars.rotation.y += 0.0001 + (scroll * 0.001);
+            stars2.rotation.y += 0.0002 + (scroll * 0.002);
+            stars3.rotation.y += 0.0003 + (scroll * 0.003);
             
             // Engine Flicker
             bussardMat.opacity = 0.8 + Math.random() * 0.2;
