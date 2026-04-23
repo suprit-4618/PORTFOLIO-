@@ -201,12 +201,28 @@ function App() {
         </main>
 
         {/* --- ABOUT --- */}
-        <About />
-        <Experience />
-        <Skills />
+        <ParallaxWrapper speed={0.5} offset={30}>
+          <About />
+        </ParallaxWrapper>
+        
+        <ParallaxWrapper speed={0.3} offset={20}>
+          <Experience />
+        </ParallaxWrapper>
+        
+        <ParallaxWrapper speed={0.4} offset={40}>
+          <Skills />
+        </ParallaxWrapper>
+        
         <Projects onProjectSelect={setSelectedProject} />
-        <Publications />
-        <Certificates />
+        
+        <ParallaxWrapper speed={0.2} offset={15}>
+          <Publications />
+        </ParallaxWrapper>
+        
+        <ParallaxWrapper speed={0.3} offset={25}>
+          <Certificates />
+        </ParallaxWrapper>
+        
         <Contact />
         <Footer />
         <ScrollToTop />
