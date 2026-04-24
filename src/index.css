@@ -9,6 +9,17 @@
   --accent-warm: #f4a261;
   --accent-cool: #2a9d8f;
   --hud-bg-opaque: #030407;
+
+  /* Glassmorphism Variables */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-light: rgba(255, 255, 255, 0.05);
+  --glass-border-strong: rgba(255, 255, 255, 0.15);
+  --glass-shadow: rgba(0, 0, 0, 0.5);
+  --card-bg: rgba(10, 12, 18, 0.4);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.5);
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
@@ -110,7 +121,6 @@ html.lenis {
   display: flex;
   flex-direction: column;
   background: transparent;
-  perspective: 1000px;
 }
 
 .header {
