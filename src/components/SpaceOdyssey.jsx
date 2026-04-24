@@ -67,8 +67,7 @@ const SpaceOdyssey = () => {
         };
         stars = createStars(6000, 0.04, 0xffffff);
         stars2 = createStars(4000, 0.06, 0xaaaaaa);
-        const stars3 = createStars(2000, 0.08, 0x8888ff); // Distant blueish stars
-        scene.add(stars, stars2, stars3);
+        scene.add(stars, stars2);
 
         // -- 4. THE CAPITAL STARSHIP (ENTERPRISE STYLE) --
         const shipGroup = new THREE.Group();
@@ -162,13 +161,22 @@ const SpaceOdyssey = () => {
         ship.scale.set(0.6, 0.6, 0.6); // Massive but scaled for view
         scene.add(ship);
 
-        // -- 5. Planet --
+        // -- 5. Realistic Moon/Planet --
         const textureLoader = new THREE.TextureLoader();
         const planetGeo = new THREE.SphereGeometry(12, 64, 64);
-        planet = new THREE.Mesh(planetGeo, new THREE.MeshStandardMaterial({ color: 0x333333 }));
+        
+        // Realistic material properties
+        const planetMat = new THREE.MeshStandardMaterial({ 
+            color: 0xcccccc,
+            roughness: 0.9,
+            metalness: 0.1
+        });
+        planet = new THREE.Mesh(planetGeo, planetMat);
         
         textureLoader.load('/parallax/planet.png', (tex) => {
             planet.material.map = tex;
+            planet.material.bumpMap = tex;
+            planet.material.bumpScale = 0.5; // Adds craters depth
             planet.material.color.set(0xffffff);
             planet.material.needsUpdate = true;
         });
@@ -177,13 +185,33 @@ const SpaceOdyssey = () => {
         planet.position.set(0, 0, PLANET_Z);
         scene.add(planet);
 
-        // -- 6. Atmosphere & Lights --
-        const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+        // Add subtle atmospheric glow to the moon
+        const atmosphereGeo = new THREE.SphereGeometry(12.2, 64, 64);
+        const atmosphereMat = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.05,
+            side: THREE.BackSide,
+            blending: THREE.AdditiveBlending
+        });
+        const atmosphere = new THREE.Mesh(atmosphereGeo, atmosphereMat);
+        atmosphere.position.copy(planet.position);
+        scene.add(atmosphere);
+
+        // -- 6. Dramatic Cinematic Lighting --
+        // Lower ambient for darker shadows on the moon
+        const ambient = new THREE.AmbientLight(0xffffff, 0.05);
         scene.add(ambient);
         
-        const direct = new THREE.DirectionalLight(0xffffff, 1.8);
-        direct.position.set(10, 10, 10);
+        // Strong directional light for a realistic crescent effect
+        const direct = new THREE.DirectionalLight(0xffffff, 2.5);
+        direct.position.set(-20, 15, 20); // Side illumination
         scene.add(direct);
+
+        // Subtle fill light
+        const fillLight = new THREE.DirectionalLight(0x4444ff, 0.5);
+        fillLight.position.set(20, -10, -10);
+        scene.add(fillLight);
 
         // -- 7. Animation Logic --
         const onMouseMove = (e) => {
@@ -212,11 +240,6 @@ const SpaceOdyssey = () => {
             ship.rotation.x = THREE.MathUtils.lerp(ship.rotation.x, targetY, 0.05);
             ship.rotation.y = THREE.MathUtils.lerp(ship.rotation.y, angle + targetX, 0.05);
             ship.rotation.z = THREE.MathUtils.lerp(ship.rotation.z, targetX * 0.3, 0.05);
-            
-            // Starfield Parallax
-            stars.rotation.y += 0.0001 + (scroll * 0.001);
-            stars2.rotation.y += 0.0002 + (scroll * 0.002);
-            stars3.rotation.y += 0.0003 + (scroll * 0.003);
             
             // Engine Flicker
             bussardMat.opacity = 0.8 + Math.random() * 0.2;
