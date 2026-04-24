@@ -245,7 +245,9 @@ const SpaceOdyssey = () => {
             bussardMat.opacity = 0.8 + Math.random() * 0.2;
             warpMat.opacity = 0.8 + Math.random() * 0.2;
             
-            planet.rotation.y += 0.0005;
+            // Rocking motion to hide the texture seam at the back
+            const time = Date.now() * 0.0001;
+            planet.rotation.y = Math.PI + Math.sin(time) * 0.3;
             
             renderer.render(scene, camera);
             requestAnimationFrame(animate);
