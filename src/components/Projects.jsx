@@ -78,7 +78,12 @@ const PROJECTS = [
     tech: ['Python', 'SentenceTransformers', 'Endee', 'PyTorch'],
     accent: '#f76ab4',
     github: 'https://github.com/suprit-4618/ai-semantic-search-endee',
-    gallery: ['/projects/ai-semantic-search/endee_project.png'],
+    live: 'https://ai-semantic-search-endee-fznbrf5gfer5dczpjweoaz.streamlit.app/',
+    gallery: [
+      '/projects/ai-semantic-search/endee_project.png',
+      '/projects/ai-semantic-search/semantic_search_1.png',
+      '/projects/ai-semantic-search/semantic_search_2.png'
+    ],
     brief: 'An AI-powered semantic search system built using vector embeddings and the Endee Vector Database.',
     problemSolves: [
       'Overcomes keyword mismatch by identifying semantic intent',

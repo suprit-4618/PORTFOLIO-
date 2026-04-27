@@ -24,6 +24,13 @@ Welcome to my personal portfolio repository! I am an **AI & Data Science Enginee
 - **Tech Stack:** Groq, FastAPI, Electron, React
 - **Summary:** A voice-activated desktop assistant with a futuristic HUD and automation capabilities.
 
+### 🔍 AI Semantic Search
+**Vector-Powered Retrieval System**
+- **Live:** [ai-semantic-search-endee.streamlit.app](https://ai-semantic-search-endee-fznbrf5gfer5dczpjweoaz.streamlit.app/)
+- **Repo:** [ai-semantic-search-endee](https://github.com/suprit-4618/ai-semantic-search-endee)
+- **Tech Stack:** Python, Streamlit, SentenceTransformers, Endee Vector DB
+- **Summary:** An AI-powered search system that understands user intent and semantic meaning instead of just keywords.
+
 ## 🛠️ Skills & Tech
 - **AI/ML:** TensorFlow, PyTorch, Scikit-Learn, Gemini/Groq APIs
 - **Languages:** Python, Java, JavaScript, SQL
