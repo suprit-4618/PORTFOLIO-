@@ -4,7 +4,7 @@ import { ChevronRight, ArrowUpRight } from 'lucide-react';
 import './Projects.css';
 
 // ─── Project Data ────────────────────────────────────────────────
-const PROJECTS = [
+export const PROJECTS = [
   {
     id: 1,
     title: 'Janisa',

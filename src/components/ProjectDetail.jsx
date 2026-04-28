@@ -1,22 +1,51 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Github, ExternalLink, ChevronLeft, ChevronRight, ArrowRight, AppWindow } from 'lucide-react';
+import { 
+  X, 
+  Github, 
+  ExternalLink, 
+  ChevronLeft, 
+  ChevronRight, 
+  ArrowRight,
+  Rocket,
+  ArrowUpRight
+} from 'lucide-react';
+import Lenis from 'lenis';
+import { PROJECTS } from './Projects';
 import './ProjectDetail.css';
 
-const CinematicGallery = ({ project, onClose }) => {
-  const [activeImg, setActiveImg] = useState(0);
-  const gallery = project?.gallery || [];
-  const overlayRef = useRef(null);
+const ProjectDetail = ({ project, onClose }) => {
+  const [currentProject, setCurrentProject] = useState(project);
+  const currentIndex = PROJECTS.findIndex(p => p.id === currentProject.id);
+  const scrollRef = useRef(null);
+  const lenisRef = useRef(null);
 
   useEffect(() => {
-    // Robust Scroll Lock
+    // Global Scroll Lock
     const sw = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = 'hidden';
     document.body.style.paddingRight = `${sw}px`;
     
-    // Stop Lenis Global
     if (window.lenis) window.lenis.stop();
+
+    // Initialize Local Lenis for the description column
+    if (scrollRef.current) {
+      const lenis = new Lenis({
+        wrapper: scrollRef.current,
+        content: scrollRef.current.querySelector('.lenis-content'),
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+      
+      lenisRef.current = lenis;
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    }
 
     const handleEsc = (e) => {
       if (e.key === 'Escape') onClose();
@@ -28,165 +57,200 @@ const CinematicGallery = ({ project, onClose }) => {
       document.body.style.paddingRight = '';
       if (window.lenis) window.lenis.start();
       window.removeEventListener('keydown', handleEsc);
+      if (lenisRef.current) lenisRef.current.destroy();
     };
   }, [onClose]);
 
-  if (!project) return null;
+  const navigateProject = (direction) => {
+    let nextIndex;
+    if (direction === 'next') {
+      nextIndex = (currentIndex + 1) % PROJECTS.length;
+    } else {
+      nextIndex = (currentIndex - 1 + PROJECTS.length) % PROJECTS.length;
+    }
+    
+    // Animate out and change project
+    setCurrentProject(PROJECTS[nextIndex]);
+    
+    // Reset internal scroll
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    } else if (scrollRef.current) {
+      scrollRef.current.scrollTop = 0;
+    }
+  };
 
-  return (
+  if (!currentProject) return null;
+
+  const accentColor = currentProject.accent || '#6366f1';
+  const rgbAccent = hexToRgb(accentColor);
+
+  return createPortal(
     <motion.div 
-      className="studio-overlay"
+      className="project-detail-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      ref={overlayRef}
-      data-lenis-prevent 
+      style={{ '--accent-color': accentColor, '--accent-rgb': rgbAccent }}
+      data-lenis-prevent
     >
-      <div className="studio-scroll-container">
-        
-        {/* --- CINEMATIC HERO --- */}
-        <section className="studio-hero">
+      {/* FIXED CONTROLS */}
+      <div className="detail-controls-fixed">
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button className="nav-btn" onClick={() => navigateProject('prev')} aria-label="Previous Project">
+            <ChevronLeft size={20} />
+          </button>
+          <button className="nav-btn" onClick={() => navigateProject('next')} aria-label="Next Project">
+            <ChevronRight size={20} />
+          </button>
+        </div>
+        <button className="close-detail-btn" onClick={onClose} aria-label="Close Project">
+          <X size={24} />
+        </button>
+      </div>
+
+      <div className="detail-layout">
+        {/* STICKY LEFT: HERO VISUAL */}
+        <section className="detail-hero-sticky">
           <AnimatePresence mode="wait">
             <motion.div 
-              key={activeImg}
-              className="studio-hero-img"
-              style={{ backgroundImage: `url(${gallery[activeImg] || project.bgImage})` }}
-              initial={{ scale: 1.1, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 1.05, opacity: 0 }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-            />
-          </AnimatePresence>
-          <div className="studio-hero-gradient" />
-          
-          <div className="studio-header-nav">
-            <div className="studio-brand">PROJECT_STUDIO // {project.id}</div>
-            <button className="studio-close-btn" onClick={onClose} aria-label="Close Project">
-              <X size={24} />
-              <span>ESC</span>
-            </button>
-          </div>
-
-          <div className="studio-hero-content">
-            <motion.h1 
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
+              key={currentProject.id}
+              className="hero-bg-wrapper"
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.05 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              {project.title}
-            </motion.h1>
-            <motion.p
+              <div 
+                className="hero-bg-image" 
+                style={{ backgroundImage: `url(${currentProject.bgImage})` }}
+              />
+              <div className="hero-gradient-overlay" />
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="hero-header-content">
+            <motion.div 
+              className="detail-badge"
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              Case Study // {currentIndex + 1 < 10 ? `0${currentIndex + 1}` : currentIndex + 1}
+            </motion.div>
+            <motion.h1 
+              className="detail-title"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
+              transition={{ delay: 0.4 }}
             >
-              {project.subtitle}
+              {currentProject.title}
+            </motion.h1>
+            <motion.p 
+              className="detail-subtitle"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              {currentProject.subtitle}
             </motion.p>
           </div>
-
-          {gallery.length > 1 && (
-            <div className="studio-gallery-controls">
-              <button onClick={() => setActiveImg((p) => (p - 1 + gallery.length) % gallery.length)}>
-                <ChevronLeft size={20} />
-              </button>
-              <div className="studio-gallery-dots">
-                {gallery.map((_, i) => (
-                  <div key={i} className={`studio-dot ${i === activeImg ? 'active' : ''}`} />
-                ))}
-              </div>
-              <button onClick={() => setActiveImg((p) => (p + 1) % gallery.length)}>
-                <ChevronRight size={20} />
-              </button>
-            </div>
-          )}
         </section>
 
-        {/* --- PREMIUM DOSSIER CARD --- */}
-        <div className="studio-content-wrapper">
-          <motion.div 
-            className="studio-card"
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.8, type: "spring", stiffness: 100 }}
-          >
-            <div className="studio-card-grid">
-              
-              <div className="studio-main-col">
-                <div className="studio-label">THE MISSION</div>
-                <p className="studio-description">{project.brief}</p>
-                
-                <div className="studio-label">CORE_SOLUTIONS</div>
-                <div className="studio-solves">
-                  {project.problemSolves?.map((solve, i) => (
-                    <div key={i} className="studio-solve-item">
-                      <div className="studio-solve-bullet" />
-                      <span>{solve}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="studio-side-col">
-                <div className="studio-label">TECHNOLOGIES</div>
-                <div className="studio-tech-tags">
-                  {project.tech.map((t, i) => (
-                    <span key={i} className="studio-tech-tag">{t}</span>
-                  ))}
-                </div>
-
-                <div className="studio-label">ACTION_LINKS</div>
-                <div className="studio-btn-group">
-                  {project.github && (
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="studio-link-btn primary">
-                      <Github size={18} />
-                      <span>VIEW REPOSITORY</span>
-                    </a>
-                  )}
-                  {project.live && (
-                    <a href={project.live} target="_blank" rel="noopener noreferrer" className="studio-link-btn secondary">
-                      <AppWindow size={18} />
-                      <span>LAUNCH PROJECT</span>
-                    </a>
-                  )}
-                </div>
-
-                <div className="studio-meta">
-                  <div className="studio-meta-item">
-                    <span>SECURITY_LEVEL</span>
-                    <span>ENCRYPTED_L2</span>
-                  </div>
-                  <div className="studio-meta-item">
-                    <span>SECTOR_ID</span>
-                    <span>AI_LABS_0{project.id}</span>
-                  </div>
-                </div>
-              </div>
-
+        {/* SCROLLING RIGHT: DESCRIPTION & DETAILS */}
+        <div className="detail-content-scroll" ref={scrollRef}>
+          <div className="lenis-content">
+            <div className="section-block">
+              <span className="section-label">OVERVIEW</span>
+              <p className="detail-description">{currentProject.brief}</p>
             </div>
-          </motion.div>
-          
-          <footer className="studio-footer">
-            <p>© 2026 SUPRIT L. // ALL RIGHTS RESERVED // CINEMATIC_STUDIO_V1</p>
-          </footer>
+
+            <div className="section-block">
+              <span className="section-label">CHALLENGE & SOLUTIONS</span>
+              <div className="problem-solves-list">
+                {currentProject.problemSolves?.map((solve, i) => (
+                  <motion.div 
+                    key={i} 
+                    className="solve-item"
+                    initial={{ x: 20, opacity: 0 }}
+                    whileInView={{ x: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <span className="solve-number">{i + 1 < 10 ? `0${i + 1}` : i + 1}</span>
+                    <span className="solve-text">{solve}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            <div className="section-block">
+              <span className="section-label">TECHNOLOGIES</span>
+              <div className="tech-stack-container">
+                {currentProject.tech.map((t, i) => (
+                  <span key={i} className="tech-pill">{t}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="section-block">
+              <span className="section-label">RESOURCES</span>
+              <div className="action-links">
+                {currentProject.github && (
+                  <a href={currentProject.github} target="_blank" rel="noopener noreferrer" className="action-btn primary">
+                    <Github size={18} />
+                    <span>Source Code</span>
+                    <ArrowUpRight size={14} />
+                  </a>
+                )}
+                {currentProject.live && (
+                  <a href={currentProject.live} target="_blank" rel="noopener noreferrer" className="action-btn secondary">
+                    <Rocket size={18} />
+                    <span>Live Demo</span>
+                    <ExternalLink size={14} />
+                  </a>
+                )}
+              </div>
+            </div>
+
+            {currentProject.gallery && currentProject.gallery.length > 0 && (
+              <div className="section-block">
+                <span className="section-label">GALLERY</span>
+                <div className="gallery-stack">
+                  {currentProject.gallery.map((img, i) => (
+                    <motion.div 
+                      key={i} 
+                      className="gallery-item"
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                    >
+                      <img src={img} alt={`${currentProject.title} visual ${i+1}`} className="gallery-img" />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <footer style={{ padding: '4rem 0', opacity: 0.2, textAlign: 'center' }}>
+              <p style={{ fontFamily: 'Space Mono', fontSize: '0.6rem', letterSpacing: '0.4em' }}>
+                END OF CASE STUDY
+              </p>
+            </footer>
+          </div>
         </div>
-
       </div>
-    </motion.div>
+    </motion.div>,
+    document.getElementById('project-portal')
   );
 };
 
-const ProjectDetail = ({ project, onClose }) => {
-  if (!project) return null;
-  
-  const portalRoot = document.getElementById('project-portal');
-  if (!portalRoot) return null;
-
-  return createPortal(
-    <AnimatePresence mode="wait">
-      <CinematicGallery key={project.id} project={project} onClose={onClose} />
-    </AnimatePresence>,
-    portalRoot
-  );
-};
+// Helper
+function hexToRgb(hex) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? 
+    `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : 
+    '99, 102, 241';
+}
 
 export default ProjectDetail;

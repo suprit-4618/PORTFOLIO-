@@ -121,7 +121,9 @@ html.lenis {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: transparent;
+  background: none !important;
+  position: relative;
+  z-index: 1;
 }
 
 .header {

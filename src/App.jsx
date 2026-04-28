@@ -2,7 +2,7 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { motion, useMotionValue, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Mail, ArrowRight, FileDown, Menu, X, ChevronDown } from 'lucide-react';
-import SpaceOdyssey from './components/SpaceOdyssey';
+import AliveNebulaBackground from './components/AliveNebulaBackground';
 import About from './components/About';
 import Projects from './components/Projects';
 import ProjectDetail from './components/ProjectDetail';
@@ -82,9 +82,8 @@ function App() {
   return (
     <>
       <Analytics />
+      <AliveNebulaBackground />
       <div className="portfolio-container" onMouseMove={handleMouseMove}>
-        {/* --- 3D SPACE ODYSSEY PARALLAX --- */}
-        <SpaceOdyssey />
         
         <header className="header">
           <button 

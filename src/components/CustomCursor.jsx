@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 const CustomCursor = () => {
@@ -43,10 +44,13 @@ const CustomCursor = () => {
     };
   }, [mouseX, mouseY]);
 
+  const portalRoot = document.getElementById('cursor-portal');
+  if (!portalRoot) return null;
+
   // Smaller, subtler halo
   const haloSize = isHovering ? 35 : 20;
   
-  return (
+  return createPortal(
     <>
       {/* Main Pointer Dot */}
       <motion.div
@@ -76,7 +80,8 @@ const CustomCursor = () => {
           y: "-50%"
         }}
       />
-    </>
+    </>,
+    portalRoot
   );
 };
 
