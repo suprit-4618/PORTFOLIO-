@@ -2,7 +2,6 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { motion, useMotionValue, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Mail, ArrowRight, FileDown, Menu, X, ChevronDown } from 'lucide-react';
-import AliveNebulaBackground from './components/AliveNebulaBackground';
 import About from './components/About';
 import Projects from './components/Projects';
 import ProjectDetail from './components/ProjectDetail';
@@ -80,9 +79,8 @@ function App() {
   };
 
   return (
-    <>
+    <div style={{ background: '#000', minHeight: '100vh' }}>
       <Analytics />
-      <AliveNebulaBackground />
       <div className="portfolio-container" onMouseMove={handleMouseMove}>
         
         <header className="header">
@@ -128,27 +126,7 @@ function App() {
           </AnimatePresence>
         </header>
 
-        {/* --- SECTION 1: CINEMATIC LANDING (Planet Focus) --- */}
-        <section className="cinematic-landing" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 2, delay: 0.5 }}
-            style={{ textAlign: 'center' }}
-          >
-             <p style={{ fontFamily: 'Space Mono', fontSize: '0.7rem', letterSpacing: '0.8em', color: 'rgba(255,255,255,0.3)', marginBottom: '1rem' }}>
-               INITIATING VOYAGE
-             </p>
-             <motion.div
-               animate={{ y: [0, 10, 0] }}
-               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-             >
-               <ChevronDown size={32} color="rgba(255,255,255,0.5)" />
-             </motion.div>
-          </motion.div>
-        </section>
-
-        {/* --- SECTION 2: HERO (The Name) --- */}
+        {/* --- HERO SECTION --- */}
         <main id="hero" className="hero-section" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '0 5%' }}>
           <div className="hero-content-wrapper">
             <div className="hero-content">
@@ -208,7 +186,7 @@ function App() {
           />
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
 
