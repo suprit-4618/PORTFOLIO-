@@ -105,7 +105,7 @@ const Certificates = () => {
           {COMPANY_CERTIFICATES.map((company) => (
             <motion.div
               key={company.id}
-              className="cert-card company-card"
+              className="cert-card company-card glass-panel"
               variants={cardVariants}
               whileHover={{ y: -10, scale: 1.02 }}
               onClick={() => setSelectedCompany(company)}

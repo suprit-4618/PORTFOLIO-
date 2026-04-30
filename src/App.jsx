@@ -79,7 +79,7 @@ function App() {
   };
 
   return (
-    <div style={{ background: '#000', minHeight: '100vh' }}>
+    <div style={{ background: '#030303', minHeight: '100vh' }}>
       <Analytics />
       <div className="portfolio-container" onMouseMove={handleMouseMove}>
         
@@ -130,15 +130,9 @@ function App() {
         <main id="hero" className="hero-section" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '0 5%' }}>
           <div className="hero-content-wrapper">
             <div className="hero-content">
-              <motion.h1 
-                className="hero-title"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: false }}
-                transition={{ duration: 1 }}
-              >
+              <h1 className="hero-title">
                 SUPRIT L
-              </motion.h1>
+              </h1>
               <p className="hero-tagline">AI & DATA SCIENCE ENGINEER</p>
               
               <div className="btn-group">

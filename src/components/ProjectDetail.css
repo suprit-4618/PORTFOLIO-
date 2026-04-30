@@ -1,8 +1,6 @@
 :root {
-  --detail-bg: rgba(3, 7, 18, 0.98);
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --accent-primary: #6366f1;
+  --detail-bg: rgba(3, 7, 18, 0.95);
+  --accent-primary: #00f2ff;
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
 }
@@ -12,7 +10,7 @@
   inset: 0;
   z-index: 9999;
   background: var(--detail-bg);
-  backdrop-filter: blur(20px);
+  background: var(--detail-bg);
   overflow: hidden; /* Lenis will handle scroll */
 }
 
@@ -92,7 +90,7 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
 .nav-btn:hover, .close-detail-btn:hover {

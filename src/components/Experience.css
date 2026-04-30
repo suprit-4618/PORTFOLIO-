@@ -74,7 +74,7 @@
 
 .experience-card:hover {
   transform: translateY(-5px);
-  background: var(--glass-border-light);
+  border-color: var(--glass-border-strong);
 }
 
 .experience-card .card-header {
