@@ -309,12 +309,12 @@ const SKILLS = [
 ];
 
 const CATEGORY_COLORS = {
-  'Languages':    '139, 92, 246',   // violet
-  'AI / ML':      '236, 72, 153',   // pink
-  'Backend':      '6, 182, 212',    // cyan
-  'Databases':    '251, 146, 60',   // orange
-  'Tools':        '52, 211, 153',   // emerald
-  '3D & Graphics':'248, 113, 113',  // red
+  'Languages':    '79, 70, 229',   // Indigo Royale
+  'AI / ML':      '225, 29, 72',   // Rose Gold
+  'Backend':      '13, 148, 136',  // Ocean Teal
+  'Databases':    '217, 119, 6',   // Amber Glow
+  'Tools':        '5, 150, 105',   // Forest Mint
+  '3D & Graphics':'190, 18, 60',  // Sunset Crimson
 };
 
 const Skills = () => {

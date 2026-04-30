@@ -6,7 +6,7 @@ class Particle {
     this.y = y;
     this.homeX = x;
     this.homeY = y;
-    this.size = 1.6;
+    this.size = 2.4;
     this.vx = 0;
     this.vy = 0;
     this.friction = 0.94; // slightly more fluid
@@ -24,7 +24,7 @@ class Particle {
     const g = Math.round(white[1] + (cyan[1] - white[1]) * this.interactionFactor);
     const b = Math.round(white[2] + (cyan[2] - white[2]) * this.interactionFactor);
     
-    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${0.4 + this.interactionFactor * 0.6})`;
+    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${0.7 + this.interactionFactor * 0.3})`;
     ctx.fillRect(this.x - this.size/2, this.y - this.size/2, this.size, this.size);
   }
 

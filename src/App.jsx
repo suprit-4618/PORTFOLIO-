@@ -79,7 +79,7 @@ function App() {
   };
 
   return (
-    <div style={{ background: '#030303', minHeight: '100vh' }}>
+    <div style={{ background: '#000000', minHeight: '100vh' }}>
       <Analytics />
       <div className="portfolio-container" onMouseMove={handleMouseMove}>
         

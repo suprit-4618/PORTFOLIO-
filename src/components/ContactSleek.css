@@ -18,7 +18,7 @@
   transform: translate(-50%, -50%);
   width: 90vw;
   height: 90vw;
-  background: radial-gradient(circle, var(--glass-border-light) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
   filter: blur(150px);
   pointer-events: none;
   z-index: 1;
@@ -35,7 +35,7 @@
   font-size: 0.65rem;
   font-weight: 800;
   letter-spacing: 5px;
-  color: #555;
+  color: var(--text-tertiary);
   margin-bottom: 2rem;
   display: inline-block;
   border: 1px solid var(--glass-border-light);
@@ -98,12 +98,16 @@
 }
 
 .sleek-form {
-  background: rgba(255, 255, 255, 0.005);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1px solid var(--glass-border-light);
-  border-radius: 60px;
-  padding: 6rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 40px;
+  padding: 5rem;
   display: flex;
   flex-direction: column;
   gap: 4rem;
@@ -165,11 +169,11 @@
 }
 
 .sleek-input-group label {
-  font-size: 0.65rem;
-  font-weight: 900;
+  font-size: 0.7rem;
+  font-weight: 700;
   text-transform: uppercase;
-  color: #333;
-  letter-spacing: 0.3em;
+  color: var(--text-tertiary);
+  letter-spacing: 0.25em;
 }
 
 .sleek-input-group input,
@@ -187,8 +191,8 @@
 
 .sleek-input-group input:focus,
 .sleek-input-group textarea:focus {
-  border-bottom-color: var(--text-primary);
-  padding-left: 1rem;
+  border-bottom-color: var(--accent);
+  padding-left: 0.5rem;
 }
 
 .sleek-submit {
@@ -252,7 +256,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #444;
+  color: var(--text-secondary);
   transition: all 0.3s ease;
 }
 
