@@ -112,6 +112,19 @@ const SKILLS = [
     )
   },
   { 
+    name: 'Node.js', 
+    category: 'Backend', 
+    slug: 'nodedotjs',
+    description: 'JS runtime environment',
+    content: () => (
+      <p>
+        Node.js is a key part of my backend toolkit. I use it to build 
+        scalable network applications, RESTful APIs, and server-side logic 
+        using JavaScript.
+      </p>
+    )
+  },
+  { 
     name: 'MySQL', 
     category: 'Databases', 
     slug: mysqlIcon,
@@ -177,6 +190,19 @@ const SKILLS = [
     )
   },
   { 
+    name: 'n8n', 
+    category: 'Tools', 
+    slug: 'n8n',
+    description: 'Workflow automation',
+    content: () => (
+      <p>
+        I use n8n for node-based workflow automation. It helps me connect 
+        various APIs, databases, and AI services into automated backend tasks 
+        with minimal overhead.
+      </p>
+    )
+  },
+  { 
     name: 'Git', 
     category: 'Tools', 
     slug: 'git',
@@ -186,6 +212,19 @@ const SKILLS = [
         Git is the backbone of my collaborative workflow. 
         I maintain clean commit histories and manage branches effectively 
         to ensure seamless team integration.
+      </p>
+    )
+  },
+  { 
+    name: 'Postman', 
+    category: 'Tools', 
+    slug: 'postman',
+    description: 'API testing & design',
+    content: () => (
+      <p>
+        Postman is my tool of choice for designing, testing, and documenting 
+        APIs. It allows me to build automated test suites and verify backend 
+        endpoints with ease.
       </p>
     )
   },

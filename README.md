@@ -34,9 +34,9 @@ Welcome to my personal portfolio repository! I am an **AI & Data Science Enginee
 ## 🛠️ Skills & Tech
 - **AI/ML:** TensorFlow, PyTorch, Scikit-Learn, Gemini/Groq APIs
 - **Languages:** Python, Java, JavaScript, SQL
-- **Frameworks:** React, FastAPI, Node.js, Vite
-- **Data Eng:** Apache Airflow, dbt, PostgreSQL, Docker
-- **Cloud/BaaS:** Firebase, Render, Vercel
+- **Frameworks & Runtimes:** React, FastAPI, Node.js, Vite
+- **Data Eng & Automation:** Apache Airflow, dbt, PostgreSQL, Docker, n8n
+- **Tools & Platforms:** Postman, Firebase, Render, Vercel, Git
 
 ## 📬 Connect with Me
 - **LinkedIn:** [/in/suprit-l](https://www.linkedin.com/in/suprit-l)

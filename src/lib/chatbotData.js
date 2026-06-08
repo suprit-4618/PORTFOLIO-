@@ -16,7 +16,19 @@ export const KNOWLEDGE_BASE = [
   },
   {
     keywords: ["skills", "tech", "technologies", "stack", "languages"],
-    response: "Suprit specializes in AI/ML (TensorFlow, PyTorch), Python, Java, and Big Data (PySpark). He's also proficient in Backend (FastAPI, Firebase, Render), DevOps (Docker, CI/CD), and 3D Graphics (Three.js, WebGL)."
+    response: "Suprit specializes in AI/ML (TensorFlow, PyTorch), Python, Java, and Big Data (PySpark). He's also proficient in Backend (Node.js, FastAPI, Firebase, Render, n8n), DevOps (Docker, CI/CD), testing (Postman), and 3D Graphics (Three.js, WebGL)."
+  },
+  {
+    keywords: ["node", "nodejs", "node.js"],
+    response: "Suprit uses Node.js for backend development, building scalable network applications and RESTful APIs with JavaScript."
+  },
+  {
+    keywords: ["n8n", "automation", "workflow"],
+    response: "Suprit is skilled in n8n for node-based workflow automation, connecting APIs, databases, and AI services."
+  },
+  {
+    keywords: ["postman", "api testing"],
+    response: "Suprit uses Postman for testing, debugging, and documenting RESTful APIs to ensure reliability."
   },
   {
     keywords: ["projects", "work", "portfolio"],
