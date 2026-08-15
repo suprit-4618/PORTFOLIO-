@@ -52,15 +52,15 @@ export const KNOWLEDGE_BASE = [
   },
   {
     keywords: ["experience", "intern", "internship", "tap academy", "work"],
-    response: "Suprit is currently a Full Stack Web Development Intern at TAP Academy in Bengaluru, gaining hands-on experience with Java, React, and SQL. He's also a Student Innovator at K-tech (NAIN) in Belagavi, developing a smart reverse vending system involving embedded hardware!"
+    response: "Suprit completed a Full Stack Web Development Internship at TAP Academy in Bengaluru (Feb 2026 - Jun 2026), gaining hands-on experience with Java, React, and SQL. He's also a Student Innovator at K-tech (NAIN) in Belagavi, developing a smart reverse vending system involving embedded hardware!"
   },
   {
     keywords: ["publication", "paper", "journal", "research"],
     response: "Suprit has published a research paper titled 'AGRIVERSEAI – SMART AGRICULTURAL WEB APPLICATION FOR KARNATAKA PEOPLE' in the IRJMETS Journal. It focuses on a bilingual voice assistant for farmers using NLP."
   },
   {
-    keywords: ["education", "degree", "college", "university", "study", "btech"],
-    response: "Suprit is pursuing his B.Tech in AI & Data Science. He is based in Karnataka, India, and is highly active in institutional innovation teams."
+    keywords: ["education", "degree", "college", "university", "study", "btech", "be"],
+    response: "Suprit has completed his B.E. in Artificial Intelligence and Data Science."
   },
   {
     keywords: ["contact", "email", "linkedin", "hire", "reach"],
@@ -69,6 +69,10 @@ export const KNOWLEDGE_BASE = [
   {
     keywords: ["space", "defense", "rockets"],
     response: "Suprit is highly interested in Space Exploration and Defense Technology R&D. He loves building solutions that push the boundaries of what's possible in these fields."
+  },
+  {
+    keywords: ["resume", "cv", "download resume", "download cv", "bio", "curriculum vitae"],
+    response: "You can download Suprit's updated CV directly using the 'DOWNLOAD CV' button in the main header section or directly access it at /Suprit.pdf!"
   },
   {
     keywords: ["games", "gaming", "hobby"],

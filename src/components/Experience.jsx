@@ -10,9 +10,9 @@ const EXPERIENCE_DATA = [
     role: 'Full Stack Web Development Intern',
     company: 'TAP Academy',
     location: 'Bengaluru, India',
-    date: '02/2026 - Present',
-    status: 'Ongoing',
-    description: 'Currently undergoing structured training in full stack development. Developing web applications focusing on application flow, API integration, and database connectivity while gaining hands-on experience with Git and maintainable code.',
+    date: '02/2026 - 06/2026',
+    status: 'Completed',
+    description: 'Completed an intensive full-stack development internship. Engineered responsive React applications, integrated RESTful APIs, and built robust SQL database connections with maintainable code standards.',
     skills: ['Java', 'JavaScript', 'React', 'SQL']
   },
   {
