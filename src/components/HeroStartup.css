@@ -1,0 +1,254 @@
+/* ─────────────────────────────────────────────────────────────
+   HERO CINEMATIC STAGE (Pure GPU Accelerated Silk Smoothness)
+   Matches the video reference with zero layout thrashing
+   ───────────────────────────────────────────────────────────── */
+
+.hero-cinematic-stage {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #050608;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+/* ─── 1. ATMOSPHERIC 3D MATTE PARALLAX LAYER ─── */
+.hero-parallax-matte-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-parallax-image {
+  position: absolute;
+  top: -4%;
+  left: -4%;
+  width: 108%;
+  height: 108%;
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  filter: brightness(0.72) contrast(1.06);
+}
+
+.hero-bottom-vignette {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 38vh;
+  background: linear-gradient(to bottom, rgba(5, 6, 8, 0) 0%, #050608 100%);
+  pointer-events: none;
+}
+
+.hero-radial-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 20% 50%, 
+    rgba(5, 6, 8, 0.76) 0%, 
+    rgba(5, 6, 8, 0.35) 55%, 
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* ─── 2. CONTENT CONTAINER (Shifted left for optimal video reference layout) ─── */
+.hero-cinematic-container {
+  position: relative;
+  z-index: 10;
+  max-width: 1560px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 3.5rem);
+  padding-left: clamp(2.5rem, 7vw, 6.5rem);
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* ─── 3. ORCHESTRATED TITLE NODE (Pure GPU Transforms) ─── */
+.hero-title-motion-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 10;
+  max-width: 640px;
+  will-change: transform;
+}
+
+/* Row containing the text mask and vertical bar */
+.hero-bar-reveal-row {
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: flex-start;
+}
+
+/* Text Mask (Clip boundary for the typography) */
+.hero-name-mask {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding-right: clamp(14px, 2vw, 22px);
+  padding-left: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  z-index: 1;
+}
+
+.hero-display-name {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: clamp(3.2rem, 7.5vw, 6.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  line-height: 1;
+  margin: 0;
+  white-space: nowrap;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Luminous Vertical Bar */
+.hero-luminous-bar {
+  width: 3.5px;
+  height: clamp(52px, 7.5vw, 84px);
+  background: #ffffff;
+  border-radius: 1px;
+  transform-origin: center top;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  will-change: transform, opacity, box-shadow;
+}
+
+/* Subtitle */
+.hero-subtitle-wrapper {
+  margin-top: clamp(0.9rem, 1.8vw, 1.4rem);
+  overflow: visible;
+}
+
+.hero-subtitle-text {
+  display: inline-block;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: #94a3b8;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Actions Row */
+.hero-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: clamp(1.8rem, 3.5vw, 2.6rem);
+  flex-wrap: wrap;
+}
+
+/* Solid White Button ("VIEW MY WORK ->") */
+.hero-btn-solid {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #ffffff;
+  color: #050608;
+  font-family: var(--font-sans, sans-serif);
+  font-size: clamp(0.78rem, 1.1vw, 0.88rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.85rem 1.6rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.12);
+}
+
+.hero-btn-solid:hover {
+  transform: translateY(-2px);
+  background: #f1f5f9;
+  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.22);
+}
+
+/* Outline/Glass Button ("DOWNLOAD CV") */
+.hero-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  font-family: var(--font-sans, sans-serif);
+  font-size: clamp(0.78rem, 1.1vw, 0.88rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.85rem 1.6rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-btn-outline:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+}
+
+/* Skip Indicator */
+.hero-skip-indicator {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: #64748b;
+  text-transform: uppercase;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .hero-cinematic-stage {
+    min-height: 100svh;
+  }
+  .hero-cinematic-container {
+    min-height: 100svh;
+    padding: 0 1.5rem;
+  }
+  .hero-display-name {
+    font-size: 2.8rem;
+  }
+  .hero-luminous-bar {
+    height: 46px;
+    width: 3px;
+  }
+  .hero-subtitle-text {
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+  }
+  .hero-actions-row {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 280px;
+  }
+  .hero-btn-solid,
+  .hero-btn-outline {
+    justify-content: center;
+  }
+}

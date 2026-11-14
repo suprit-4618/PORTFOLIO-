@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <radialGradient id="g_pyspark" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E25A1C" stop-opacity="0.35"/>
+      <stop offset="65%" stop-color="#09090b" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#09090b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="r_pyspark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E25A1C"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.3"/>
+    </linearGradient>
+    <filter id="f_pyspark" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#E25A1C" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <circle cx="250" cy="250" r="230" fill="url(#g_pyspark)" />
+  <circle cx="250" cy="250" r="210" fill="#0b1120" stroke="url(#r_pyspark)" stroke-width="3" filter="url(#f_pyspark)" />
+  <circle cx="250" cy="250" r="185" fill="none" stroke="#E25A1C" stroke-width="1.2" stroke-dasharray="8,6" opacity="0.3" />
+  <circle cx="250" cy="250" r="150" fill="#070c18" stroke="#1e293b" stroke-width="2" />
+  
+  <!-- Icon Frame -->
+  <g transform="translate(170, 170)">
+    <svg viewBox="0 0 24 24" width="160" height="160"><path fill="#E25A1C" d="M12.5 1.5c-.8 2.5-3.2 4.2-3.2 6.5 0 2.2 1.8 3.5 1.8 5.2 0 1.2-.8 2.2-2 2.2-2.2 0-3.5-2.2-3.5-4.8 0-4 3.5-7.5 4.5-9.1-5 2-8.5 6.8-8.5 12.2 0 5.8 4.7 8.8 9.5 8.8 5.8 0 11.2-4.5 11.2-11.5 0-4.8-3.2-8.2-7.5-9.5z"/></svg>
+  </g>
+
+  <text x="250" y="80" text-anchor="middle" fill="#E25A1C" font-family="monospace" font-size="12" font-weight="700" letter-spacing="3">APACHE PYSPARK · BIG DATA</text>
+  <text x="250" y="435" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="11" font-weight="600" letter-spacing="2.5">DISTRIBUTED DATASETS · BATCH ETL</text>
+</svg>

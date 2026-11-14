@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <radialGradient id="g_git" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F05032" stop-opacity="0.35"/>
+      <stop offset="65%" stop-color="#09090b" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#09090b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="r_git" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F05032"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.3"/>
+    </linearGradient>
+    <filter id="f_git" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#F05032" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <circle cx="250" cy="250" r="230" fill="url(#g_git)" />
+  <circle cx="250" cy="250" r="210" fill="#0b1120" stroke="url(#r_git)" stroke-width="3" filter="url(#f_git)" />
+  <circle cx="250" cy="250" r="185" fill="none" stroke="#F05032" stroke-width="1.2" stroke-dasharray="8,6" opacity="0.3" />
+  <circle cx="250" cy="250" r="150" fill="#070c18" stroke="#1e293b" stroke-width="2" />
+  
+  <!-- Official Git Logo -->
+  <g transform="translate(160, 160)">
+    <svg viewBox="0 0 24 24" width="180" height="180">
+      <path fill="#F05032" d="M23.5 11 13 .5c-.6-.6-1.6-.6-2.2 0L8.6 2.7l2.8 2.8a1.9 1.9 0 0 1 2.4 2.4l2.7 2.7a1.9 1.9 0 1 1-1.2 1.1l-2.5-2.5v6.6a1.9 1.9 0 1 1-1.6 0V9.1a1.9 1.9 0 0 0-1-1.7L7.6 5.5 3.5 9.6c-.6.6-.6 1.6 0 2.2L14 22.3c.6.6 1.6.6 2.2 0l7.3-7.3c.6-.6.6-1.6 0-2.2z"/>
+    </svg>
+  </g>
+
+  <text x="250" y="80" text-anchor="middle" fill="#F05032" font-family="monospace" font-size="12" font-weight="700" letter-spacing="3">GIT &amp; GITHUB · VERSION CONTROL</text>
+  <text x="250" y="435" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="11" font-weight="600" letter-spacing="2.5">CI/CD ACTIONS · RELEASES</text>
+</svg>

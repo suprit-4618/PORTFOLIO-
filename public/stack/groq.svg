@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <radialGradient id="g_groq" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F55036" stop-opacity="0.35"/>
+      <stop offset="65%" stop-color="#09090b" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#09090b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="r_groq" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F55036"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.3"/>
+    </linearGradient>
+    <filter id="f_groq" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#F55036" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <circle cx="250" cy="250" r="230" fill="url(#g_groq)" />
+  <circle cx="250" cy="250" r="210" fill="#0b1120" stroke="url(#r_groq)" stroke-width="3" filter="url(#f_groq)" />
+  <circle cx="250" cy="250" r="185" fill="none" stroke="#F55036" stroke-width="1.2" stroke-dasharray="8,6" opacity="0.3" />
+  <circle cx="250" cy="250" r="150" fill="#070c18" stroke="#1e293b" stroke-width="2" />
+  
+  <!-- Icon Frame -->
+  <g transform="translate(170, 170)">
+    <svg viewBox="0 0 24 24" width="160" height="160"><path fill="#F55036" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5h-2v-5h2v5zm0-7h-2V7h2v2.5z"/></svg>
+  </g>
+
+  <text x="250" y="80" text-anchor="middle" fill="#F55036" font-family="monospace" font-size="12" font-weight="700" letter-spacing="3">GROQ · LLAMA 3.3 · LPUS</text>
+  <text x="250" y="435" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="11" font-weight="600" letter-spacing="2.5">SUB-SECOND INFERENCE ACCELERATION</text>
+</svg>

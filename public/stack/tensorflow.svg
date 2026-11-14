@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <radialGradient id="g_tensorflow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF6F00" stop-opacity="0.35"/>
+      <stop offset="65%" stop-color="#09090b" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#09090b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="r_tensorflow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6F00"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.3"/>
+    </linearGradient>
+    <filter id="f_tensorflow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#FF6F00" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <circle cx="250" cy="250" r="230" fill="url(#g_tensorflow)" />
+  <circle cx="250" cy="250" r="210" fill="#0b1120" stroke="url(#r_tensorflow)" stroke-width="3" filter="url(#f_tensorflow)" />
+  <circle cx="250" cy="250" r="185" fill="none" stroke="#FF6F00" stroke-width="1.2" stroke-dasharray="8,6" opacity="0.3" />
+  <circle cx="250" cy="250" r="150" fill="#070c18" stroke="#1e293b" stroke-width="2" />
+  
+  <!-- Icon Frame -->
+  <g transform="translate(170, 170)">
+    <svg viewBox="0 0 24 24" width="160" height="160"><path fill="#FF6F00" d="M1.5 5.5l9-5.2v23.4l-3-1.7V13.8L1.5 10.4V5.5zm21 0l-9-5.2v23.4l3-1.7V13.8l6-3.4V5.5zM12 7.2l4.5-2.6-4.5-2.6-4.5 2.6L12 7.2z"/></svg>
+  </g>
+
+  <text x="250" y="80" text-anchor="middle" fill="#FF6F00" font-family="monospace" font-size="12" font-weight="700" letter-spacing="3">TENSORFLOW · KERAS · CNN</text>
+  <text x="250" y="435" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="11" font-weight="600" letter-spacing="2.5">DEEP LEARNING · MOBILENET</text>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <radialGradient id="g_firebase" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFCA28" stop-opacity="0.35"/>
+      <stop offset="65%" stop-color="#09090b" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#09090b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="r_firebase" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFCA28"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.3"/>
+    </linearGradient>
+    <filter id="f_firebase" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#FFCA28" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <circle cx="250" cy="250" r="230" fill="url(#g_firebase)" />
+  <circle cx="250" cy="250" r="210" fill="#0b1120" stroke="url(#r_firebase)" stroke-width="3" filter="url(#f_firebase)" />
+  <circle cx="250" cy="250" r="185" fill="none" stroke="#FFCA28" stroke-width="1.2" stroke-dasharray="8,6" opacity="0.3" />
+  <circle cx="250" cy="250" r="150" fill="#070c18" stroke="#1e293b" stroke-width="2" />
+  
+  <!-- Icon Frame -->
+  <g transform="translate(170, 170)">
+    <svg viewBox="0 0 24 24" width="160" height="160"><path fill="#FFCA28" d="M3.9 17.5l2.4-15a.7.7 0 0 1 1.3-.2l3.4 6.4-7.1 8.8z"/><path fill="#FFA000" d="M14.6 9.4l-3.6-6.9a.7.7 0 0 0-1.3 0L3.9 17.5l10.7-8.1z"/><path fill="#F57C00" d="M12.9 22.1l7.8-4.4-2.7-16.7a.7.7 0 0 0-1.2-.4L3.9 17.5l9 4.6z"/></svg>
+  </g>
+
+  <text x="250" y="80" text-anchor="middle" fill="#FFCA28" font-family="monospace" font-size="12" font-weight="700" letter-spacing="3">FIREBASE · CLOUD INFRASTRUCTURE</text>
+  <text x="250" y="435" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="11" font-weight="600" letter-spacing="2.5">REAL-TIME DB · EDGE ASSETS</text>
+</svg>

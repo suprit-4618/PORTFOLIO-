@@ -1,80 +1,109 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, FileText, ArrowUpRight, Award } from 'lucide-react';
+import { BookOpen, FileText, ArrowUpRight, Award, ExternalLink } from 'lucide-react';
 import './Publications.css';
 
 const PUBLICATIONS_DATA = [
   {
     id: 1,
-    category: 'Journal Article',
-    title: 'AGRIVERSEAI – SMART AGRICULTURAL WEB APPLICATION FOR KARNATAKA PEOPLE',
+    category: 'Peer-Reviewed Journal Publication',
+    title: 'AGRIVERSEAI – Smart Agricultural Web Application for Karnataka Regional Communities',
     authors: 'Prof. Sagar Birje, Mr. Kiran B Nandani, Mr. Suprit K.L., et al.',
-    date: 'May-2025',
-    journal: 'IRJMETS Journal (Vol:07/Issue:05)',
-    description: 'A voice-activated, bilingual smart agriculture assistant for Kannada-speaking farmers. DOI: 10.56726/IRJMETS78194. Integrates NLP and speech technology for crop advisory and disease diagnosis.',
-    tags: ['NLP', 'Smart Agriculture', 'Voice Assistant', 'Kannada'],
+    date: 'May 2025',
+    journal: 'IRJMETS Journal (Vol: 07 / Issue: 05)',
+    doi: '10.56726/IRJMETS78194',
+    description: 'A voice-activated, bilingual smart agriculture assistant integrating computer vision for automated crop disease classification and natural language speech synthesis for regional farmers in Karnataka.',
+    tags: ['Applied Machine Learning', 'Computer Vision', 'Speech NLP', 'Smart Agriculture', 'MobileNetV2'],
     link: '/publications/agriverseAi.pdf'
   }
 ];
 
-const Publications = () => {
+export const Publications = () => {
   return (
-    <section id="publications" className="publications-section">
-      <div className="publications-container">
-        <motion.div 
-          className="section-header"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <motion.h2 className="section-title">
-            Research & <span className="highlight">Publications</span>
-          </motion.h2>
-          <p className="section-subtitle">Academic papers and technical documentation</p>
-        </motion.div>
+    <section id="publications" className="startup-publications-section" aria-label="Scientific Research & Publications">
+      {/* ASCII Floral Artwork Background */}
+      <div className="pub-ascii-bg-wrapper" aria-hidden="true">
+        <img
+          src="/research-ascii-bg.jpg"
+          alt=""
+          className="pub-ascii-bg-img"
+          loading="lazy"
+        />
+        <div className="pub-ascii-bg-overlay" />
+      </div>
 
-        <div className="publications-grid">
+      <div className="startup-publications-container">
+        
+        {/* Section Header */}
+        <div className="startup-section-header">
+          <h2 className="startup-section-title">
+            Published <span className="title-highlight">Research</span>
+          </h2>
+        </div>
+
+        {/* Publications Grid */}
+        <div className="startup-publications-grid">
           {PUBLICATIONS_DATA.map((pub, index) => (
-            <motion.div 
+            <motion.div
               key={pub.id}
-              className="pub-card glass-panel"
+              className="startup-pub-card"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              whileHover={{ y: -10 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="pub-badge">
-                <BookOpen size={14} /> {pub.category}
-              </div>
-              
-              <div className="pub-content">
-                <div className="pub-meta">
-                  <span className="pub-date">{pub.date}</span>
-                  <span className="pub-journal"><Award size={12} /> {pub.journal}</span>
+              <div className="pub-card-top-row">
+                <div className="pub-badge-group">
+                  <span className="pub-type-badge">
+                    <BookOpen size={13} />
+                    <span>{pub.category}</span>
+                  </span>
+                  <span className="pub-journal-badge">
+                    <Award size={13} />
+                    <span>{pub.journal}</span>
+                  </span>
                 </div>
-                
-                <h3 className="pub-title">{pub.title}</h3>
-                <p className="pub-authors">By {pub.authors}</p>
-                <p className="pub-desc">{pub.description}</p>
-                
-                <div className="pub-tags">
-                  {pub.tags.map(tag => (
-                    <span key={tag} className="pub-tag">{tag}</span>
-                  ))}
-                </div>
+                <span className="pub-date-chip">{pub.date}</span>
               </div>
 
-              <div className="pub-footer">
-                <a href={pub.link} target="_blank" rel="noopener noreferrer" className="pub-link">
-                  Read Paper <ArrowUpRight size={16} />
+              <div className="pub-content-block">
+                <h3 className="pub-main-title">{pub.title}</h3>
+                <p className="pub-authors-line">
+                  <strong className="authors-label">Authors:</strong> {pub.authors}
+                </p>
+                <p className="pub-abstract-text">{pub.description}</p>
+                
+                {pub.doi && (
+                  <div className="pub-doi-badge">
+                    <span className="doi-tag">DOI:</span>
+                    <span className="doi-value">{pub.doi}</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="pub-footer-row">
+                <div className="pub-tags-row">
+                  {pub.tags.map((tag) => (
+                    <span key={tag} className="startup-tech-chip">{tag}</span>
+                  ))}
+                </div>
+
+                <a
+                  href={pub.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pub-read-btn"
+                  title="Open full paper PDF in new tab"
+                >
+                  <FileText size={14} />
+                  <span>Read Paper PDF</span>
+                  <ArrowUpRight size={14} />
                 </a>
-                <FileText className="pub-icon" size={24} />
               </div>
             </motion.div>
           ))}
         </div>
+
       </div>
     </section>
   );

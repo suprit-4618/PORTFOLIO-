@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <radialGradient id="g_mongodb" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#47A248" stop-opacity="0.35"/>
+      <stop offset="65%" stop-color="#09090b" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#09090b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="r_mongodb" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#47A248"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.3"/>
+    </linearGradient>
+    <filter id="f_mongodb" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#47A248" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <circle cx="250" cy="250" r="230" fill="url(#g_mongodb)" />
+  <circle cx="250" cy="250" r="210" fill="#0b1120" stroke="url(#r_mongodb)" stroke-width="3" filter="url(#f_mongodb)" />
+  <circle cx="250" cy="250" r="185" fill="none" stroke="#47A248" stroke-width="1.2" stroke-dasharray="8,6" opacity="0.3" />
+  <circle cx="250" cy="250" r="150" fill="#070c18" stroke="#1e293b" stroke-width="2" />
+  
+  <!-- Icon Frame -->
+  <g transform="translate(170, 170)">
+    <svg viewBox="0 0 24 24" width="160" height="160"><path fill="#47A248" d="M12 1.5s-4.5 4-4.5 9.5c0 4.2 2.7 7.5 4.5 9.5 1.8-2 4.5-5.3 4.5-9.5 0-5.5-4.5-9.5-4.5-9.5zm0 18.2c-.2 0-3.7-3.4-3.7-8.7 0-4.3 3.7-8 3.7-8s3.7 3.7 3.7 8c0 5.3-3.5 8.7-3.7 8.7z"/><path fill="#47A248" d="M12 2.5v17c.1-.1.2-.2.3-.3 1.6-1.8 4.2-5.1 4.2-9.2 0-5.2-4.5-7.5-4.5-7.5z"/></svg>
+  </g>
+
+  <text x="250" y="80" text-anchor="middle" fill="#47A248" font-family="monospace" font-size="12" font-weight="700" letter-spacing="3">MONGODB · NOSQL ARCHITECTURE</text>
+  <text x="250" y="435" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="11" font-weight="600" letter-spacing="2.5">JSON DOCUMENT STORE · AGGREGATION</text>
+</svg>

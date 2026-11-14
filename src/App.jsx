@@ -1,185 +1,205 @@
-// v1.0.8 - Starship Odyssey & Refined UI
-import React, { useEffect, useState, Suspense } from 'react';
-import { motion, useMotionValue, AnimatePresence } from 'framer-motion';
-import { Github, Linkedin, Mail, ArrowRight, FileDown, Menu, X, ChevronDown } from 'lucide-react';
-import About from './components/About';
+import React, { useEffect, useState, useCallback } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import MatrixChoice from './components/MatrixChoice';
+import BrunoWorld from './components/bruno/BrunoWorld';
+import StartupNavbar from './components/StartupNavbar';
+import HeroStartup from './components/HeroStartup';
 import Projects from './components/Projects';
-import ProjectDetail from './components/ProjectDetail';
 import Skills from './components/Skills';
 import Certificates from './components/Certificates';
 import Experience from './components/Experience';
 import Publications from './components/Publications';
 import Contact from './components/ContactSleek';
 import CustomCursor from './components/CustomCursor';
-import ChatBot from './components/ChatBot';
 import Footer from './components/Footer';
-import ScrollToTop from './components/ui/ScrollToTop';
+import ImmersiveProjectDetails from './components/project-details/ImmersiveProjectDetails';
 import Lenis from 'lenis';
 import { Analytics } from '@vercel/analytics/react';
 import './index.css';
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [viewMode, setViewMode] = useState('choice'); // 'choice' | 'game' | 'scroll'
+  const [showResumeTransition, setShowResumeTransition] = useState(false);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [selectedProjectSlug, setSelectedProjectSlug] = useState(null);
+
+  // Theme Mode ('light' | 'dark') with persistence and system preference
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('portfolio-theme');
+      if (saved) return saved;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('portfolio-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  }, []);
+
+  // Sync deep links on initial mount (?project=slug)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const initialProject = params.get('project');
+    if (initialProject) {
+      setSelectedProjectSlug(initialProject);
+      setViewMode('scroll');
+    }
+  }, []);
+
+  // Handle browser back and forward navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const project = params.get('project');
+      setSelectedProjectSlug(project || null);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Project navigation handlers
+  const handleOpenProject = useCallback((slug) => {
+    setSelectedProjectSlug(slug);
+    const url = new URL(window.location.href);
+    url.searchParams.set('project', slug);
+    window.history.pushState({ project: slug }, '', url.toString());
+  }, []);
+
+  const handleCloseProject = useCallback(() => {
+    setSelectedProjectSlug(null);
+    const url = new URL(window.location.href);
+    url.searchParams.delete('project');
+    window.history.pushState({}, '', url.toString());
+  }, []);
+
+  const handleNavigateProject = useCallback((nextSlug) => {
+    setSelectedProjectSlug(nextSlug);
+    const url = new URL(window.location.href);
+    url.searchParams.set('project', nextSlug);
+    window.history.replaceState({ project: nextSlug }, '', url.toString());
+  }, []);
+
+  // Handle switching view modes with transition
+  const handleSelectChoice = (mode) => {
+    if (mode === 'scroll') {
+      setShowResumeTransition(true);
+      setIsNavbarVisible(false);
+    }
+    setViewMode(mode);
+  };
 
   // Global Scroll Lock & Lenis Control
   useEffect(() => {
-    if (selectedProject) {
+    if (viewMode === 'game' || viewMode === 'choice' || showResumeTransition || selectedProjectSlug) {
       if (window.lenis) window.lenis.stop();
       document.body.style.overflow = 'hidden';
     } else {
-      if (window.lenis) window.lenis.start();
       document.body.style.overflow = '';
-    }
-  }, [selectedProject]);
+      const lenis = new Lenis({
+        duration: 1.5,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        smoothWheel: true,
+      });
 
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.5,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1.2,
-      smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
-      lerp: 0.1,
-    });
+      window.lenis = lenis;
 
-    window.lenis = lenis;
-    
-    function raf(time) {
-      lenis.raf(time);
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
       requestAnimationFrame(raf);
+
+      return () => {
+        lenis.destroy();
+        window.lenis = null;
+      };
     }
-
-    requestAnimationFrame(raf);
-    return () => {
-      lenis.destroy();
-      window.lenis = null;
-    };
-  }, []);
-
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const rafRef = React.useRef();
-
-  const handleMouseMove = (e) => {
-    const { clientX, clientY } = e;
-    const { innerWidth, innerHeight } = window;
-    mouseX.set((clientX / innerWidth) - 0.5);
-    mouseY.set((clientY / innerHeight) - 0.5);
-    
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(() => {
-      document.documentElement.style.setProperty('--mouse-x', `${clientX}px`);
-      document.documentElement.style.setProperty('--mouse-y', `${clientY}px`);
-    });
-  };
+  }, [viewMode, showResumeTransition, selectedProjectSlug]);
 
   return (
-    <div style={{ background: '#000000', minHeight: '100vh' }}>
+    <div className="portfolio-app-root">
       <Analytics />
-      <div className="portfolio-container" onMouseMove={handleMouseMove}>
-        
-        <header className="header">
-          <button 
-            className="hamburger" 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          >
-            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-          <nav className={`desktop-nav ${isMenuOpen ? 'hidden' : ''}`}>
-            <ul className="nav-links">
-              <li><a href="#about">About</a></li>
-              <li><a href="#experience">Journey</a></li>
-              <li><a href="#skills">Skills</a></li>
-              <li><a href="#projects">Projects</a></li>
-              <li><a href="#publications">Publications</a></li>
-              <li><a href="#certificates">Certificates</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </nav>
 
-          <AnimatePresence>
-            {isMenuOpen && (
-              <motion.div 
-                className="mobile-nav-overlay"
-                initial={{ opacity: 0, x: '100%' }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: '100%' }}
-                transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              >
-                <ul className="mobile-nav-links">
-                  <li><a href="#about" onClick={() => setIsMenuOpen(false)}>About</a></li>
-                  <li><a href="#experience" onClick={() => setIsMenuOpen(false)}>Journey</a></li>
-                  <li><a href="#skills" onClick={() => setIsMenuOpen(false)}>Skills</a></li>
-                  <li><a href="#projects" onClick={() => setIsMenuOpen(false)}>Projects</a></li>
-                  <li><a href="#publications" onClick={() => setIsMenuOpen(false)}>Publications</a></li>
-                  <li><a href="#certificates" onClick={() => setIsMenuOpen(false)}>Certificates</a></li>
-                  <li><a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a></li>
-                </ul>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </header>
+      {/* ─── 1. MATRIX MORPHEUS MINION CHOICE PORTAL ─── */}
+      {viewMode === 'choice' && (
+        <MatrixChoice onSelectChoice={handleSelectChoice} />
+      )}
 
-        {/* --- HERO SECTION --- */}
-        <main id="hero" className="hero-section" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '0 5%' }}>
-          <div className="hero-content-wrapper">
-            <div className="hero-content">
-              <h1 className="hero-title">
-                SUPRIT L
-              </h1>
-              <p className="hero-tagline">AI & DATA SCIENCE ENGINEER</p>
-              
-              <div className="btn-group">
-                <motion.a 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="#projects" 
-                  className="btn primary-btn"
-                >
-                  VIEW MY WORK <ArrowRight className="btn-icon" />
-                </motion.a>
-                <motion.a 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="/Suprit.pdf" 
-                  download="Suprit_L_Resume.pdf" 
-                  className="btn secondary-btn"
-                >
-                  DOWNLOAD CV <FileDown className="btn-icon" />
-                </motion.a>
-              </div>
+      {/* ─── 2. 3D LOW-POLY VILLAGE PLAYGROUND ─── */}
+      {viewMode === 'game' && (
+        <BrunoWorld 
+          onToggleClassicView={() => handleSelectChoice('scroll')}
+          onExitToGateway={() => setViewMode('choice')}
+          onSelectProject={(projectOrSlug) => {
+            const slug = typeof projectOrSlug === 'string' ? projectOrSlug : (projectOrSlug?.slug || projectOrSlug?.id);
+            handleOpenProject(slug);
+          }}
+        />
+      )}
+
+      {/* ─── 3. RESUME PORTFOLIO (Atmospheric Dark Hero & Fluid Entrance) ─── */}
+      {viewMode === 'scroll' && (
+        <div className="portfolio-container" style={{ position: 'relative', zIndex: 10, background: '#050608', minHeight: '100vh', color: '#ffffff' }}>
+          <StartupNavbar 
+            isVisible={isNavbarVisible} 
+            onExitToGateway={() => setViewMode('choice')} 
+            theme={theme}
+            onToggleTheme={toggleTheme}
+          />
+          <main>
+            <HeroStartup 
+              triggerIntro={showResumeTransition} 
+              onPhaseChange={(phase) => {
+                if (phase === 'settled') {
+                  setIsNavbarVisible(true);
+                } else {
+                  setIsNavbarVisible(false);
+                }
+              }}
+              onIntroComplete={() => {
+                setShowResumeTransition(false);
+                setIsNavbarVisible(true);
+              }} 
+            />
+            <div className="portfolio-main-sections" style={{ position: 'relative', zIndex: 20 }}>
+              <Experience />
+              <Skills />
+              <Publications />
+              <Certificates />
+              <Projects onProjectSelect={handleOpenProject} />
+              <Contact />
             </div>
-          </div>
-        </main>
+          </main>
+          <Footer />
+        </div>
+      )}
 
-        {/* --- ABOUT --- */}
-        <About />
-        <Experience />
-        <Skills />
-        <Projects onProjectSelect={setSelectedProject} />
-        <Publications />
-        <Certificates />
-        <Contact />
-        <Footer />
-        <ScrollToTop />
-        <CustomCursor />
-        <ChatBot />
-      </div>
-
+      {/* ─── 4. IMMERSIVE FULLSCREEN PROJECT DETAILS EXPERIENCE ─── */}
       <AnimatePresence>
-        {selectedProject && (
-          <ProjectDetail 
-            project={selectedProject} 
-            onClose={() => setSelectedProject(null)} 
+        {selectedProjectSlug && (
+          <ImmersiveProjectDetails
+            projectSlug={selectedProjectSlug}
+            onClose={handleCloseProject}
+            onNavigateProject={handleNavigateProject}
           />
         )}
       </AnimatePresence>
+
+      {/* Custom Cursor */}
+      <CustomCursor />
     </div>
   );
 }

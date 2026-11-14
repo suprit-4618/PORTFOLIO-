@@ -1,121 +1,196 @@
 import React from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
-import { Briefcase, GraduationCap, Calendar, Circle } from 'lucide-react';
+import { Briefcase, Lightbulb, GraduationCap, Calendar, MapPin, CheckCircle2 } from 'lucide-react';
+import StackingCards, { StackingCardItem } from './ui/stacking-cards';
 import './Experience.css';
 
-const EXPERIENCE_DATA = [
+const EXPERIENCES = [
   {
     id: 1,
-    type: 'internship',
+    indexNumber: '01',
     role: 'Full Stack Web Development Intern',
-    company: 'TAP Academy',
+    organization: 'TAP Academy',
     location: 'Bengaluru, India',
-    date: '02/2026 - 06/2026',
-    status: 'Completed',
-    description: 'Completed an intensive full-stack development internship. Engineered responsive React applications, integrated RESTful APIs, and built robust SQL database connections with maintainable code standards.',
-    skills: ['Java', 'JavaScript', 'React', 'SQL']
+    period: '02/2026 — 06/2026',
+    status: 'Completed Internship',
+    // TAP Academy — Peach Card
+    cardBg: '#F6D6C9',
+    accent: '#B96846',
+    headingColor: '#49352A',
+    panelBg: '#FFF7F0',
+    tagBg: '#F9E9DE',
+    border: '#E5C7B5',
+    textBody: '#6F5849',
+    textMeta: '#6F5849',
+    divider: '#E5C7B5',
+    icon: <Briefcase size={20} />,
+    description: 'Underwent rigorous development training and engineered modular full-stack web applications. Implemented React component trees, integrated RESTful backend APIs, and optimized SQL relational queries for clean data management.',
+    highlights: [
+      'Engineered responsive React web interfaces with state management',
+      'Implemented RESTful microservice endpoints with Java and SQL backends',
+      'Conducted database query optimization and Git collaborative workflows'
+    ],
+    skills: ['Java', 'JavaScript', 'React', 'SQL', 'REST APIs', 'Git']
   },
   {
     id: 2,
-    type: 'innovation',
+    indexNumber: '02',
     role: 'Student Innovator',
-    company: 'K-tech (NAIN)',
+    organization: 'K-tech (NAIN)',
     location: 'Belagavi, India',
-    date: '04/2025 - Present',
-    status: 'Ongoing',
-    description: 'Selected as part of the institutional innovation team for the development of a smart reverse vending system. Gaining exposure to embedded hardware, sensors, actuators, and controller-based reward dispensing workflows.',
-    skills: ['Embedded Systems', 'Hardware-Software Interaction', 'Sensors']
+    period: '04/2025 — Present',
+    status: 'Active Innovation Cohort',
+    // K-tech (NAIN) — Apricot Card
+    cardBg: '#EFC3A5',
+    accent: '#B96846',
+    headingColor: '#49352A',
+    panelBg: '#FFF7F0',
+    tagBg: '#F9E9DE',
+    border: '#E5C7B5',
+    textBody: '#6F5849',
+    textMeta: '#6F5849',
+    divider: '#E5C7B5',
+    icon: <Lightbulb size={20} />,
+    description: 'Selected as part of the institutional technology innovation cohort developing a smart reverse vending ecosystem. Architected embedded controller logic, sensor-actuator hardware communication protocols, and automated reward calculation pipelines.',
+    highlights: [
+      'Architected embedded IoT logic and serial sensor communication',
+      'Engineered automated incentive computation pipelines for reverse vending',
+      'Collaborated with incubation mentors on patentable product roadmaps'
+    ],
+    skills: ['Embedded Systems', 'IoT Architecture', 'Sensor Protocols', 'Hardware Integration']
+  },
+  {
+    id: 3,
+    indexNumber: '03',
+    role: 'Bachelor of Engineering in AI & Data Science',
+    organization: 'Visvesvaraya Technological University',
+    location: 'Karnataka, India',
+    period: '2022 — 2026',
+    status: 'Candidate (Final Year)',
+    // Visvesvaraya Technological University — Muted Tan Card
+    cardBg: '#D8BFA8',
+    accent: '#B96846',
+    headingColor: '#49352A',
+    panelBg: '#FFF7F0',
+    tagBg: '#F9E9DE',
+    border: '#E5C7B5',
+    textBody: '#6F5849',
+    textMeta: '#6F5849',
+    divider: '#E5C7B5',
+    icon: <GraduationCap size={20} />,
+    description: 'Comprehensive curriculum focusing on Machine Learning, Natural Language Processing, Deep Learning, Distributed Data Systems, and Statistical Modeling. Authored peer-reviewed research papers and built open-source technical systems.',
+    highlights: [
+      'Specialization in Neural Networks, NLP, and Distributed Big Data Systems',
+      'Lead author on published agricultural AI research paper in IRJMETS Journal',
+      'Developed multiple production-grade end-to-end applied AI systems'
+    ],
+    skills: ['Machine Learning', 'Data Science', 'Algorithms', 'Deep Learning', 'PySpark']
   }
 ];
 
-const Experience = () => {
-  const containerRef = React.useRef(null);
-  
-  // Track scroll progress within the container
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end end"]
-  });
-
-  // Snappier spring for a "liquid" feel without the lag
-  const scaleY = useSpring(scrollYProgress, {
-    stiffness: 200,
-    damping: 40,
-    restDelta: 0.001
-  });
-
+export const Experience = () => {
   return (
-    <section id="experience" className="experience-section">
-      <div className="experience-container">
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+    <section id="experience" className="startup-experience-section" aria-label="Professional Experience & Timeline">
+      <div className="startup-experience-container">
+        
+        {/* Section Header */}
+        <div className="startup-section-header">
+          <h2 className="startup-section-title">
+            Experiences
+          </h2>
+        </div>
+
+        {/* 21st.dev Scroll-Driven Stacking Cards Showcase */}
+        <StackingCards
+          totalCards={EXPERIENCES.length}
+          scaleMultiplier={0.03}
+          className="experience-stacking-stream"
         >
-          My <span className="highlight">Journey</span>
-        </motion.h2>
-
-        <div className="timeline-wrapper" ref={containerRef}>
-          <div className="timeline-line">
-            <motion.div
-              className="line-progress"
-              style={{ 
-                scaleY,
-                originY: 0,
-                height: '100%' 
-              }}
-            />
-          </div>
-
-          <div className="experience-list">
-            {EXPERIENCE_DATA.map((item, index) => (
-              <motion.div
-                key={item.id}
-                className={`experience-item ${index % 2 === 0 ? 'left' : 'right'}`}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -60 : 60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: index % 2 === 0 ? -60 : 60, scale: 0.8 }}
-                viewport={{ once: false, amount: 0.1, margin: "-10%" }}
-                transition={{ 
-                  type: "spring", 
-                  stiffness: 120, 
-                  damping: 18,
-                  delay: 0 // Removed delay for instant feedback
+          {EXPERIENCES.map((item, index) => (
+            <StackingCardItem
+              key={item.id}
+              index={index}
+              topPosition={`calc(84px + ${index * 26}px)`}
+              className="experience-card-item-wrapper"
+            >
+              <article 
+                className="experience-stack-card"
+                style={{
+                  '--card-bg': item.cardBg,
+                  '--card-accent': item.accent,
+                  '--card-heading': item.headingColor,
+                  '--card-panel-bg': item.panelBg,
+                  '--card-tag-bg': item.tagBg,
+                  '--card-border': item.border,
+                  '--card-text-body': item.textBody,
+                  '--card-text-meta': item.textMeta,
+                  '--card-divider': item.divider,
                 }}
               >
-                <div className="experience-dot">
-                  <Circle size={12} fill="currentColor" />
-                </div>
+                {/* Top decorative accent line */}
+                <div className="card-accent-top-line" />
 
-                <div className="experience-card glass-panel">
-                  <div className="card-header">
-                    <div className="type-icon">
-                      {item.type === 'internship' ? <Briefcase size={20} /> : <GraduationCap size={22} />}
+                <div className="card-inner-grid">
+                  {/* Left Column: Organization & Metadata */}
+                  <div className="card-left-column">
+                    <div className="card-org-row">
+                      <div className="card-org-icon-frame" aria-hidden="true">
+                        {item.icon}
+                      </div>
+                      <div className="card-org-text-group">
+                        <h4 className="card-org-title">{item.organization}</h4>
+                      </div>
                     </div>
-                    <div className="header-text">
-                      <span className="date-tag">
-                        <Calendar size={12} /> {item.date}
-                        {item.status && <span className="status-badge">{item.status}</span>}
-                      </span>
-                      <h3 className="role-title">{item.role}</h3>
-                      <h4 className="company-name">{item.company}</h4>
+
+                    <div className="card-meta-list">
+                      <div className="card-meta-item">
+                        <Calendar size={14} className="meta-icon" />
+                        <span>{item.period}</span>
+                      </div>
+                      <div className="card-meta-item">
+                        <MapPin size={14} className="meta-icon" />
+                        <span>{item.location}</span>
+                      </div>
                     </div>
                   </div>
 
-                  <p className="experience-desc">{item.description}</p>
+                  {/* Right Column: Role & Key Contributions */}
+                  <div className="card-right-column">
+                    <div className="card-role-header">
+                      <h3 className="card-role-headline">{item.role}</h3>
+                    </div>
 
-                  <div className="experience-skills">
-                    {item.skills.map(skill => (
-                      <span key={skill} className="skill-tag">{skill}</span>
-                    ))}
+                    <p className="card-description-narrative">
+                      {item.description}
+                    </p>
+
+                    {/* Achievements List */}
+                    <div className="card-highlights-container">
+                      <span className="highlights-caption">KEY CONTRIBUTIONS & FOCUS</span>
+                      <div className="highlights-items-group">
+                        {item.highlights.map((h, hIdx) => (
+                          <div key={hIdx} className="highlight-entry">
+                            <CheckCircle2 size={16} className="highlight-check-icon" />
+                            <span className="highlight-entry-text">{h}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tech & Competency Chips */}
+                    <div className="card-technologies-row" aria-label="Applied Technologies">
+                      {item.skills.map((skill) => (
+                        <span key={skill} className="card-tech-chip">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+              </article>
+            </StackingCardItem>
+          ))}
+        </StackingCards>
+
       </div>
     </section>
   );

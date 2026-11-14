@@ -1,0 +1,192 @@
+/* ─────────────────────────────────────────────────────────────
+   STARTUP NAVBAR (Atmospheric Dark Glass & Minimalist Navigation)
+   Matches the video reference with sleek typography and exit
+   ───────────────────────────────────────────────────────────── */
+
+.startup-navbar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1.15rem 2rem;
+  background: rgba(5, 6, 8, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.startup-navbar-wrapper.is-scrolled {
+  background: rgba(5, 6, 8, 0.88);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.85rem 2rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.startup-navbar-container {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+/* ─── BRAND LOGO / MONOGRAM ─── */
+.startup-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.brand-monogram {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #050608;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  font-family: var(--font-mono);
+}
+
+.brand-name {
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.brand-period {
+  color: #ffffff;
+}
+
+/* ─── DESKTOP NAV ─── */
+.startup-desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.startup-nav-link {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #94a3b8;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  position: relative;
+  padding: 0.35rem 0;
+}
+
+.startup-nav-link:hover {
+  color: #ffffff;
+}
+
+.startup-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 1.5px;
+  background: #ffffff;
+  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.startup-nav-link:hover::after {
+  width: 100%;
+}
+
+/* ─── ACTIONS ─── */
+.startup-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.startup-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.startup-btn-ghost {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.startup-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.startup-btn-theme {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  padding: 0.45rem 0.85rem;
+}
+
+.startup-btn-theme:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.theme-icon-sun {
+  color: #fbbf24;
+}
+
+.theme-icon-moon {
+  color: #38bdf8;
+}
+
+.startup-btn-exit {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+}
+
+.startup-btn-exit:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+}
+
+/* Mobile Toggle */
+.startup-mobile-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0.3rem;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 960px) {
+  .startup-desktop-nav {
+    display: none;
+  }
+  .startup-mobile-toggle {
+    display: flex;
+  }
+}

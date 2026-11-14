@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
-import CertificateModal from './CertificateModal';
+import { ArrowUpRight, X, FileText, ExternalLink } from 'lucide-react';
 import './Certificates.css';
+import salesforceLogo from '../assets/salesforce.svg';
 import awsLogo from '../assets/aws.png';
 import hackerrankLogo from '../assets/hackerrank.svg';
 import udemyLogo from '../assets/udemy.svg';
@@ -10,11 +10,38 @@ import forageLogo from '../assets/forage.png';
 
 const COMPANY_CERTIFICATES = [
   {
+    id: 'salesforce',
+    name: 'Salesforce',
+    logo: salesforceLogo,
+    color: '#00A1E0',
+    bgGlow: 'rgba(0, 161, 224, 0.15)',
+    highlights: [
+      'Marketing Cloud Engagement Specialist',
+      'Data Modeling & Automation',
+      'Credential ID: 8193916'
+    ],
+    certificates: [
+      { 
+        title: 'Marketing Cloud Engagement Specialist', 
+        link: '/certific/Salesforce/Cert8193916_MarketingCloudEngagementSpecialist_20261008.pdf',
+        credentialId: '8193916',
+        issueDate: 'October 08, 2026',
+        verifyUrl: 'https://trailhead.salesforce.com/en/credentials/verification/'
+      }
+    ]
+  },
+  {
     id: 'aws',
     name: 'Amazon Web Services',
-    slug: awsLogo,
-    accent: 'rgb(255, 153, 0)',
-    description: 'Specialized certifications in Artificial Intelligence and Machine Learning.',
+    logo: awsLogo,
+    color: '#FF9900',
+    bgGlow: 'rgba(255, 153, 0, 0.15)',
+    highlights: [
+      'AWS AI Practitioner Track',
+      'Foundation Models & Optimization',
+      'Prompt Engineering & GenAI',
+      'Responsible AI & Governance'
+    ],
     certificates: [
       { title: 'AWS AI Practitioner Learning Plan', link: '/certific/AWS AI PRACTITIONER/AWS Artificial Intelligence Practitioner Learning Plan.pdf' },
       { title: 'AWS Fundamentals of ML & AI', link: '/certific/AWS AI PRACTITIONER/AWS fundamentals of Machine Learnining and Artificial Intelligence.pdf' },
@@ -30,9 +57,14 @@ const COMPANY_CERTIFICATES = [
   {
     id: 'hackerrank',
     name: 'HackerRank',
-    slug: hackerrankLogo,
-    accent: 'rgb(46, 214, 115)',
-    description: 'Verified skills in Software Engineering, Python, and SQL.',
+    logo: hackerrankLogo,
+    color: '#00EA64',
+    bgGlow: 'rgba(0, 234, 100, 0.15)',
+    highlights: [
+      'Software Engineer Intern Assessment',
+      'Python (Basic) Certification',
+      'SQL (Basic) Relational Queries'
+    ],
     certificates: [
       { title: 'Software Engineer Intern', link: '/certific/hackerrank/software_engineer_intern certificate.pdf' },
       { title: 'Python (Basic)', link: '/certific/hackerrank/python_basic certificate.pdf' },
@@ -41,118 +73,192 @@ const COMPANY_CERTIFICATES = [
   },
   {
     id: 'forage',
-    name: 'Forage',
-    slug: forageLogo,
-    accent: 'rgb(59, 130, 246)',
-    description: 'Professional job simulations in Data Labelling and Technology.',
+    name: 'Forage Simulations',
+    logo: forageLogo,
+    color: '#6366F1',
+    bgGlow: 'rgba(99, 102, 241, 0.15)',
+    highlights: [
+      'Data Labelling Job Simulation',
+      'Technology Job Simulation',
+      'Enterprise Engineering Practice'
+    ],
     certificates: [
-      { title: 'Data Labelling Simulation', link: '/certific/Forage/Data labelling job simulation.pdf' },
+      { title: 'Data Labelling Job Simulation', link: '/certific/Forage/Data labelling job simulation.pdf' },
       { title: 'Technology Job Simulation', link: '/certific/Forage/Technology Job Simulation.pdf' }
     ]
   },
   {
     id: 'udemy',
-    name: 'Udemy',
-    slug: udemyLogo,
-    accent: 'rgb(164, 53, 240)',
-    description: 'Comprehensive bootcamps in Python and Full-Stack development.',
+    name: 'Udemy Academy',
+    logo: udemyLogo,
+    color: '#A435F0',
+    bgGlow: 'rgba(164, 53, 240, 0.15)',
+    highlights: [
+      'Complete Python Bootcamp',
+      'Scripting & OOP Architecture'
+    ],
     certificates: [
       { title: 'Complete Python Bootcamp', link: '/certific/Udemy/Python.pdf' }
     ]
   }
 ];
 
-const Certificates = () => {
-  const [selectedCompany, setSelectedCompany] = useState(null);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.5, ease: 'easeOut' }
-    }
-  };
+export const Certificates = () => {
+  const [activeCompany, setActiveCompany] = useState(null);
 
   return (
-    <section id="certificates" className="certificates-section">
-      <div className="certificates-container">
-        <motion.h2 
-          className="section-title"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          My <span className="highlight">Certificates</span>
-        </motion.h2>
+    <section id="certificates" className="startup-certificates-section" aria-label="Verified Certifications">
+      {/* Ambient Artistic Color Atmosphere */}
+      <div className="cert-ambient-glow cert-glow-left" aria-hidden="true" />
+      <div className="cert-ambient-glow cert-glow-right" aria-hidden="true" />
+      <div className="cert-ambient-glow cert-glow-center" aria-hidden="true" />
 
-        <motion.div 
-          className="certificates-grid"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          {COMPANY_CERTIFICATES.map((company) => (
+      <div className="startup-certificates-container">
+        
+        {/* Section Header */}
+        <div className="startup-section-header">
+          <h2 className="startup-section-title">
+            <span className="title-artistic-gradient">Certifications</span>
+          </h2>
+        </div>
+
+        {/* Certificates Bento Grid */}
+        <div className="startup-certificates-grid">
+          {COMPANY_CERTIFICATES.map((comp, index) => (
             <motion.div
-              key={company.id}
-              className="cert-card company-card glass-panel"
-              variants={cardVariants}
-              whileHover={{ y: -10, scale: 1.02 }}
-              onClick={() => setSelectedCompany(company)}
-              style={{ '--cert-accent': company.accent }}
+              key={comp.id}
+              className="startup-cert-card"
+              style={{
+                '--card-accent': comp.color,
+                '--card-glow': comp.bgGlow,
+              }}
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.45, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              onClick={() => setActiveCompany(comp)}
             >
-              <div className="cert-card-inner">
-                <div className="cert-header">
-                  <div className="cert-logo-wrapper">
-                    <img 
-                      src={company.slug}
-                      alt={company.name}
-                      className="company-logo"
-                      onError={(e) => {
-                        e.target.src = 'https://api.iconify.design/ph:certificate-bold.svg';
-                      }}
-                    />
-                  </div>
-                </div>
+              {/* Inner Artistic Aura & Color Wash */}
+              <div className="cert-card-artistic-glow" />
 
-                <div className="cert-body">
-                  <h3 className="cert-title">{company.name}</h3>
-                  <p className="cert-description">{company.description}</p>
+              <div className="cert-card-top-bar">
+                <div className="cert-logo-wrapper">
+                  <img src={comp.logo} alt={`${comp.name} logo`} className="cert-logo-img" />
                 </div>
-
-                <div className="cert-footer">
-                  <span className="cert-count">
-                    {company.certificates.length} {company.certificates.length === 1 ? 'Certificate' : 'Certificates'}
-                  </span>
-                  <div className="view-details">
-                    Click to View <ExternalLink size={14} className="btn-arrow" />
-                  </div>
+                <div className="cert-card-arrow-pill">
+                  <ArrowUpRight size={17} />
                 </div>
               </div>
-              <div className="cert-glow" />
+
+              <div className="cert-card-info">
+                <h3 className="cert-org-title">{comp.name}</h3>
+                <div className="cert-tags-cloud">
+                  {comp.highlights.map((tag, i) => (
+                    <span key={i} className="cert-artistic-tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="cert-card-bottom-row">
+                <button
+                  className="cert-view-trigger-btn"
+                  onClick={() => setActiveCompany(comp)}
+                >
+                  <span>View {comp.certificates.length > 1 ? `${comp.certificates.length} Certificates` : 'Certificate'}</span>
+                  <ArrowUpRight size={14} />
+                </button>
+              </div>
             </motion.div>
           ))}
-        </motion.div>
-      </div>
+        </div>
 
-      <AnimatePresence>
-        {selectedCompany && (
-          <CertificateModal 
-            company={selectedCompany} 
-            onClose={() => setSelectedCompany(null)} 
-          />
-        )}
-      </AnimatePresence>
+        {/* Certificate Modal / Drawer */}
+        <AnimatePresence>
+          {activeCompany && (
+            <div className="cert-modal-backdrop" onClick={() => setActiveCompany(null)}>
+              <motion.div
+                className="cert-modal-card"
+                style={{
+                  '--modal-accent': activeCompany.color,
+                  '--modal-glow': activeCompany.bgGlow,
+                }}
+                initial={{ opacity: 0, scale: 0.96, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96, y: 15 }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="cert-modal-top-bar">
+                  <div className="modal-title-group">
+                    <div className="modal-logo-wrapper">
+                      <img src={activeCompany.logo} alt={activeCompany.name} className="modal-org-logo" />
+                    </div>
+                    <div>
+                      <h3 className="modal-org-name">{activeCompany.name}</h3>
+                      <p className="modal-org-meta">{activeCompany.certificates.length} Verified {activeCompany.certificates.length === 1 ? 'Credential' : 'Credentials'}</p>
+                    </div>
+                  </div>
+
+                  <button
+                    className="modal-close-btn"
+                    onClick={() => setActiveCompany(null)}
+                    aria-label="Close certificate modal"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+
+                <div className="cert-modal-items-list">
+                  {activeCompany.certificates.map((cert, idx) => (
+                    <div key={idx} className="cert-modal-row">
+                      <div className="cert-row-left">
+                        <FileText size={16} className="cert-row-icon" />
+                        <div className="cert-row-meta-col">
+                          <span className="cert-row-title">{cert.title}</span>
+                          {(cert.credentialId || cert.issueDate) && (
+                            <div className="cert-row-subline">
+                              {cert.credentialId && <span className="cert-sub-id">ID: {cert.credentialId}</span>}
+                              {cert.issueDate && <span className="cert-sub-date">{cert.issueDate}</span>}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="cert-row-actions">
+                        {cert.verifyUrl && (
+                          <a
+                            href={cert.verifyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="cert-verify-btn"
+                            title="Verify credential"
+                          >
+                            <span>Verify</span>
+                            <ExternalLink size={12} />
+                          </a>
+                        )}
+                        <a
+                          href={cert.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="cert-pdf-view-btn"
+                          title="Open PDF in new tab"
+                        >
+                          <span>PDF</span>
+                          <ArrowUpRight size={13} />
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+
+      </div>
     </section>
   );
 };
