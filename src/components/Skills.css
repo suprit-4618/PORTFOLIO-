@@ -300,3 +300,55 @@
   overflow: hidden;
   margin-top: 1rem;
 }
+
+/* ─── RESPONSIVE DESIGN (ALL SCREENS & RATIOS) ─── */
+@media (max-width: 768px) {
+  .startup-skills-section {
+    padding: 4.5rem 1rem 5.5rem;
+  }
+  .startup-skills-section .startup-section-header {
+    margin-bottom: 1.25rem;
+  }
+  .skills-filter-container {
+    gap: 0.45rem;
+    margin-bottom: 2rem;
+  }
+  .skills-filter-pill {
+    padding: 0.42rem 0.8rem;
+    font-size: 0.74rem;
+  }
+  .skill-tech-card {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+  .skills-interactive-hint {
+    margin-top: 3rem;
+  }
+  .skills-catalog-container {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .startup-skills-section {
+    padding: 3.5rem 0.85rem 4.5rem;
+  }
+  .skill-card-top {
+    gap: 0.65rem;
+  }
+  .skill-icon-frame {
+    width: 32px;
+    height: 32px;
+  }
+  .skill-card-name {
+    font-size: 0.95rem;
+  }
+  .skill-highlight-narrative {
+    font-size: 0.82rem;
+  }
+  .skills-toggle-btn {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.8rem;
+  }
+}

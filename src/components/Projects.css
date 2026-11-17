@@ -167,21 +167,50 @@
   user-select: none;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for all screen sizes and aspect ratios */
 @media (max-width: 768px) {
   .startup-projects-section {
     padding: 4.5rem 1rem 6rem;
   }
 
   .projects-folders-grid {
-    row-gap: 5.5rem;
-    column-gap: 1.5rem;
+    row-gap: 5rem;
+    column-gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .project-folder-card-unit {
+    max-width: min(340px, 94vw);
+  }
+
+  .projects-folders-hint {
+    margin-top: 3.5rem;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
+  .startup-projects-section {
+    padding: 3.5rem 0.75rem 4.5rem;
+  }
+
+  .projects-folders-grid {
+    row-gap: 4.5rem;
+  }
+
+  .project-folder-card-unit {
+    max-width: 100%;
+  }
+
   .project-folder-wrapper .gf-root {
     transform-origin: center top;
-    scale: 0.9;
+    scale: 0.88;
+    margin-bottom: -24px;
+  }
+}
+
+@media (max-width: 350px) {
+  .project-folder-wrapper .gf-root {
+    scale: 0.78;
+    margin-bottom: -45px;
   }
 }

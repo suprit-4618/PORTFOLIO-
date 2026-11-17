@@ -191,17 +191,24 @@ const CSS =
   ".dsh-th span{font-size:10.5px;line-height:1.2;text-align:center;font-weight:600;color:var(--color-foreground,#09090b);opacity:.85;max-width:82px}" +
   ".dsh-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}" +
 
-  /* Mobile Responsive */
-  "@container (max-width:639px){" +
-  ".dsh-canvas{position:relative;left:auto;top:auto;width:100%;height:auto;transform:none;display:flex;flex-direction:column;align-items:center;padding:18px 12px}" +
+  ".dsh-mobile-nav{display:none;align-items:center;justify-content:center;gap:16px;margin-top:14px;z-index:20}" +
+  ".dsh-mobile-arrow{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:color-mix(in oklab,var(--color-foreground,#09090b) 8%,transparent);border:1px solid color-mix(in oklab,var(--color-foreground,#09090b) 14%,transparent);color:var(--color-foreground,#09090b);font-size:14px;cursor:pointer;transition:all .18s ease}" +
+  ".dsh-mobile-arrow:active{transform:scale(0.92);background:color-mix(in oklab,var(--color-foreground,#09090b) 16%,transparent)}" +
+  ".dsh-mobile-counter{font-family:ui-monospace,monospace;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--color-foreground,#09090b);opacity:.75}" +
+
+  /* Mobile Responsive for both Container and Viewport Queries */
+  "@media (max-width:768px), @container (max-width:768px){" +
+  ".dsh-canvas{position:relative;left:auto;top:auto;width:100%;height:auto;transform:none;display:flex;flex-direction:column;align-items:center;padding:16px 10px}" +
   ".dsh-arc{width:200%;height:auto;left:-50%;top:-20px}" +
   ".dsh-domains{position:relative;left:auto;top:auto;transform:none;flex-direction:row;overflow-x:auto;max-width:100%;width:100%;padding:4px 6px;gap:6px;margin-bottom:12px;-webkit-overflow-scrolling:touch}" +
   ".dsh-dom-subdots{display:none}" +
   ".dsh-pager{display:none}" +
-  ".dsh-plates{position:relative;left:auto;top:auto;width:min(70vw,260px);height:min(70vw,260px);margin:0 auto}" +
+  ".dsh-plates{position:relative;left:auto;top:auto;width:min(68vw,240px);height:min(68vw,240px);margin:0 auto}" +
   ".dsh-orbit>img{width:100%;height:100%}" +
-  ".dsh-head{position:relative;left:auto;top:auto;width:100%;height:auto;margin:20px 0;text-align:center}" +
+  ".dsh-head{position:relative;left:auto;top:auto;width:100%;height:auto;margin:16px 0 6px 0;text-align:center}" +
+  ".dsh-t1,.dsh-t2{white-space:normal;text-align:center}" +
   ".dsh-strip{display:none}" +
+  ".dsh-mobile-nav{display:flex}" +
   "}"
 
 export function DishOrbitCarousel({
@@ -656,6 +663,29 @@ export function DishOrbitCarousel({
                 </h2>
               </div>
             ))}
+          </div>
+
+          {/* Dedicated Touch Navigation for Mobile Screens */}
+          <div className="dsh-mobile-nav">
+            <button
+              type="button"
+              className="dsh-mobile-arrow"
+              aria-label="Previous technology"
+              onClick={() => step(-1)}
+            >
+              ◀
+            </button>
+            <span className="dsh-mobile-counter">
+              {index + 1} / {n}
+            </span>
+            <button
+              type="button"
+              className="dsh-mobile-arrow"
+              aria-label="Next technology"
+              onClick={() => step(1)}
+            >
+              ▶
+            </button>
           </div>
 
           {/* Centered Bottom Thumbnails Navigation Strip */}

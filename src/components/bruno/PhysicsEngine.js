@@ -315,7 +315,8 @@ export class BrunoPhysicsWorld {
   }
 
   update(delta, carPosition) {
-    this.world.step(1 / 60, delta, 8);
+    // 3 maxSubSteps prevents physics death spiral on mobile & throttled CPU cores
+    this.world.step(1 / 60, delta, 3);
 
     const time = Date.now() * 0.003;
     this.beaconMeshes.forEach((b) => {
@@ -326,10 +327,14 @@ export class BrunoPhysicsWorld {
       }
     });
 
-    const carPos2D = new THREE.Vector2(carPosition.x, carPosition.z);
-    for (let zone of this.triggerZones) {
-      const dist = carPos2D.distanceTo(zone.center);
-      if (dist < zone.radius) {
+    // Zero-allocation squared distance check for trigger zones
+    const cx = carPosition.x;
+    const cz = carPosition.z;
+    for (let i = 0; i < this.triggerZones.length; i++) {
+      const zone = this.triggerZones[i];
+      const dx = cx - zone.center.x;
+      const dz = cz - zone.center.y;
+      if (dx * dx + dz * dz < zone.radius * zone.radius) {
         return zone;
       }
     }

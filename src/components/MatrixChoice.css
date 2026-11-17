@@ -65,10 +65,11 @@
 
 .matrix-morpheus-frame {
   position: relative;
-  width: min(92vw, 860px);
-  height: min(88vh, 800px);
+  aspect-ratio: 1327 / 1186;
+  width: min(92vw, calc(86vh * (1327 / 1186)), 860px);
   max-width: 860px;
-  max-height: 800px;
+  max-height: 86vh;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,14 +81,15 @@
   object-fit: contain;
   display: block;
   filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.95));
+  pointer-events: none;
 }
 
 /* 4. Interactive Pill Hitboxes Aligned Over Hands */
 .pill-hitbox {
   position: absolute;
   top: 71%;
-  width: 120px;
-  height: 120px;
+  width: clamp(72px, 14vw, 120px);
+  height: clamp(72px, 14vw, 120px);
   transform: translate(-50%, -50%);
   border-radius: 50%;
   cursor: pointer;
@@ -96,6 +98,8 @@
   justify-content: center;
   z-index: 25;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .pill-hitbox:hover {
@@ -114,8 +118,8 @@
 
 /* Pulsing Glowing Aura on Pills */
 .pill-aura {
-  width: 76px;
-  height: 76px;
+  width: clamp(48px, 9vw, 76px);
+  height: clamp(48px, 9vw, 76px);
   border-radius: 50%;
   opacity: 0.8;
   transition: all 0.25s ease;
@@ -149,31 +153,68 @@
   border-color: #ef4444;
 }
 
+/* Touch Friendly / Always-Visible Micro Badges for Pills */
+.pill-touch-tag {
+  position: absolute;
+  top: 102%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: clamp(0.58rem, 1.6vw, 0.72rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.blue-tag {
+  background: rgba(14, 165, 233, 0.2);
+  border: 1px solid rgba(56, 189, 248, 0.6);
+  color: #38bdf8;
+  box-shadow: 0 2px 10px rgba(14, 165, 233, 0.25);
+}
+
+.red-tag {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.6);
+  color: #f87171;
+  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.25);
+}
+
+.pill-hitbox:hover .pill-touch-tag {
+  opacity: 1;
+  transform: translateX(-50%) translateY(2px) scale(1.05);
+}
+
 @keyframes pillBreath {
   0% { transform: scale(0.92); opacity: 0.65; }
   50% { transform: scale(1.18); opacity: 1; }
   100% { transform: scale(0.92); opacity: 0.65; }
 }
 
-/* Mobile Responsiveness */
+/* Mobile & Portrait Screen Responsiveness */
 @media (max-width: 768px) {
   .matrix-morpheus-frame {
-    width: 95vw;
-    height: 85vh;
+    width: min(94vw, calc(82dvh * (1327 / 1186)));
+    max-height: 82dvh;
   }
-  .pill-hitbox {
-    width: 90px;
-    height: 90px;
-    top: 72%;
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .matrix-morpheus-frame {
+    width: auto;
+    height: 86vh;
+    max-height: 86vh;
   }
-  .blue-pill-hitbox {
-    left: 17%;
-  }
-  .red-pill-hitbox {
-    left: 83%;
-  }
-  .pill-aura {
-    width: 55px;
-    height: 55px;
+  .pill-touch-tag {
+    top: 96%;
+    padding: 0.18rem 0.45rem;
+    font-size: 0.6rem;
   }
 }

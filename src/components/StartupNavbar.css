@@ -174,19 +174,219 @@
 /* Mobile Toggle */
 .startup-mobile-toggle {
   display: none;
-  background: transparent;
-  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
   color: #ffffff;
   cursor: pointer;
-  padding: 0.3rem;
+  padding: 0.45rem;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-/* ─── RESPONSIVE ─── */
+.startup-mobile-toggle:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ─── MOBILE DRAWER MENU ─── */
+.startup-mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(8, 7, 6, 0.96);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 1.5rem 1.75rem 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  max-height: calc(100dvh - 75px);
+  overflow-y: auto;
+}
+
+.startup-mobile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.startup-mobile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: all 0.18s ease;
+}
+
+.startup-mobile-link:hover,
+.startup-mobile-link:active {
+  background: rgba(255, 255, 255, 0.09);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(4px);
+}
+
+.startup-mobile-actions-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.startup-mobile-actions-row .startup-btn {
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+}
+
+/* Light Mode Overrides for Mobile Navbar */
+[data-theme="light"] .startup-navbar-wrapper {
+  background: rgba(255, 255, 255, 0.72);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .startup-navbar-wrapper.is-scrolled {
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .startup-brand {
+  color: #09090b;
+}
+
+[data-theme="light"] .brand-monogram {
+  background: #09090b;
+  color: #ffffff;
+}
+
+[data-theme="light"] .brand-name {
+  color: #09090b;
+}
+
+[data-theme="light"] .startup-nav-link {
+  color: #475569;
+}
+
+[data-theme="light"] .startup-nav-link:hover {
+  color: #09090b;
+}
+
+[data-theme="light"] .startup-nav-link::after {
+  background: #09090b;
+}
+
+[data-theme="light"] .startup-btn-ghost {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #09090b;
+}
+
+[data-theme="light"] .startup-btn-ghost:hover {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] .startup-btn-theme {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #09090b;
+}
+
+[data-theme="light"] .startup-btn-theme:hover {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] .startup-btn-exit {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #475569;
+}
+
+[data-theme="light"] .startup-mobile-toggle {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #09090b;
+}
+
+[data-theme="light"] .startup-mobile-menu {
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .startup-mobile-link {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.06);
+  color: #334155;
+}
+
+[data-theme="light"] .startup-mobile-link:hover,
+[data-theme="light"] .startup-mobile-link:active {
+  background: rgba(0, 0, 0, 0.06);
+  color: #09090b;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .startup-mobile-actions-row {
+  border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ─── RESPONSIVE BREAKPOINTS ─── */
 @media (max-width: 960px) {
   .startup-desktop-nav {
     display: none;
   }
   .startup-mobile-toggle {
     display: flex;
+  }
+}
+
+@media (max-width: 640px) {
+  .startup-navbar-wrapper {
+    padding: 0.85rem 1.25rem;
+  }
+  .startup-navbar-wrapper.is-scrolled {
+    padding: 0.7rem 1.25rem;
+  }
+  .theme-btn-label {
+    display: none;
+  }
+  .startup-btn-theme {
+    padding: 0.45rem 0.55rem;
+  }
+  .startup-btn-exit {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .startup-navbar-wrapper {
+    padding: 0.75rem 0.9rem;
+  }
+  .brand-name {
+    font-size: 0.88rem;
+  }
+  .startup-btn-ghost {
+    display: none;
+  }
+  .startup-nav-actions {
+    gap: 0.45rem;
   }
 }

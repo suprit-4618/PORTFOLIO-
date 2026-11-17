@@ -91,3 +91,31 @@
   font-size: 0.82rem;
   color: #64748b;
 }
+
+/* ─── RESPONSIVE DESIGN (ALL SCREENS & RATIOS) ─── */
+@media (max-width: 680px) {
+  .startup-footer {
+    padding: 3.5rem 1.25rem 2.5rem;
+  }
+  .footer-top-grid {
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .startup-footer {
+    padding: 3rem 1rem 2rem;
+  }
+  .footer-nav-grid-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem 1.25rem;
+  }
+}
+
+@media (max-width: 340px) {
+  .footer-nav-grid-list {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+}

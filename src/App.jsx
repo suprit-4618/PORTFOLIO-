@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, Suspense, lazy } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import MatrixChoice from './components/MatrixChoice';
-import BrunoWorld from './components/bruno/BrunoWorld';
 import StartupNavbar from './components/StartupNavbar';
 import HeroStartup from './components/HeroStartup';
 import Projects from './components/Projects';
@@ -12,10 +11,13 @@ import Publications from './components/Publications';
 import Contact from './components/ContactSleek';
 import CustomCursor from './components/CustomCursor';
 import Footer from './components/Footer';
-import ImmersiveProjectDetails from './components/project-details/ImmersiveProjectDetails';
 import Lenis from 'lenis';
 import { Analytics } from '@vercel/analytics/react';
 import './index.css';
+
+// Lazy load heavy Three.js / CANNON 3D physics and immersive project view for ultra-fast initial load
+const BrunoWorld = lazy(() => import('./components/bruno/BrunoWorld'));
+const ImmersiveProjectDetails = lazy(() => import('./components/project-details/ImmersiveProjectDetails'));
 
 function App() {
   const [viewMode, setViewMode] = useState('choice'); // 'choice' | 'game' | 'scroll'
@@ -140,14 +142,21 @@ function App() {
 
       {/* ─── 2. 3D LOW-POLY VILLAGE PLAYGROUND ─── */}
       {viewMode === 'game' && (
-        <BrunoWorld 
-          onToggleClassicView={() => handleSelectChoice('scroll')}
-          onExitToGateway={() => setViewMode('choice')}
-          onSelectProject={(projectOrSlug) => {
-            const slug = typeof projectOrSlug === 'string' ? projectOrSlug : (projectOrSlug?.slug || projectOrSlug?.id);
-            handleOpenProject(slug);
-          }}
-        />
+        <Suspense fallback={
+          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: '#0a080e', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', color: '#ffcaa2' }}>
+            <div style={{ width: '48px', height: '48px', border: '3px solid rgba(245, 158, 11, 0.2)', borderTopColor: '#f59e0b', borderRadius: '50%', animation: 'spin 0.9s linear infinite' }} />
+            <span style={{ fontFamily: 'monospace', fontSize: '0.85rem', letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.9 }}>Loading 3D Alpine Engine...</span>
+          </div>
+        }>
+          <BrunoWorld 
+            onToggleClassicView={() => handleSelectChoice('scroll')}
+            onExitToGateway={() => setViewMode('choice')}
+            onSelectProject={(projectOrSlug) => {
+              const slug = typeof projectOrSlug === 'string' ? projectOrSlug : (projectOrSlug?.slug || projectOrSlug?.id);
+              handleOpenProject(slug);
+            }}
+          />
+        </Suspense>
       )}
 
       {/* ─── 3. RESUME PORTFOLIO (Atmospheric Dark Hero & Fluid Entrance) ─── */}
@@ -190,11 +199,13 @@ function App() {
       {/* ─── 4. IMMERSIVE FULLSCREEN PROJECT DETAILS EXPERIENCE ─── */}
       <AnimatePresence>
         {selectedProjectSlug && (
-          <ImmersiveProjectDetails
-            projectSlug={selectedProjectSlug}
-            onClose={handleCloseProject}
-            onNavigateProject={handleNavigateProject}
-          />
+          <Suspense fallback={null}>
+            <ImmersiveProjectDetails
+              projectSlug={selectedProjectSlug}
+              onClose={handleCloseProject}
+              onNavigateProject={handleNavigateProject}
+            />
+          </Suspense>
         )}
       </AnimatePresence>
 

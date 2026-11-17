@@ -90,9 +90,12 @@ export const MatrixChoice = ({ onSelectChoice }) => {
               onClick={() => onSelectChoice && onSelectChoice('scroll')}
               role="button"
               tabIndex={0}
-              aria-label="Blue Pill"
+              aria-label="Blue Pill - Classic Portfolio"
             >
               <div className="pill-aura blue-aura" />
+              <div className="pill-touch-tag blue-tag">
+                <span>PORTFOLIO</span>
+              </div>
             </div>
 
             {/* ─── RED PILL HOTSPOT (RIGHT HAND -> 3D PLAYGROUND) ─── */}
@@ -103,9 +106,12 @@ export const MatrixChoice = ({ onSelectChoice }) => {
               onClick={() => onSelectChoice && onSelectChoice('game')}
               role="button"
               tabIndex={0}
-              aria-label="Red Pill"
+              aria-label="Red Pill - 3D World"
             >
               <div className="pill-aura red-aura" />
+              <div className="pill-touch-tag red-tag">
+                <span>3D WORLD</span>
+              </div>
             </div>
           </div>
         </motion.div>

@@ -291,3 +291,37 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* ─── RESPONSIVE DESIGN (ALL SCREENS & RATIOS) ─── */
+@media (max-width: 768px) {
+  .startup-contact-section {
+    padding: 4.5rem 1rem 5.5rem;
+  }
+  .contact-info-card,
+  .contact-form-card {
+    padding: 1.6rem 1.25rem;
+    border-radius: 14px;
+  }
+  .contact-card-headline {
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .startup-contact-section {
+    padding: 3.5rem 0.85rem 4.5rem;
+  }
+  .contact-email-box {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .email-copy-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .startup-socials-grid {
+    grid-template-columns: 1fr;
+  }
+}

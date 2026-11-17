@@ -874,3 +874,35 @@
     gap: 0.6rem;
   }
 }
+
+@media (max-width: 480px) {
+  .immersive-top-nav {
+    padding: 0 0.85rem;
+    height: 56px;
+  }
+  .immersive-fullscreen-hero {
+    padding: 4.8rem 0.95rem 2.5rem;
+  }
+  .details-section {
+    padding: 2.8rem 0.95rem;
+  }
+  .hero-metrics-strip {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+  .hero-metric-box {
+    padding: 1rem 1.25rem;
+  }
+  .next-project-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+  .next-arrow-circle {
+    align-self: flex-end;
+  }
+  .system-specs-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -221,34 +221,67 @@
   pointer-events: none;
 }
 
-/* Mobile Responsiveness */
+/* Mobile & Dynamic Viewport Responsiveness */
 @media (max-width: 768px) {
   .hero-cinematic-stage {
+    min-height: 100dvh;
     min-height: 100svh;
   }
   .hero-cinematic-container {
+    min-height: 100dvh;
     min-height: 100svh;
-    padding: 0 1.5rem;
+    padding: 0 1.25rem;
+    padding-top: max(4rem, env(safe-area-inset-top));
+    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  }
+  .hero-title-motion-node {
+    max-width: 100%;
   }
   .hero-display-name {
-    font-size: 2.8rem;
+    font-size: clamp(2.2rem, 12vw, 3.2rem);
   }
   .hero-luminous-bar {
-    height: 46px;
+    height: clamp(38px, 11vw, 48px);
     width: 3px;
   }
   .hero-subtitle-text {
-    font-size: 0.78rem;
-    letter-spacing: 0.16em;
+    font-size: clamp(0.7rem, 2.5vw, 0.82rem);
+    letter-spacing: clamp(0.08em, 1.2vw, 0.16em);
+    white-space: normal;
   }
   .hero-actions-row {
     flex-direction: column;
     align-items: stretch;
     width: 100%;
-    max-width: 280px;
+    max-width: min(280px, 100%);
   }
   .hero-btn-solid,
   .hero-btn-outline {
     justify-content: center;
+    padding: 0.8rem 1.4rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-cinematic-container {
+    padding: 0 0.95rem;
+  }
+  .hero-display-name {
+    font-size: 2rem;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-cinematic-container {
+    padding-top: 3.5rem;
+    padding-bottom: 1.5rem;
+    min-height: auto;
+  }
+  .hero-display-name {
+    font-size: 2.2rem;
+  }
+  .hero-actions-row {
+    flex-direction: row;
+    max-width: 100%;
   }
 }

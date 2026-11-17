@@ -85,11 +85,13 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
   const [cameraToast, setCameraToast] = useState(null);
   const cameraToastTimeoutRef = useRef(null);
   const [activeVehicleType, setActiveVehicleType] = useState('car'); // 'car' or 'bicycle'
-  const [currentSpeed, setCurrentSpeed] = useState(0);
-  const [nitroPercent, setNitroPercent] = useState(100);
-  const [isBoosting, setIsBoosting] = useState(false);
-  const [vehHeading, setVehHeading] = useState(0);
-  const [vehPos, setVehPos] = useState({ x: -10, z: -20 });
+  // High-performance direct DOM telemetry refs (Zero React re-render overhead at 60fps)
+  const speedNumberRef = useRef(null);
+  const nitroFillRef = useRef(null);
+  const nitroValRef = useRef(null);
+  const nitroWrapperRef = useRef(null);
+  const radarPlayerRef = useRef(null);
+  const radarBlipRefs = useRef([]);
 
   // Core Three.js references
   const sceneRef = useRef(null);
@@ -295,15 +297,22 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
     camera.lookAt(0.0, startGroundY + 1.2, -45.0);
     cameraRef.current = camera;
 
-    // 3. WebGL Renderer with Filmic Tone Mapping & High Precision Shadows
+    // Detect mobile device for hardware-specific optimizations
+    const isMobileDevice = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (typeof window !== 'undefined' && window.innerWidth <= 768 && 'ontouchstart' in window);
+
+    // 3. WebGL Renderer with Filmic Tone Mapping & Adaptive Device Pixel Ratio
     const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      powerPreference: 'high-performance'
+      antialias: !isMobileDevice, // MSAA on mobile creates severe fillrate bottlenecks; native high-DPI handles anti-aliasing
+      powerPreference: 'high-performance',
+      precision: isMobileDevice ? 'mediump' : 'highp'
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const targetDpr = isMobileDevice 
+      ? Math.min(window.devicePixelRatio || 1, 1.25) 
+      : Math.min(window.devicePixelRatio || 1, 1.5);
+    renderer.setPixelRatio(targetDpr);
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFShadowMap;
+    renderer.shadowMap.type = isMobileDevice ? THREE.BasicShadowMap : THREE.PCFShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.25;
     container.appendChild(renderer.domElement);
@@ -318,19 +327,20 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
     scene.add(hemiLight);
     hemiLightRef.current = hemiLight;
 
-    // Golden Sunset Directional Light (low raking angle across 500m landscape)
+    // Golden Sunset Directional Light (low raking angle, player-focused tight frustum)
     const sunLight = new THREE.DirectionalLight(0xff9d4d, 2.8);
     sunLight.position.set(130, 60, -120);
     sunLight.castShadow = true;
-    sunLight.shadow.mapSize.width = 2048;
-    sunLight.shadow.mapSize.height = 2048;
+    const shadowRes = isMobileDevice ? 1024 : 1536;
+    sunLight.shadow.mapSize.width = shadowRes;
+    sunLight.shadow.mapSize.height = shadowRes;
     sunLight.shadow.camera.near = 0.5;
-    sunLight.shadow.camera.far = 700;
-    sunLight.shadow.camera.left = -240;
-    sunLight.shadow.camera.right = 240;
-    sunLight.shadow.camera.top = 240;
-    sunLight.shadow.camera.bottom = -240;
-    sunLight.shadow.bias = -0.0003;
+    sunLight.shadow.camera.far = 420;
+    sunLight.shadow.camera.left = -110;
+    sunLight.shadow.camera.right = 110;
+    sunLight.shadow.camera.top = 110;
+    sunLight.shadow.camera.bottom = -110;
+    sunLight.shadow.bias = -0.0004;
     scene.add(sunLight);
     scene.add(sunLight.target);
     sunLightRef.current = sunLight;
@@ -369,6 +379,12 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
     let lastTime = performance.now();
     let hudThrottleCounter = 0;
 
+    // Pre-allocated vector caches to eliminate per-frame GC allocations
+    const _tempLook = new THREE.Vector3();
+    const _tempDesiredCam = new THREE.Vector3();
+    const _tempSatCenter = new THREE.Vector3();
+    const _tempSatDesired = new THREE.Vector3();
+
     const loop = () => {
       animFrameRef.current = requestAnimationFrame(loop);
       const now = performance.now();
@@ -394,14 +410,44 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
         // Sync Vehicle Transform
         activeVeh.syncTransform(delta);
 
-        // Update HUD Telemetry every 3 frames for optimal React performance
+        // Update HUD Telemetry via direct DOM manipulation (Zero React re-renders)
         hudThrottleCounter++;
-        if (hudThrottleCounter % 3 === 0) {
-          setCurrentSpeed(activeVeh.getSpeedKmH ? activeVeh.getSpeedKmH() : Math.round(Math.abs(activeVeh.speed || 0) * 3.6));
-          setNitroPercent(activeVeh.getNitroPercent ? activeVeh.getNitroPercent() : 100);
-          setIsBoosting(activeVeh.isBoosting ? activeVeh.isBoosting() : false);
-          setVehHeading(activeVeh.heading || 0);
-          setVehPos({ x: activeVeh.position.x, z: activeVeh.position.z });
+        if (hudThrottleCounter % 2 === 0) {
+          const spd = activeVeh.getSpeedKmH ? activeVeh.getSpeedKmH() : Math.round(Math.abs(activeVeh.speed || 0) * 3.6);
+          const nitro = activeVeh.getNitroPercent ? Math.round(activeVeh.getNitroPercent()) : 100;
+          const boosting = activeVeh.isBoosting ? activeVeh.isBoosting() : false;
+          const heading = (activeVeh.mesh ? activeVeh.mesh.rotation.y : activeVeh.heading || 0);
+
+          if (speedNumberRef.current) speedNumberRef.current.textContent = spd;
+          if (nitroFillRef.current) nitroFillRef.current.style.width = `${nitro}%`;
+          if (nitroValRef.current) nitroValRef.current.textContent = `${nitro}%`;
+          if (nitroWrapperRef.current) {
+            if (boosting && !nitroWrapperRef.current.classList.contains('nitro-active')) {
+              nitroWrapperRef.current.classList.add('nitro-active');
+            } else if (!boosting && nitroWrapperRef.current.classList.contains('nitro-active')) {
+              nitroWrapperRef.current.classList.remove('nitro-active');
+            }
+          }
+          if (radarPlayerRef.current) {
+            radarPlayerRef.current.style.transform = `translate(-50%, -50%) rotate(${heading}rad)`;
+          }
+
+          // Direct DOM update of tactical radar landmark blips
+          const vx = activeVeh.position.x;
+          const vz = activeVeh.position.z;
+          const blips = radarBlipRefs.current;
+          for (let i = 0; i < radarLandmarks.length; i++) {
+            const el = blips[i];
+            if (el) {
+              const lm = radarLandmarks[i];
+              const relX = lm.x - vx;
+              const relZ = lm.z - vz;
+              const rX = Math.max(8, Math.min(112, 60 + relX * 0.28));
+              const rY = Math.max(8, Math.min(112, 60 + relZ * 0.28));
+              el.style.left = `${rX}px`;
+              el.style.top = `${rY}px`;
+            }
+          }
         }
       }
 
@@ -590,12 +636,12 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
             }
           }
 
-          const targetLook = new THREE.Vector3(
+          _tempLook.set(
             activeVeh.position.x + fwdX * lookAheadDist,
             activeVeh.position.y + lookHeight,
             activeVeh.position.z + fwdZ * lookAheadDist
           );
-          camState.lookTarget.lerp(targetLook, 1.0 - Math.exp(-lookLag * delta));
+          camState.lookTarget.lerp(_tempLook, 1.0 - Math.exp(-lookLag * delta));
 
           const chaseAngle = heading + Math.PI + camState.freeLookYaw + momentAngleOffset;
           const currentDist = baseDist + speedRatio * (isClose ? 1.0 : 1.6);
@@ -606,8 +652,8 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
           let desiredY = Math.max(0.6, activeVeh.position.y + camHeight + sinPitch * currentDist * 0.7);
           let desiredZ = activeVeh.position.z + Math.cos(chaseAngle) * currentDist * cosPitch;
 
-          const desiredCamPos = new THREE.Vector3(desiredX, desiredY, desiredZ);
-          camState.camPos.lerp(desiredCamPos, 1.0 - Math.exp(-posLag * delta));
+          _tempDesiredCam.set(desiredX, desiredY, desiredZ);
+          camState.camPos.lerp(_tempDesiredCam, 1.0 - Math.exp(-posLag * delta));
 
           const targetFOV = baseFOV + Math.pow(speedRatio, 1.3) * speedFOVBonus + nitroFOVBonus;
           camState.currentFOV = THREE.MathUtils.lerp(camState.currentFOV, targetFOV, 1.0 - Math.exp(-7.0 * delta));
@@ -625,12 +671,17 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
         camera.rotation.z += camState.currentRoll;
 
         sunLight.target.position.copy(camState.lookTarget);
+        if (activeVeh && activeVeh.position) {
+          sunLight.position.set(activeVeh.position.x + 90, activeVeh.position.y + 60, activeVeh.position.z - 90);
+        }
       } else {
         // Camera Mode 8: Satellite Drone Orbit (High-Altitude Free Map View)
-        const satelliteCenter = (activeVeh && activeVeh.position)
-          ? new THREE.Vector3(activeVeh.position.x, activeVeh.position.y + 2.0, activeVeh.position.z).add(camState.panOffset)
-          : new THREE.Vector3(0, 10.0, 0).add(camState.panOffset);
-        camState.lookTarget.lerp(satelliteCenter, delta * 5.0);
+        if (activeVeh && activeVeh.position) {
+          _tempSatCenter.set(activeVeh.position.x, activeVeh.position.y + 2.0, activeVeh.position.z).add(camState.panOffset);
+        } else {
+          _tempSatCenter.set(0, 10.0, 0).add(camState.panOffset);
+        }
+        camState.lookTarget.lerp(_tempSatCenter, delta * 5.0);
 
         const sinPhi = Math.sin(camState.orbitPhi);
         const cosPhi = Math.cos(camState.orbitPhi);
@@ -641,8 +692,8 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
         const satY = Math.max(12.0, camState.lookTarget.y + camState.orbitRadius * cosPhi);
         const satZ = camState.lookTarget.z + camState.orbitRadius * sinPhi * cosTheta;
 
-        const satDesired = new THREE.Vector3(satX, satY, satZ);
-        camState.camPos.lerp(satDesired, 1.0 - Math.exp(-6.0 * delta));
+        _tempSatDesired.set(satX, satY, satZ);
+        camState.camPos.lerp(_tempSatDesired, 1.0 - Math.exp(-6.0 * delta));
 
         camera.fov = THREE.MathUtils.lerp(camera.fov, 48.0, delta * 5.0);
         camera.updateProjectionMatrix();
@@ -667,12 +718,19 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      const isMobileNow = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (w <= 768 && 'ontouchstart' in window);
+      const resDpr = isMobileNow 
+        ? Math.min(window.devicePixelRatio || 1, 1.25) 
+        : Math.min(window.devicePixelRatio || 1, 1.5);
+      renderer.setPixelRatio(resDpr);
     };
     window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
 
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
       if (carRef.current) carRef.current.destroy();
       if (bikeRef.current) bikeRef.current.destroy();
       renderer.dispose();
@@ -1050,21 +1108,20 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
 
           {/* Landmark Blips */}
           {radarLandmarks.map((lm, idx) => {
-            const relX = lm.x - vehPos.x;
-            const relZ = lm.z - vehPos.z;
-            const radarScale = 0.28; // Scaled for 500x500 map to fit 120px circular radar
-            const rX = 60 + relX * radarScale;
-            const rY = 60 + relZ * radarScale;
-            const clampedX = Math.max(8, Math.min(112, rX));
-            const clampedY = Math.max(8, Math.min(112, rY));
+            const relX = lm.x - (-10);
+            const relZ = lm.z - (-20);
+            const radarScale = 0.28;
+            const rX = Math.max(8, Math.min(112, 60 + relX * radarScale));
+            const rY = Math.max(8, Math.min(112, 60 + relZ * radarScale));
 
             return (
               <div 
                 key={idx}
+                ref={(el) => { radarBlipRefs.current[idx] = el; }}
                 className="radar-blip"
                 style={{ 
-                  left: `${clampedX}px`, 
-                  top: `${clampedY}px`,
+                  left: `${rX}px`, 
+                  top: `${rY}px`,
                   backgroundColor: lm.color,
                   boxShadow: `0 0 6px ${lm.color}`
                 }}
@@ -1075,8 +1132,9 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
 
           {/* Player Vehicle Marker at Center */}
           <div 
+            ref={radarPlayerRef}
             className="radar-player"
-            style={{ transform: `translate(-50%, -50%) rotate(${vehHeading}rad)` }}
+            style={{ transform: 'translate(-50%, -50%) rotate(0rad)' }}
           >
             <div className="radar-player-arrow" />
           </div>
@@ -1089,23 +1147,24 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
       <div className="speedometer-gauge-container">
         <div className="speedometer-box">
           <div className="speed-readout">
-            <span className="speed-number">{currentSpeed}</span>
+            <span ref={speedNumberRef} className="speed-number">0</span>
             <span className="speed-unit">KM/H</span>
           </div>
 
           {/* Nitro Boost Bar */}
-          <div className={`nitro-bar-wrapper ${isBoosting ? 'nitro-active' : ''}`}>
+          <div ref={nitroWrapperRef} className="nitro-bar-wrapper">
             <div className="nitro-label">
-              <Zap size={12} className={isBoosting ? 'animate-pulse text-cyan-400' : 'text-amber-400'} />
+              <Zap size={12} className="text-amber-400" />
               <span>NOS</span>
             </div>
             <div className="nitro-track">
               <div 
+                ref={nitroFillRef}
                 className="nitro-fill"
-                style={{ width: `${nitroPercent}%` }}
+                style={{ width: '100%' }}
               />
             </div>
-            <span className="nitro-val">{nitroPercent}%</span>
+            <span ref={nitroValRef} className="nitro-val">100%</span>
           </div>
         </div>
       </div>
@@ -1159,6 +1218,7 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
             onPointerDown={(e) => { e.preventDefault(); inputRef.current.left = true; }}
             onPointerUp={(e) => { e.preventDefault(); inputRef.current.left = false; }}
             onPointerLeave={() => { inputRef.current.left = false; }}
+            onPointerCancel={() => { inputRef.current.left = false; }}
             title="Steer Left"
           >
             ◀
@@ -1168,6 +1228,7 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
             onPointerDown={(e) => { e.preventDefault(); inputRef.current.right = true; }}
             onPointerUp={(e) => { e.preventDefault(); inputRef.current.right = false; }}
             onPointerLeave={() => { inputRef.current.right = false; }}
+            onPointerCancel={() => { inputRef.current.right = false; }}
             title="Steer Right"
           >
             ▶
@@ -1180,6 +1241,7 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
             onPointerDown={(e) => { e.preventDefault(); inputRef.current.nitro = true; }}
             onPointerUp={(e) => { e.preventDefault(); inputRef.current.nitro = false; }}
             onPointerLeave={() => { inputRef.current.nitro = false; }}
+            onPointerCancel={() => { inputRef.current.nitro = false; }}
             title="Nitro Boost"
           >
             ⚡
@@ -1189,6 +1251,7 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
             onPointerDown={(e) => { e.preventDefault(); inputRef.current.drift = true; }}
             onPointerUp={(e) => { e.preventDefault(); inputRef.current.drift = false; }}
             onPointerLeave={() => { inputRef.current.drift = false; }}
+            onPointerCancel={() => { inputRef.current.drift = false; }}
             title="Drift"
           >
             🌀
@@ -1198,6 +1261,7 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
             onPointerDown={(e) => { e.preventDefault(); inputRef.current.forward = true; }}
             onPointerUp={(e) => { e.preventDefault(); inputRef.current.forward = false; }}
             onPointerLeave={() => { inputRef.current.forward = false; }}
+            onPointerCancel={() => { inputRef.current.forward = false; }}
             title="Drive Forward"
           >
             ▲
@@ -1207,6 +1271,7 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
             onPointerDown={(e) => { e.preventDefault(); inputRef.current.backward = true; }}
             onPointerUp={(e) => { e.preventDefault(); inputRef.current.backward = false; }}
             onPointerLeave={() => { inputRef.current.backward = false; }}
+            onPointerCancel={() => { inputRef.current.backward = false; }}
             title="Brake / Reverse"
           >
             ▼

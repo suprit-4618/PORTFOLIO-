@@ -65,11 +65,12 @@ export class ToyCar {
     this.wheelMeshes = [];
     this.exhaustFlames = [];
 
-    // Particle & Skid Mark Pools
+    // Particle & Skid Mark Pools (Pre-allocated to prevent GC spikes)
     this.smokePool = [];
-    this.skidMarks = [];
-    this.maxSkids = 80;
-    this.maxSmoke = 30;
+    this.skidPool = [];
+    this.skidPoolIndex = 0;
+    this.maxSkids = 60;
+    this.maxSmoke = 24;
 
     this.buildPhysicsBody();
     this.buildVisualMesh();
@@ -361,6 +362,16 @@ export class ToyCar {
         velY: 0
       });
     }
+
+    // Pre-allocate skid mark mesh pool to eliminate runtime allocations
+    this.skidPool = [];
+    this.skidPoolIndex = 0;
+    for (let i = 0; i < this.maxSkids; i++) {
+      const skid = new THREE.Mesh(this.skidGeo, this.skidMat);
+      skid.visible = false;
+      this.scene.add(skid);
+      this.skidPool.push(skid);
+    }
   }
 
   spawnDriftEffects() {
@@ -370,20 +381,16 @@ export class ToyCar {
     const rightZ = -Math.sin(this.heading);
 
     [-1.06, 1.06].forEach((sideX) => {
-      if (this.skidMarks.length >= this.maxSkids) {
-        const old = this.skidMarks.shift();
-        this.scene.remove(old);
-      }
+      const skid = this.skidPool[this.skidPoolIndex];
+      this.skidPoolIndex = (this.skidPoolIndex + 1) % this.maxSkids;
 
-      const skid = new THREE.Mesh(this.skidGeo, this.skidMat);
       const rx = this.position.x - fwdX * 1.25 + rightX * sideX;
       const rz = this.position.z - fwdZ * 1.25 + rightZ * sideX;
       const ry = getSurfaceHeight(rx, rz) + 0.02;
 
       skid.position.set(rx, ry, rz);
       skid.rotation.y = this.heading;
-      this.scene.add(skid);
-      this.skidMarks.push(skid);
+      skid.visible = true;
     });
 
     const puff = this.smokePool.find((p) => p.life <= 0);
@@ -760,8 +767,10 @@ export class ToyCar {
     this.group.position.copy(this.position);
     this.group.rotation.set(0, heading, 0);
 
-    this.skidMarks.forEach((s) => this.scene.remove(s));
-    this.skidMarks = [];
+    if (this.skidPool) {
+      this.skidPool.forEach((s) => { s.visible = false; });
+      this.skidPoolIndex = 0;
+    }
 
     this.smokePool.forEach((p) => {
       p.life = 0;
@@ -774,7 +783,9 @@ export class ToyCar {
   }
 
   destroy() {
-    this.skidMarks.forEach((s) => this.scene.remove(s));
+    if (this.skidPool) {
+      this.skidPool.forEach((s) => this.scene.remove(s));
+    }
     this.smokePool.forEach((p) => {
       this.scene.remove(p.mesh);
       if (p.mesh.material) p.mesh.material.dispose();

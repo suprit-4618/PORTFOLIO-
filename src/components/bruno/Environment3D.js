@@ -1110,7 +1110,7 @@ export class LowPolyEnvironment {
 
       const light = new THREE.PointLight(0xffd8a6, 2.0, 16, 1.8);
       light.position.set(0, 4.1, -0.6);
-      light.castShadow = true;
+      light.castShadow = false; // PointLight shadows disabled for 60fps mobile & laptop GPU efficiency
       lamp.add(light);
       this.nightLights.push(light);
 
@@ -2696,7 +2696,7 @@ export class LowPolyEnvironment {
       const fy = getHeightAt(fp.x, fp.z);
       const post = new THREE.Mesh(postGeo, this.weatheredWoodMat);
       post.position.set(fp.x, fy + 0.7, fp.z);
-      post.castShadow = true;
+      post.receiveShadow = true;
       fenceGroup.add(post);
 
       this.physicsWorld.addObstacle({
@@ -2722,7 +2722,6 @@ export class LowPolyEnvironment {
     const tuftCount = 400;
     const instancedGrass = new THREE.InstancedMesh(clumpGeo, this.grassTuftMat, tuftCount);
     instancedGrass.name = "MeadowGrassTufts";
-    instancedGrass.castShadow = true;
     instancedGrass.receiveShadow = true;
 
     const dummy = new THREE.Object3D();
@@ -2861,15 +2860,20 @@ export class LowPolyEnvironment {
   update(delta) {
     const time = performance.now() * 0.001;
 
-    // Realistic River Water Surface Flow & Ripples
+    // Realistic River Water Surface Flow & Ripples (Throttled to every 2nd frame, direct Float32Array write)
     if (this.riverMesh && this.riverOrigY.length > 0) {
-      const pos = this.riverMesh.geometry.attributes.position;
-      for (let i = 0; i < pos.count; i++) {
-        const pz = pos.getZ(i);
-        const wave = Math.sin(time * 2.5 + pz * 0.18) * 0.12;
-        pos.setY(i, this.riverOrigY[i] + wave);
+      this._waterFrame = (this._waterFrame || 0) + 1;
+      if (this._waterFrame % 2 === 0) {
+        const pos = this.riverMesh.geometry.attributes.position;
+        const count = pos.count;
+        const arr = pos.array;
+        for (let i = 0; i < count; i++) {
+          const idx = i * 3;
+          const pz = arr[idx + 2];
+          arr[idx + 1] = this.riverOrigY[i] + Math.sin(time * 2.5 + pz * 0.18) * 0.12;
+        }
+        pos.needsUpdate = true;
       }
-      pos.needsUpdate = true;
     }
 
     // Cloud drift

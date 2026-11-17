@@ -12,6 +12,11 @@ export const HeroStartup = ({ triggerIntro = true, onIntroComplete, onPhaseChang
   // Compute exact pixel offset to center the title on screen
   useEffect(() => {
     const calculateOffset = () => {
+      if (typeof window === 'undefined') return;
+      if (window.innerWidth <= 768) {
+        setCenterOffset(0);
+        return;
+      }
       if (containerRef.current) {
         const containerRect = containerRef.current.getBoundingClientRect();
         const screenCenterX = window.innerWidth / 2;
@@ -137,9 +142,9 @@ export const HeroStartup = ({ triggerIntro = true, onIntroComplete, onPhaseChang
         {/* Pure GPU-Accelerated Title Motion Node */}
         <motion.div 
           className="hero-title-motion-node"
-          initial={{ x: centerOffset || 280 }}
+          initial={{ x: centerOffset }}
           animate={{ 
-            x: isCenterMode ? (centerOffset || 280) : 0 
+            x: isCenterMode ? centerOffset : 0 
           }}
           transition={{ 
             x: { duration: 1.4, ease: [0.22, 1, 0.36, 1] }
