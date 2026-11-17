@@ -93,9 +93,6 @@ export const MatrixChoice = ({ onSelectChoice }) => {
               aria-label="Blue Pill - Classic Portfolio"
             >
               <div className="pill-aura blue-aura" />
-              <div className="pill-touch-tag blue-tag">
-                <span>PORTFOLIO</span>
-              </div>
             </div>
 
             {/* ─── RED PILL HOTSPOT (RIGHT HAND -> 3D PLAYGROUND) ─── */}
@@ -109,9 +106,6 @@ export const MatrixChoice = ({ onSelectChoice }) => {
               aria-label="Red Pill - 3D World"
             >
               <div className="pill-aura red-aura" />
-              <div className="pill-touch-tag red-tag">
-                <span>3D WORLD</span>
-              </div>
             </div>
           </div>
         </motion.div>
