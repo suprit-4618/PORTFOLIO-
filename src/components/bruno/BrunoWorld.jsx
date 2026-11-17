@@ -22,6 +22,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import './BrunoUI.css';
+import WorldLoader from './WorldLoader';
 
 /**
  * Multiple Professional Racing & Cinematic Camera Perspectives
@@ -85,6 +86,12 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
   const [cameraToast, setCameraToast] = useState(null);
   const cameraToastTimeoutRef = useRef(null);
   const [activeVehicleType, setActiveVehicleType] = useState('car'); // 'car' or 'bicycle'
+  
+  // Pre-warm Engine Loading & Shader Compilation State
+  const [loaderProgress, setLoaderProgress] = useState(38);
+  const [loaderStage, setLoaderStage] = useState('Constructing highland roads & terrain...');
+  const [isEngineReady, setIsEngineReady] = useState(false);
+
   // High-performance direct DOM telemetry refs (Zero React re-render overhead at 60fps)
   const speedNumberRef = useRef(null);
   const nitroFillRef = useRef(null);
@@ -358,6 +365,9 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
     moonLightRef.current = moonLight;
 
     // 5. Physics World & Photorealistic Cloud-Plateau Environment
+    setLoaderProgress(55);
+    setLoaderStage('Generating alpine mountains, roads & bridges...');
+
     const physicsWorld = new BrunoPhysicsWorld(scene);
     physicsWorldRef.current = physicsWorld;
 
@@ -365,6 +375,9 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
     environmentRef.current = environment;
 
     // 6. Instantiate Vehicles
+    setLoaderProgress(78);
+    setLoaderStage('Configuring vehicle physics & telemetry...');
+
     const car = new ToyCar(physicsWorld, scene);
     car.reset(0.0, -30.0, Math.PI);
     carRef.current = car;
@@ -374,6 +387,24 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
     bikeRef.current = bike;
 
     activeVehicleRef.current = car;
+
+    // Pre-compile all WebGL shaders on GPU to eliminate runtime frame hitches
+    setLoaderProgress(92);
+    setLoaderStage('Pre-compiling WebGL shaders on GPU...');
+    try {
+      renderer.compile(scene, camera);
+      renderer.render(scene, camera);
+    } catch (e) {
+      console.warn('Shader pre-compile notice:', e);
+    }
+
+    setLoaderProgress(100);
+    setLoaderStage('Ready for Takeoff');
+
+    // Smoothly release loading overlay so user seamlessly transitions into active world
+    const readyTimer = setTimeout(() => {
+      setIsEngineReady(true);
+    }, 450);
 
     // 7. Main Animation & Physics Loop
     let lastTime = performance.now();
@@ -728,6 +759,7 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
     window.addEventListener('orientationchange', handleResize);
 
     return () => {
+      clearTimeout(readyTimer);
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('orientationchange', handleResize);
@@ -991,6 +1023,13 @@ export const BrunoWorld = ({ onSelectProject, onToggleClassicView, onExitToGatew
       onWheel={handleWheel}
       onContextMenu={(e) => e.preventDefault()}
     >
+      {/* ─── PRE-WARM ENGINE CINEMATIC LOADING SCREEN ─── */}
+      <WorldLoader 
+        progress={loaderProgress}
+        stageText={loaderStage}
+        isReady={isEngineReady}
+      />
+
       {/* ─── 1. TOP MINIMALIST HUD HEADER ─── */}
       <header className="bruno-hud-header">
         <div className="hud-left-group">

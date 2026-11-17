@@ -5,6 +5,15 @@ import './MatrixChoice.css';
 export const MatrixChoice = ({ onSelectChoice }) => {
   const canvasRef = useRef(null);
   const [hoveredPill, setHoveredPill] = useState(null); // 'blue' | 'red' | null
+  const [selectedPill, setSelectedPill] = useState(null);
+
+  const handlePillClick = (choice) => {
+    if (selectedPill) return;
+    setSelectedPill(choice);
+    setTimeout(() => {
+      onSelectChoice && onSelectChoice(choice === 'red' ? 'game' : 'scroll');
+    }, 180);
+  };
 
   // Matrix Digital Rain Canvas
   useEffect(() => {
@@ -84,10 +93,10 @@ export const MatrixChoice = ({ onSelectChoice }) => {
 
             {/* ─── BLUE PILL HOTSPOT (LEFT HAND -> CLASSIC PORTFOLIO) ─── */}
             <div 
-              className="pill-hitbox blue-pill-hitbox"
+              className={`pill-hitbox blue-pill-hitbox ${selectedPill === 'blue' ? 'pill-selected' : ''}`}
               onMouseEnter={() => setHoveredPill('blue')}
               onMouseLeave={() => setHoveredPill(null)}
-              onClick={() => onSelectChoice && onSelectChoice('scroll')}
+              onClick={() => handlePillClick('blue')}
               role="button"
               tabIndex={0}
               aria-label="Blue Pill - Classic Portfolio"
@@ -97,10 +106,10 @@ export const MatrixChoice = ({ onSelectChoice }) => {
 
             {/* ─── RED PILL HOTSPOT (RIGHT HAND -> 3D PLAYGROUND) ─── */}
             <div 
-              className="pill-hitbox red-pill-hitbox"
+              className={`pill-hitbox red-pill-hitbox ${selectedPill === 'red' ? 'pill-selected' : ''}`}
               onMouseEnter={() => setHoveredPill('red')}
               onMouseLeave={() => setHoveredPill(null)}
-              onClick={() => onSelectChoice && onSelectChoice('game')}
+              onClick={() => handlePillClick('red')}
               role="button"
               tabIndex={0}
               aria-label="Red Pill - 3D World"

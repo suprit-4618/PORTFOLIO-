@@ -153,6 +153,21 @@
   border-color: #ef4444;
 }
 
+/* Instant tactile pulse upon pill selection */
+.pill-hitbox.pill-selected .pill-aura {
+  opacity: 1 !important;
+  transform: scale(2.4) !important;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease !important;
+}
+
+.blue-pill-hitbox.pill-selected .blue-aura {
+  box-shadow: 0 0 70px rgba(56, 189, 248, 1), inset 0 0 35px rgba(56, 189, 248, 0.9);
+}
+
+.red-pill-hitbox.pill-selected .red-aura {
+  box-shadow: 0 0 70px rgba(239, 68, 68, 1), inset 0 0 35px rgba(239, 68, 68, 0.9);
+}
+
 /* Touch Friendly / Always-Visible Micro Badges for Pills */
 .pill-touch-tag {
   position: absolute;

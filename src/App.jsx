@@ -11,6 +11,7 @@ import Publications from './components/Publications';
 import Contact from './components/ContactSleek';
 import CustomCursor from './components/CustomCursor';
 import Footer from './components/Footer';
+import WorldLoader from './components/bruno/WorldLoader';
 import Lenis from 'lenis';
 import { Analytics } from '@vercel/analytics/react';
 import './index.css';
@@ -143,10 +144,11 @@ function App() {
       {/* ─── 2. 3D LOW-POLY VILLAGE PLAYGROUND ─── */}
       {viewMode === 'game' && (
         <Suspense fallback={
-          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: '#0a080e', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', color: '#ffcaa2' }}>
-            <div style={{ width: '48px', height: '48px', border: '3px solid rgba(245, 158, 11, 0.2)', borderTopColor: '#f59e0b', borderRadius: '50%', animation: 'spin 0.9s linear infinite' }} />
-            <span style={{ fontFamily: 'monospace', fontSize: '0.85rem', letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.9 }}>Loading 3D Alpine Engine...</span>
-          </div>
+          <WorldLoader 
+            progress={32}
+            stageText="Streaming 3D Alpine Engine..."
+            isReady={false}
+          />
         }>
           <BrunoWorld 
             onToggleClassicView={() => handleSelectChoice('scroll')}
